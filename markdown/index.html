@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Markdown Preview | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .md-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 0 0 16px;
+    }
+    @media (max-width: 700px) { .md-split { grid-template-columns: 1fr; } }
+
+    .md-pane {
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      background: var(--btn-bg);
+      padding: 12px 14px;
+      min-height: 360px;
+      max-height: 60vh;
+      overflow: auto;
+    }
+
+    .md-pane.input textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      background: transparent;
+      color: var(--fg);
+      border: 0;
+      resize: none;
+      font-family: ui-monospace, monospace;
+      font-size: 0.95em;
+      line-height: 1.5;
+      outline: none;
+    }
+
+    .md-preview h1 { font-size: 1.6em; margin: 0.4em 0; }
+    .md-preview h2 { font-size: 1.35em; margin: 0.6em 0 0.3em; }
+    .md-preview h3 { font-size: 1.15em; margin: 0.6em 0 0.3em; }
+    .md-preview p { margin: 0 0 0.8em; line-height: 1.5; }
+    .md-preview ul, .md-preview ol { padding-left: 1.4em; margin: 0 0 0.8em; }
+    .md-preview a { color: var(--fg); text-decoration: underline; text-decoration-style: dotted; }
+    .md-preview blockquote { margin: 0 0 0.8em; padding: 0.3em 0 0.3em 12px; border-left: 3px solid var(--btn-border); color: var(--muted); }
+    .md-preview code { background: var(--code-bg); padding: 0 4px; border-radius: 3px; font-family: ui-monospace, monospace; font-size: 0.92em; }
+    .md-preview pre { background: var(--code-bg); padding: 12px 14px; border-radius: 4px; overflow-x: auto; font-family: ui-monospace, monospace; font-size: 0.92em; }
+    .md-preview pre code { background: transparent; padding: 0; }
+    .md-preview table { border-collapse: collapse; margin: 0 0 0.8em; }
+    .md-preview th, .md-preview td { border: 1px solid var(--btn-border); padding: 4px 8px; }
+    .md-preview img { max-width: 100%; height: auto; }
+    .md-preview hr { border: 0; border-top: 1px dashed var(--rule); margin: 1em 0; }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>Markdown Preview</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <div class="md-split">
+      <div class="md-pane input">
+        <textarea id="md-in" spellcheck="false"># Hello, world
+
+Type **Markdown** on the left, see the preview on the right.
+
+- Lists work
+- `inline code` works
+- [Links](https://thefarshad.com) work
+
+```js
+function hi() { return 'hello'; }
+```
+
+> Blockquote.</textarea>
+      </div>
+      <div class="md-pane md-preview" id="md-out"></div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn primary" id="copy-html">Copy HTML</button>
+      <button class="btn" id="download-md">Download .md</button>
+      <button class="btn" id="clear">Clear</button>
+    </div>
+
+    <div id="status"></div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script src="../scripts/theme.js"></script>
+  <script src="./markdown.js"></script>
+</body>
+
+</html>

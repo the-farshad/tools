@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>QR Code | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      margin: 0 0 16px;
+    }
+    #qr-out svg { display: block; max-width: 320px; height: auto; background: #fff; padding: 10px; border-radius: 4px; }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>QR Code</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="text">Text or URL</label>
+      <textarea id="text" placeholder="https://thefarshad.com" spellcheck="false" style="min-height:90px">https://thefarshad.com</textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="ecc">Error correction</label>
+        <select id="ecc">
+          <option value="L">L (7%)</option>
+          <option value="M" selected>M (15%)</option>
+          <option value="Q">Q (25%)</option>
+          <option value="H">H (30%)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="size">Display size</label>
+        <select id="size">
+          <option value="220">small</option>
+          <option value="320" selected>medium</option>
+          <option value="480">large</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="qr-wrap">
+      <div id="qr-out"></div>
+      <div class="action-row" style="margin: 0">
+        <button class="btn primary" id="download-svg">Download SVG</button>
+        <button class="btn" id="download-png">Download PNG</button>
+      </div>
+    </div>
+
+    <div id="status"></div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="../scripts/theme.js"></script>
+  <script src="./qr.js"></script>
+</body>
+
+</html>

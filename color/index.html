@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Color Picker | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .swatch {
+      width: 100%;
+      height: 140px;
+      border-radius: 6px;
+      border: 1px solid var(--btn-border);
+      margin: 0 0 14px;
+      transition: background-color 0.15s ease;
+    }
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 4px;
+      margin: 0 0 16px;
+    }
+    .palette-step {
+      aspect-ratio: 1 / 1.1;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .palette-step .pal-label {
+      position: absolute;
+      bottom: 2px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 9px;
+      color: rgba(255,255,255,0.85);
+      text-shadow: 0 0 2px rgba(0,0,0,0.5);
+      font-family: ui-monospace, monospace;
+    }
+    .formats {
+      display: grid;
+      grid-template-columns: 60px 1fr 70px;
+      gap: 8px 12px;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+    .formats label { font-size: 0.85em; opacity: 0.85; }
+    .formats input { font-family: ui-monospace, monospace; }
+    .formats button { padding: 4px 8px; font-size: 0.85em; }
+    @media (max-width: 600px) {
+      .palette { grid-template-columns: repeat(6, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>Color Picker</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <div class="swatch" id="swatch"></div>
+
+    <div class="field-row">
+      <div class="field" style="flex: 0 0 100px">
+        <label for="picker">Pick</label>
+        <input id="picker" type="color" value="#fdc114" style="width:100%;height:42px;padding:2px" />
+      </div>
+      <div class="field" style="flex: 1">
+        <label for="hex">Hex</label>
+        <input id="hex" type="text" value="#fdc114" spellcheck="false" style="font-family:ui-monospace,monospace" />
+      </div>
+    </div>
+
+    <div class="formats">
+      <label>RGB</label>
+      <input id="rgb" type="text" readonly />
+      <button class="btn" data-copy="rgb">Copy</button>
+      <label>HSL</label>
+      <input id="hsl" type="text" readonly />
+      <button class="btn" data-copy="hsl">Copy</button>
+      <label>Hex</label>
+      <input id="hex-out" type="text" readonly />
+      <button class="btn" data-copy="hex-out">Copy</button>
+    </div>
+
+    <h3 style="margin: 16px 0 8px; font-weight:normal; font-size:1.05em;">Palette (50 → 950)</h3>
+    <div class="palette" id="palette"></div>
+
+    <div id="status"></div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="../scripts/theme.js"></script>
+  <script src="./color.js"></script>
+</body>
+
+</html>

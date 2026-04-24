@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Regex Tester | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    .regex-input { display: flex; align-items: center; gap: 0; }
+    .regex-input .slash { padding: 6px 8px; opacity: 0.7; font-family: ui-monospace, monospace; }
+    .regex-input input { font-family: ui-monospace, monospace; flex: 1; }
+    .flags { width: 80px !important; flex: 0 0 80px !important; }
+    mark.match {
+      background: var(--accent);
+      color: var(--accent-2, #2b0a00);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    [data-theme="dark"] mark.match { color: #111; }
+    .match-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .match-list li {
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--rule);
+      font-family: ui-monospace, monospace;
+      font-size: 0.9em;
+    }
+    .match-list li:last-child { border-bottom: 0; }
+    .match-text { font-weight: 600; }
+    .match-meta { opacity: 0.7; margin-left: 8px; }
+    .match-groups { display: block; margin-top: 4px; opacity: 0.85; font-size: 0.9em; }
+    pre.preview {
+      background: var(--code-bg);
+      padding: 12px 14px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: ui-monospace, monospace;
+      font-size: 0.92em;
+      max-height: 300px;
+      overflow: auto;
+      margin: 0 0 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>Regex Tester</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Pattern</label>
+      <div class="regex-input">
+        <span class="slash">/</span>
+        <input id="pattern" type="text" placeholder="\b\w+@\w+\.\w+\b" spellcheck="false" />
+        <span class="slash">/</span>
+        <input id="flags" type="text" class="flags" value="g" placeholder="gimsuy" maxlength="6" spellcheck="false" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="sample">Sample text</label>
+      <textarea id="sample" placeholder="Paste text to test against..." spellcheck="false" style="min-height:140px;font-family:ui-monospace,monospace">Email me@thefarshad.com or hello@example.org for details.</textarea>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="field">
+      <label>Highlighted</label>
+      <pre class="preview" id="preview"></pre>
+    </div>
+
+    <div class="field">
+      <label>Matches <span id="match-count" style="opacity:.6;font-size:.85em"></span></label>
+      <ul id="matches" class="match-list"></ul>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="../scripts/theme.js"></script>
+  <script src="./regex.js"></script>
+</body>
+
+</html>

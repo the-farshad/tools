@@ -116,21 +116,18 @@
   function renderNewroz() {
     const days = daysUntil(3, 21);
     const banner = document.getElementById('newroz');
-    if (days <= 90 && days > 0) {
-      banner.hidden = false;
-      document.getElementById('newroz-days').textContent = days;
-      const target = new Date();
-      target.setMonth(2, 21);
-      if (target < new Date()) target.setFullYear(target.getFullYear() + 1);
-      document.getElementById('newroz-date').textContent =
-        '(' + G_MONTHS[2] + ' 21, ' + target.getFullYear() + ')';
-    } else if (days === 0) {
-      banner.hidden = false;
+    banner.hidden = false;
+    if (days === 0) {
       banner.querySelector('.cal-newroz-text').innerHTML =
         '<strong>Newroz piroz be!</strong> Today is the Kurdish New Year.';
-    } else {
-      banner.hidden = true;
+      return;
     }
+    const target = new Date();
+    target.setMonth(2, 21);
+    if (target < new Date()) target.setFullYear(target.getFullYear() + 1);
+    document.getElementById('newroz-days').textContent = days;
+    document.getElementById('newroz-date').textContent =
+      '(' + G_MONTHS[2] + ' 21, ' + target.getFullYear() + ')';
   }
 
   // ---------- month grid ----------

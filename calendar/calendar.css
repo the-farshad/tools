@@ -1,0 +1,186 @@
+/* ---------- Kurdish Calendar ---------- */
+
+.cal-today {
+  margin: 0 0 18px;
+}
+
+.cal-today-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.cal-today-card {
+  padding: 14px 16px;
+  border: 1px solid var(--btn-border);
+  border-radius: 6px;
+  background: var(--btn-bg);
+}
+
+.cal-today-label {
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.cal-today-date {
+  font-size: 1.4em;
+  line-height: 1.15;
+}
+
+.cal-today-sub {
+  font-size: 0.85em;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+[data-kurd-script="arabic"] .kurd {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .cal-today-grid { grid-template-columns: 1fr; }
+}
+
+.cal-newroz {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 0 0 18px;
+  border: 1px dashed var(--btn-border);
+  border-radius: 6px;
+  background: var(--btn-bg);
+  font-size: 0.95em;
+}
+
+.cal-fire { font-size: 1.4em; }
+
+.cal-newroz-date {
+  opacity: 0.75;
+  margin-left: 6px;
+  font-size: 0.85em;
+}
+
+.cal-month-section {
+  margin: 0 0 24px;
+}
+
+.cal-month-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.cal-month-title {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 1.15em;
+  font-weight: normal;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.cal-nav { padding: 4px 10px; font-size: 0.95em; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  font-size: 0.9em;
+}
+
+.cal-cell, .cal-dow {
+  padding: 8px 4px;
+  text-align: center;
+  border-radius: 3px;
+  background: var(--btn-bg);
+  position: relative;
+  min-height: 36px;
+}
+
+.cal-dow {
+  background: transparent;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  padding: 4px;
+  min-height: 0;
+}
+
+.cal-cell.empty {
+  background: transparent;
+}
+
+.cal-cell.today {
+  background: var(--btn-bg-strong);
+  outline: 2px solid var(--accent);
+}
+
+.cal-cell.has-event {
+  background: var(--accent);
+  color: var(--accent-2, #2b0a00);
+}
+
+[data-theme="dark"] .cal-cell.has-event { color: #111; }
+
+.cal-cell .cal-dot {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.cal-cell.has-event .cal-dot { display: none; }
+
+.cal-section-title {
+  font-size: 1.1em;
+  font-weight: normal;
+  margin: 0 0 8px;
+  opacity: 0.95;
+}
+
+.cal-days-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cal-days-list li {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--rule);
+  align-items: baseline;
+}
+
+.cal-days-list li:last-child { border-bottom: none; }
+
+.cal-day-when {
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+
+.cal-day-name {
+  font-size: 0.95em;
+}
+
+.cal-day-name .cal-day-sub {
+  display: block;
+  font-size: 0.78em;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.cal-day-when.upcoming { color: var(--accent); opacity: 1; font-weight: 600; }

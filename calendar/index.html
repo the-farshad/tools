@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Kurdish Calendar | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="./calendar.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+        var s = localStorage.getItem('kurd-script');
+        if (s === 'latin' || s === 'arabic') document.documentElement.setAttribute('data-kurd-script', s);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>Kurdish Calendar</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      title="VT323"                  style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      title="Lora"                   style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" title="IBM Plex Serif"         style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       title="Inter"                  style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     title="Ubuntu"                 style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   title="Atkinson Hyperlegible"  style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+      <div class="seg" data-control="kurd-script" role="group" aria-label="Script">
+        <button type="button" data-value="latin">Latin</button>
+        <button type="button" data-value="arabic">عەرەبی</button>
+      </div>
+    </div>
+
+    <section class="cal-today">
+      <div class="cal-today-grid">
+        <div class="cal-today-card">
+          <div class="cal-today-label">Gregorian</div>
+          <div class="cal-today-date" id="g-date">&mdash;</div>
+          <div class="cal-today-sub" id="g-day">&mdash;</div>
+        </div>
+        <div class="cal-today-card">
+          <div class="cal-today-label">Central Kurdish (Rojhilat)</div>
+          <div class="cal-today-date kurd" id="ck-date">&mdash;</div>
+          <div class="cal-today-sub kurd" id="ck-day">&mdash;</div>
+        </div>
+        <div class="cal-today-card">
+          <div class="cal-today-label">Northern Kurdish (Bakur)</div>
+          <div class="cal-today-date kurd" id="nk-date">&mdash;</div>
+          <div class="cal-today-sub kurd" id="nk-day">&mdash;</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cal-newroz" id="newroz" hidden>
+      <span class="cal-fire">&#127801;</span>
+      <span class="cal-newroz-text">
+        <strong>Newroz</strong> in <span id="newroz-days">&mdash;</span> days
+        <span class="cal-newroz-date" id="newroz-date"></span>
+      </span>
+    </section>
+
+    <section class="cal-month-section">
+      <div class="cal-month-head">
+        <button type="button" class="btn cal-nav" id="prev-month">&larr;</button>
+        <h2 id="month-title" class="cal-month-title">&mdash;</h2>
+        <button type="button" class="btn cal-nav" id="next-month">&rarr;</button>
+        <button type="button" class="btn" id="today-btn">Today</button>
+      </div>
+      <div class="cal-grid" id="month-grid"></div>
+    </section>
+
+    <section class="cal-days-section">
+      <h2 class="cal-section-title">Important days</h2>
+      <ul class="cal-days-list" id="days-list"></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="../scripts/theme.js"></script>
+  <script src="./calendar.js"></script>
+</body>
+
+</html>

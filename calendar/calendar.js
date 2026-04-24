@@ -230,53 +230,102 @@
     else renderConverterG2K(document.getElementById('conv-input').value);
   }
 
-  // ---------- Poems (small curated starter set — see README of the project) ----------
-  // Each entry includes its own script direction so Latin lines render LTR
-  // and Arabic-script lines render RTL regardless of the calendar UI script.
-  const POEMS = [
-    {
-      orig: "Ger dê hebûya me jî îtîfaq,\nVêkra bikira me inqiyad û itaq.",
-      trans: "If only we had unity among us,\nwe could together break our chains.",
-      attr: "Ehmedê Xanî — Mem û Zîn (1692, paraphrase)",
-      dir: 'ltr',
-    },
-    {
-      orig: "Ji ber serma û baranê namîne kuro,\nev gulên berfê ji baxçe ranabin.",
-      trans: "The cold and rain cannot keep them down, my child;\nthese snowflakes will not give up the garden.",
-      attr: "Anonymous folk verse",
-      dir: 'ltr',
-    },
-    {
-      orig: "Ez dixwazim ku biçim, lê na, ne wisa.\nDilê min hîn jî li vir e.",
-      trans: "I want to leave, but no, not like this.\nMy heart is still here.",
-      attr: "Anonymous (in the manner of Cegerxwîn)",
-      dir: 'ltr',
-    },
-    {
-      orig: "خۆزگە دەمێک بمەینەوە لە کوردستان،\nهەناسەی شاخەکانی هەڵبدەم.",
-      trans: "I wish I could stay a while in Kurdistan,\nand breathe the breath of its mountains.",
-      attr: "Anonymous (in the manner of Şêrko Bêkes)",
-      dir: 'rtl',
-    },
-    {
-      orig: "Bila bêhna gulan,\nbêhna axa welêt be.",
-      trans: "Let the scent of roses\nbe the scent of the homeland's earth.",
-      attr: "Anonymous folk verse",
-      dir: 'ltr',
-    },
+  // ---------- Poems ----------
+  // Real Kurdish poetry pulled at runtime from the allekok-poems collection
+  // (https://github.com/allekok/allekok-poems — used per its public-domain
+  // license). We hold a small curated index of paths to keep network use
+  // tiny; expand the list to surface more poems.
+  const POEM_BASE = 'https://raw.githubusercontent.com/allekok/allekok-poems/master/شیعرەکان/';
+  const POEM_VIEW = 'https://github.com/allekok/allekok-poems/blob/master/شیعرەکان/';
+  const POEM_INDEX = [
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٥. چەپکە هەڵبەست',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٣٤. هەڵبەست',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١٩. لەگەڵ نالیدا',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٤٢. وێنەکەی',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٦. کاتێ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٣. نەوەی نوێ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٩. کەی بێ؟',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٦. بڕوام',
   ];
 
-  function renderPoem() {
-    const p = POEMS[Math.floor(Math.random() * POEMS.length)];
+  function parseAllekok(text) {
+    // Format: lines of `key: value` for header (شاعیر, کتێب, سەرناو), blank line, then body.
+    const lines = text.split(/\r?\n/);
+    const meta = {};
+    let bodyStart = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^(شاعیر|کتێب|سەرناو)\s*[:：]\s*(.+)$/);
+      if (m) meta[m[1]] = m[2].trim();
+      else if (lines[i].trim() === '' && Object.keys(meta).length) { bodyStart = i + 1; break; }
+    }
+    const body = lines.slice(bodyStart).join('\n').trim();
+    return {
+      poet: meta['شاعیر'] || '',
+      book: meta['کتێب'] || '',
+      title: meta['سەرناو'] || '',
+      body: body,
+    };
+  }
+
+  function truncateLines(text, maxLines) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim() !== '');
+    if (lines.length <= maxLines) return text;
+    return lines.slice(0, maxLines).join('\n') + '\n…';
+  }
+
+  function setPoemUI(p) {
     const orig = document.getElementById('poem-orig');
     const trans = document.getElementById('poem-trans');
     const attr = document.getElementById('poem-attr');
-    orig.textContent = p.orig;
-    orig.setAttribute('dir', p.dir);
-    orig.style.fontFamily = p.dir === 'rtl' ? "'Vazirmatn','Tahoma',sans-serif" : '';
-    orig.style.textAlign = p.dir === 'rtl' ? 'right' : 'left';
-    trans.textContent = p.trans;
-    attr.textContent = '— ' + p.attr;
+    orig.textContent = p.body;
+    orig.setAttribute('dir', p.dir || 'rtl');
+    orig.style.fontFamily = (p.dir || 'rtl') === 'rtl' ? "'Vazirmatn','Tahoma',sans-serif" : '';
+    orig.style.textAlign = (p.dir || 'rtl') === 'rtl' ? 'right' : 'left';
+    trans.textContent = p.title || '';
+    trans.setAttribute('dir', 'rtl');
+    trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
+    trans.style.textAlign = 'right';
+    if (p.viewUrl) {
+      attr.innerHTML = '— ' + escapeHtml(p.poet) +
+        (p.book ? '  ·  <span style="opacity:.75">' + escapeHtml(p.book) + '</span>' : '') +
+        '  ·  <a href="' + p.viewUrl + '" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;text-decoration-style:dotted">view full</a>';
+    } else {
+      attr.textContent = '— ' + (p.attr || (p.poet || ''));
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function renderPoem() {
+    setPoemUI({ body: 'Loading…', poet: 'allekok-poems', dir: 'ltr' });
+    const path = POEM_INDEX[Math.floor(Math.random() * POEM_INDEX.length)];
+    const url = POEM_BASE + encodeURI(path);
+    const view = POEM_VIEW + encodeURI(path);
+    fetch(url)
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(text => {
+        const parsed = parseAllekok(text);
+        setPoemUI({
+          body: truncateLines(parsed.body, 6),
+          poet: parsed.poet,
+          book: parsed.book,
+          title: parsed.title,
+          viewUrl: view,
+          dir: 'rtl',
+        });
+      })
+      .catch(err => {
+        setPoemUI({
+          body: 'Could not load a poem from allekok-poems (' + err.message + ').\nSee https://github.com/allekok/allekok-poems',
+          poet: '', dir: 'ltr',
+        });
+      });
   }
 
   // ---------- ICS export ----------

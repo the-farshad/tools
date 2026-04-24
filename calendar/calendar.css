@@ -89,7 +89,8 @@
   opacity: 0.85;
 }
 
-.cal-converter input[type="date"] {
+.cal-converter input[type="date"],
+.cal-converter select {
   font-family: inherit;
   font-size: 1em;
   background: var(--btn-bg-strong, var(--btn-bg));
@@ -124,8 +125,55 @@
   font-size: 1.1em;
 }
 
-@media (max-width: 600px) {
+.cal-converter .conv-out {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 700px) {
   .cal-converter .conv-out { grid-template-columns: 1fr; }
+}
+
+/* ---------- Poem ---------- */
+
+.cal-poem-section {
+  margin: 24px 0 0;
+}
+
+.cal-poem {
+  padding: 16px 18px;
+  border: 1px dashed var(--btn-border);
+  border-radius: 6px;
+  background: var(--btn-bg);
+}
+
+.poem-orig {
+  white-space: pre-line;
+  font-size: 1.05em;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+[data-kurd-script="two"] .poem-orig.kurd {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+.poem-trans {
+  white-space: pre-line;
+  font-style: italic;
+  opacity: 0.85;
+  font-size: 0.95em;
+  line-height: 1.5;
+  padding-top: 8px;
+  border-top: 1px dotted var(--rule);
+}
+
+.poem-attr {
+  margin-top: 10px;
+  font-size: 0.78em;
+  opacity: 0.7;
+  text-align: right;
 }
 
 .cal-month-section {
@@ -163,7 +211,35 @@
   border-radius: 3px;
   background: var(--btn-bg);
   position: relative;
-  min-height: 36px;
+  min-height: 42px;
+}
+
+button.cal-cell-btn {
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--fg);
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+button.cal-cell-btn:hover {
+  background: var(--btn-bg-strong);
+}
+
+.cal-num-greg {
+  display: block;
+  font-size: 1em;
+  line-height: 1.1;
+}
+
+.cal-num-ku {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.7em;
+  opacity: 0.6;
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
 }
 
 .cal-dow {

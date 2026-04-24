@@ -82,12 +82,35 @@
     </section>
 
     <section class="cal-converter">
-      <h2 class="cal-section-title">Convert a date</h2>
-      <div class="conv-row">
-        <label for="conv-input">Pick a Gregorian date</label>
-        <input type="date" id="conv-input" />
+      <div class="cal-month-head" style="margin:0 0 12px">
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Convert a date</h2>
+        <div class="seg" data-control="conv-dir" role="group" aria-label="Direction">
+          <button type="button" data-value="g2k" class="active">Greg &rarr; Kurdî</button>
+          <button type="button" data-value="k2g">Kurdî &rarr; Greg</button>
+        </div>
       </div>
+
+      <div id="conv-mode-g2k">
+        <div class="conv-row">
+          <label for="conv-input">Pick a Gregorian date</label>
+          <input type="date" id="conv-input" />
+        </div>
+      </div>
+
+      <div id="conv-mode-k2g" hidden>
+        <div class="conv-row">
+          <label>Pick a Central Kurdish date</label>
+          <select id="conv-jy"></select>
+          <select id="conv-jm"></select>
+          <select id="conv-jd"></select>
+        </div>
+      </div>
+
       <div class="conv-out">
+        <div class="conv-card">
+          <div class="conv-label">Gregorian</div>
+          <div class="conv-value" id="conv-g">&mdash;</div>
+        </div>
         <div class="conv-card">
           <div class="conv-label">Central Kurdish</div>
           <div class="conv-value kurd" id="conv-ck">&mdash;</div>
@@ -115,6 +138,18 @@
         <button type="button" class="btn" id="export-ics" title="Download all events as a .ics calendar file">Export .ics</button>
       </div>
       <ul class="cal-days-list" id="days-list"></ul>
+    </section>
+
+    <section class="cal-poem-section">
+      <div class="cal-month-head" style="margin:0 0 8px">
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Poem</h2>
+        <button type="button" class="btn" id="poem-shuffle">Another &#x21bb;</button>
+      </div>
+      <article class="cal-poem" id="poem">
+        <div class="poem-orig kurd" id="poem-orig"></div>
+        <div class="poem-trans" id="poem-trans"></div>
+        <div class="poem-attr" id="poem-attr"></div>
+      </article>
     </section>
   </main>
 

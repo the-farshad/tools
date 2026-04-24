@@ -36,7 +36,7 @@
   margin-top: 4px;
 }
 
-[data-kurd-script="arabic"] .kurd {
+[data-kurd-script="two"] .kurd {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif;
   direction: rtl;
   text-align: right;

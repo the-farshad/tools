@@ -20,7 +20,7 @@
         var f = localStorage.getItem('font');
         if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
         var s = localStorage.getItem('kurd-script');
-        if (s === 'latin' || s === 'arabic') document.documentElement.setAttribute('data-kurd-script', s);
+        if (s === 'one' || s === 'two') document.documentElement.setAttribute('data-kurd-script', s);
       } catch (e) {}
     })();
   </script>
@@ -48,8 +48,8 @@
         <button type="button" data-value="atkinson"   title="Atkinson Hyperlegible"  style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
       </div>
       <div class="seg" data-control="kurd-script" role="group" aria-label="Script">
-        <button type="button" data-value="latin" title="Latin script">Kurdî</button>
-        <button type="button" data-value="arabic" title="Arabic script" style="font-family:'Vazirmatn','Tahoma',sans-serif">کوردی</button>
+        <button type="button" data-value="one" title="Kurdî">Kurdî</button>
+        <button type="button" data-value="two" title="کوردی" style="font-family:'Vazirmatn','Tahoma',sans-serif">کوردی</button>
       </div>
     </div>
 
@@ -61,12 +61,12 @@
           <div class="cal-today-sub" id="g-day">&mdash;</div>
         </div>
         <div class="cal-today-card">
-          <div class="cal-today-label">Central Kurdish (Rojhilat)</div>
+          <div class="cal-today-label">Central Kurdish</div>
           <div class="cal-today-date kurd" id="ck-date">&mdash;</div>
           <div class="cal-today-sub kurd" id="ck-day">&mdash;</div>
         </div>
         <div class="cal-today-card">
-          <div class="cal-today-label">Northern Kurdish (Bakur)</div>
+          <div class="cal-today-label">Northern Kurdish</div>
           <div class="cal-today-date kurd" id="nk-date">&mdash;</div>
           <div class="cal-today-sub kurd" id="nk-day">&mdash;</div>
         </div>

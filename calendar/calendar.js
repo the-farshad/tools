@@ -16,25 +16,25 @@
 
   // ---------- Names ----------
 
-  // Central Kurdish (Rojhilat) — Persian-style months, Kurdish names
-  const CK_MONTHS_LATIN = [
-    'Xakelêwe', 'Banemer', 'Cozerdan', 'Pûşper',
-    'Gelawêj', 'Xermanan', 'Rezber', 'Xezelwer',
+  // Central Kurdish — Solar Hijri months, Kurdish names (per Wikipedia "Kurdish calendars")
+  const CK_MONTHS_KURDI = [
+    'Xakelêwe', 'Gulan', 'Cozerdan', 'Pûşper',
+    'Gelawêj', 'Xermanan', 'Rezber', 'Gelarêzan',
     'Sermawez', 'Befranbar', 'Rêbendan', 'Reşeme',
   ];
   const CK_MONTHS_AR = [
-    'خاکەلێوە', 'بانەمەڕ', 'جۆزەردان', 'پووشپەڕ',
-    'گەلاوێژ', 'خەرمانان', 'ڕەزبەر', 'خەزەڵوەر',
+    'خاکەلێوە', 'گوڵان', 'جۆزەردان', 'پووشپەڕ',
+    'گەلاوێژ', 'خەرمانان', 'ڕەزبەر', 'گەڵاڕێزان',
     'سەرماوەز', 'بەفرانبار', 'ڕێبەندان', 'ڕەشەمە',
   ];
-  // Days of the week (Persian-week starts Saturday); 0=Saturday in our index
-  const CK_DOW_LATIN = ['Şemme', 'Yekşemme', 'Duşemme', 'Sêşemme', 'Çarşemme', 'Pêncşemme', 'Heyni'];
+  // Days of the week, week starts Saturday; index 0=Saturday
+  const CK_DOW_KURDI = ['Şemme', 'Yekşemme', 'Duşemme', 'Sêşemme', 'Çarşemme', 'Pêncşemme', 'Heyni'];
   const CK_DOW_AR    = ['شەممە', 'یەکشەممە', 'دووشەممە', 'سێشەممە', 'چوارشەممە', 'پێنجشەممە', 'هەینی'];
 
-  // Northern Kurdish (Bakur) — Gregorian months, Kurdish names
+  // Northern Kurdish — Gregorian months, common Kurmanji names (per Wikipedia)
   const NK_MONTHS = [
-    'Rêbendan', 'Reşemî', 'Adar', 'Avrêl', 'Gulan', 'Pûşper',
-    'Tîrmeh', 'Tebax', 'Îlon', 'Çiriya Pêşîn', 'Çiriya Paşîn', 'Berfanbar',
+    'Çile', 'Sibat', 'Adar', 'Nîsan', 'Gulan', 'Hezîran',
+    'Tîrmeh', 'Tebax', 'Îlon', 'Cotmeh', 'Mijdar', 'Berfanbar',
   ];
   // Days of week, Sunday-first to match JS Date.getDay()
   const NK_DOW = ['Yekşem', 'Duşem', 'Sêşem', 'Çarşem', 'Pêncşem', 'În', 'Şemî'];
@@ -75,26 +75,22 @@
   }
 
   function script() {
-    return document.documentElement.getAttribute('data-kurd-script') || 'latin';
+    return document.documentElement.getAttribute('data-kurd-script') || 'one';
   }
 
   // ---------- render ----------
 
   function fmtCK(p, scrip) {
-    const months = scrip === 'arabic' ? CK_MONTHS_AR : CK_MONTHS_LATIN;
+    const months = scrip === 'two' ? CK_MONTHS_AR : CK_MONTHS_KURDI;
     const ky = p.y + KURD_YEAR_OFFSET;
-    if (scrip === 'arabic') {
-      // Arabic-Indic style date — "1 خاکەلێوە 2725"
-      return p.d + ' ' + months[p.m - 1] + ' ' + ky;
-    }
     return p.d + ' ' + months[p.m - 1] + ' ' + ky;
   }
 
   function fmtCKDay(g, scrip) {
-    // Persian week: Saturday=0, Sunday=1, ... Friday=6
-    const persianDow = (g.getDay() + 1) % 7; // JS Sun=0 → Persian Sun=1; JS Sat=6 → Persian Sat=0
-    const dow = scrip === 'arabic' ? CK_DOW_AR : CK_DOW_LATIN;
-    return dow[persianDow];
+    // Week starts Saturday: index 0=Saturday
+    const dowIdx = (g.getDay() + 1) % 7;
+    const dow = scrip === 'two' ? CK_DOW_AR : CK_DOW_KURDI;
+    return dow[dowIdx];
   }
 
   function renderToday() {
@@ -144,7 +140,7 @@
     document.getElementById('month-title').textContent =
       G_MONTHS[m] + ' ' + y +
       '  ·  ' + NK_MONTHS[m] +
-      '  ·  ~' + (CK_MONTHS_LATIN[Math.max(0, m - 2)] || CK_MONTHS_LATIN[0]);
+      '  ·  ~' + (CK_MONTHS_KURDI[Math.max(0, m - 2)] || CK_MONTHS_KURDI[0]);
 
     const grid = document.getElementById('month-grid');
     grid.innerHTML = '';

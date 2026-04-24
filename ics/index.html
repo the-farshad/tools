@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ICS Builder | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; tools</a>
+      <h1>ICS Builder</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      title="VT323"                  style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      title="Lora"                   style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" title="IBM Plex Serif"         style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       title="Inter"                  style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     title="Ubuntu"                 style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   title="Atkinson Hyperlegible"  style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <form id="ics-form">
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" required placeholder="Lunch with Sara" />
+      </div>
+
+      <div class="field">
+        <label for="location">Location</label>
+        <input id="location" name="location" type="text" placeholder="Mongolian Grill" />
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" placeholder="Optional notes"></textarea>
+      </div>
+
+      <div class="field-check">
+        <input type="checkbox" id="all-day" name="all-day" />
+        <label for="all-day" style="margin:0">All-day event</label>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="start">Start</label>
+          <input id="start" name="start" type="datetime-local" required />
+        </div>
+        <div class="field">
+          <label for="end">End</label>
+          <input id="end" name="end" type="datetime-local" required />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="reminder">Reminder before</label>
+          <select id="reminder" name="reminder">
+            <option value="">None</option>
+            <option value="5">5 minutes</option>
+            <option value="15" selected>15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">1 hour</option>
+            <option value="1440">1 day</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="freq">Repeat</label>
+          <select id="freq" name="freq">
+            <option value="">Never</option>
+            <option value="DAILY">Daily</option>
+            <option value="WEEKLY">Weekly</option>
+            <option value="MONTHLY">Monthly</option>
+            <option value="YEARLY">Yearly</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="count">Times (if repeating)</label>
+          <input id="count" name="count" type="number" min="1" max="500" placeholder="e.g. 10" />
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button type="submit" class="btn primary">Download .ics</button>
+        <button type="button" class="btn" id="copy-link">Copy share link</button>
+        <button type="button" class="btn" id="clear">Clear</button>
+      </div>
+    </form>
+
+    <div class="preview" id="preview" style="display:none">
+      <div class="preview-title" id="pv-title"></div>
+      <div class="preview-meta" id="pv-when"></div>
+      <div class="preview-meta" id="pv-where"></div>
+      <div class="preview-meta" id="pv-repeat"></div>
+    </div>
+
+    <div id="status"></div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="../scripts/theme.js"></script>
+  <script src="./ics.js"></script>
+</body>
+
+</html>

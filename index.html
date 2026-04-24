@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tools | Farshad Ghorbani</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="./assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="https://thefarshad.com" class="back-link">&larr; home</a>
+      <h1>Tools</h1>
+    </header>
+
+    <div class="reader-controls">
+      <div class="seg" data-control="theme" role="group" aria-label="Theme">
+        <button type="button" data-value="light" title="Light (yellow)">&#9728;</button>
+        <button type="button" data-value="sepia" title="Sepia (paper)">&#9681;</button>
+        <button type="button" data-value="dark"  title="Dark (ink)">&#9790;</button>
+      </div>
+      <div class="seg" data-control="font" role="group" aria-label="Font">
+        <button type="button" data-value="vt323"      title="VT323"                  style="font-family:'VT323',monospace">Aa</button>
+        <button type="button" data-value="serif"      title="Lora"                   style="font-family:'Lora',Georgia,serif">Aa</button>
+        <button type="button" data-value="plex-serif" title="IBM Plex Serif"         style="font-family:'IBM Plex Serif',Georgia,serif">Aa</button>
+        <button type="button" data-value="sans"       title="Inter"                  style="font-family:'Inter',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="ubuntu"     title="Ubuntu"                 style="font-family:'Ubuntu',system-ui,sans-serif">Aa</button>
+        <button type="button" data-value="atkinson"   title="Atkinson Hyperlegible"  style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">Aa</button>
+      </div>
+    </div>
+
+    <div class="tool-grid">
+      <a class="tool-card featured coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">&#9788;</span>
+        <span class="tool-title">Kurdish Calendar</span>
+        <span class="tool-desc">Today in the Kurdish calendar (Sorani &amp; Kurmanji), important days, Newroz countdown.</span>
+      </a>
+
+      <a class="tool-card" href="./ics/">
+        <span class="tool-icon">&#128197;</span>
+        <span class="tool-title">ICS Builder</span>
+        <span class="tool-desc">Make a calendar event &mdash; download or share a link.</span>
+      </a>
+
+      <a class="tool-card" href="./json/">
+        <span class="tool-icon">{ }</span>
+        <span class="tool-title">JSON Formatter</span>
+        <span class="tool-desc">Pretty-print, minify, validate.</span>
+      </a>
+
+      <a class="tool-card" href="./base64/">
+        <span class="tool-icon">&#9251;</span>
+        <span class="tool-title">Base64</span>
+        <span class="tool-desc">Encode &amp; decode (text or URL-safe).</span>
+      </a>
+
+      <a class="tool-card coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">&#42;</span>
+        <span class="tool-title">Regex Tester</span>
+        <span class="tool-desc">Live match and capture groups.</span>
+      </a>
+
+      <a class="tool-card coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">&#9673;</span>
+        <span class="tool-title">Color Picker</span>
+        <span class="tool-desc">Pick a hex / rgb / hsl, build palettes.</span>
+      </a>
+
+      <a class="tool-card coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">#</span>
+        <span class="tool-title">UUID Generator</span>
+        <span class="tool-desc">v4 and v7 in bulk.</span>
+      </a>
+
+      <a class="tool-card coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">&#9636;</span>
+        <span class="tool-title">QR Code</span>
+        <span class="tool-desc">Text or URL to downloadable QR.</span>
+      </a>
+
+      <a class="tool-card coming" href="#" aria-disabled="true">
+        <span class="tool-tag">soon</span>
+        <span class="tool-icon">&#9656;</span>
+        <span class="tool-title">Markdown Preview</span>
+        <span class="tool-desc">Live split-pane editor.</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+
+  <script src="./scripts/theme.js"></script>
+</body>
+
+</html>

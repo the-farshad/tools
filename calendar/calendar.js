@@ -78,12 +78,19 @@
     return document.documentElement.getAttribute('data-kurd-script') || 'one';
   }
 
+  // Render digits as Arabic-Indic when the second-script mode is active
+  const AR_DIGITS = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
+  function digits(n, scrip) {
+    const s = String(n);
+    return scrip === 'two' ? s.replace(/\d/g, d => AR_DIGITS[d]) : s;
+  }
+
   // ---------- render ----------
 
   function fmtCK(p, scrip) {
     const months = scrip === 'two' ? CK_MONTHS_AR : CK_MONTHS_KURDI;
     const ky = p.y + KURD_YEAR_OFFSET;
-    return p.d + ' ' + months[p.m - 1] + ' ' + ky;
+    return digits(p.d, scrip) + ' ' + months[p.m - 1] + ' ' + digits(ky, scrip);
   }
 
   function fmtCKDay(g, scrip) {
@@ -91,6 +98,10 @@
     const dowIdx = (g.getDay() + 1) % 7;
     const dow = scrip === 'two' ? CK_DOW_AR : CK_DOW_KURDI;
     return dow[dowIdx];
+  }
+
+  function fmtNK(g) {
+    return g.getDate() + 'î ' + NK_MONTHS[g.getMonth()] + 'a ' + g.getFullYear() + 'ê';
   }
 
   function renderToday() {
@@ -104,9 +115,58 @@
     document.getElementById('ck-date').textContent = fmtCK(p, sc);
     document.getElementById('ck-day').textContent = fmtCKDay(g, sc);
 
-    document.getElementById('nk-date').textContent =
-      g.getDate() + 'î ' + NK_MONTHS[g.getMonth()] + 'a ' + g.getFullYear() + 'ê';
+    document.getElementById('nk-date').textContent = fmtNK(g);
     document.getElementById('nk-day').textContent = NK_DOW[g.getDay()];
+  }
+
+  // ---------- converter ----------
+
+  function renderConverter(dateStr) {
+    const sc = script();
+    const ckEl = document.getElementById('conv-ck');
+    const nkEl = document.getElementById('conv-nk');
+    if (!dateStr) { ckEl.textContent = '—'; nkEl.textContent = '—'; return; }
+    const [y, m, d] = dateStr.split('-').map(Number);
+    if (!y || !m || !d) { ckEl.textContent = '—'; nkEl.textContent = '—'; return; }
+    const g = new Date(y, m - 1, d);
+    const p = gregToPersian(y, m, d);
+    ckEl.textContent = fmtCK(p, sc) + '  ·  ' + fmtCKDay(g, sc);
+    nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
+  }
+
+  // ---------- ICS export ----------
+
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function exportIcs() {
+    const year = new Date().getFullYear();
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//thefarshad//kurdish-calendar//EN',
+      'CALSCALE:GREGORIAN',
+    ];
+    EVENTS.forEach(e => {
+      const dt = year + pad2(e.m) + pad2(e.d);
+      const next = new Date(year, e.m - 1, e.d + 1);
+      const dtEnd = next.getFullYear() + pad2(next.getMonth() + 1) + pad2(next.getDate());
+      lines.push('BEGIN:VEVENT');
+      lines.push('UID:' + dt + '-' + e.name.replace(/[^a-z0-9]/gi, '').toLowerCase() + '@thefarshad.com');
+      lines.push('DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''));
+      lines.push('DTSTART;VALUE=DATE:' + dt);
+      lines.push('DTEND;VALUE=DATE:' + dtEnd);
+      lines.push('SUMMARY:' + e.name);
+      lines.push('DESCRIPTION:' + e.sub);
+      lines.push('RRULE:FREQ=YEARLY');
+      lines.push('END:VEVENT');
+    });
+    lines.push('END:VCALENDAR');
+    const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'kurdish-important-days.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   function renderNewroz() {
@@ -213,6 +273,7 @@
     renderNewroz();
     renderMonth();
     renderEvents();
+    renderConverter(document.getElementById('conv-input').value);
   }
 
   // ---------- nav ----------
@@ -242,8 +303,18 @@
       document.querySelectorAll('.seg[data-control="kurd-script"] button').forEach(x =>
         x.classList.toggle('active', x.dataset.value === v));
       renderToday();
+      renderConverter(document.getElementById('conv-input').value);
     });
   });
+
+  // Converter
+  const convInput = document.getElementById('conv-input');
+  const todayIso = new Date().toISOString().slice(0, 10);
+  convInput.value = todayIso;
+  convInput.addEventListener('input', () => renderConverter(convInput.value));
+
+  // ICS export
+  document.getElementById('export-ics').addEventListener('click', exportIcs);
 
   renderAll();
 })();

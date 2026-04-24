@@ -81,6 +81,24 @@
       </span>
     </section>
 
+    <section class="cal-converter">
+      <h2 class="cal-section-title">Convert a date</h2>
+      <div class="conv-row">
+        <label for="conv-input">Pick a Gregorian date</label>
+        <input type="date" id="conv-input" />
+      </div>
+      <div class="conv-out">
+        <div class="conv-card">
+          <div class="conv-label">Central Kurdish</div>
+          <div class="conv-value kurd" id="conv-ck">&mdash;</div>
+        </div>
+        <div class="conv-card">
+          <div class="conv-label">Northern Kurdish</div>
+          <div class="conv-value kurd" id="conv-nk">&mdash;</div>
+        </div>
+      </div>
+    </section>
+
     <section class="cal-month-section">
       <div class="cal-month-head">
         <button type="button" class="btn cal-nav" id="prev-month">&larr;</button>
@@ -92,7 +110,10 @@
     </section>
 
     <section class="cal-days-section">
-      <h2 class="cal-section-title">Important days</h2>
+      <div class="cal-month-head" style="margin:0 0 8px">
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Important days</h2>
+        <button type="button" class="btn" id="export-ics" title="Download all events as a .ics calendar file">Export .ics</button>
+      </div>
       <ul class="cal-days-list" id="days-list"></ul>
     </section>
   </main>

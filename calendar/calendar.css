@@ -133,6 +133,65 @@
   .cal-converter .conv-out { grid-template-columns: 1fr; }
 }
 
+/* ---------- Figures ---------- */
+
+.cal-figures-section { margin: 0 0 24px; }
+
+.cal-figures-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fig-item {
+  border-bottom: 1px dashed var(--rule);
+}
+
+.fig-item:last-child { border-bottom: none; }
+
+.fig-summary {
+  display: grid;
+  grid-template-columns: 86px 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  background: transparent;
+  color: var(--fg);
+  border: 0;
+  padding: 8px 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+}
+
+.fig-summary:hover .fig-name { border-bottom: 1px dotted var(--fg); }
+
+.fig-when { font-size: 0.85em; opacity: 0.85; }
+.fig-name { font-size: 0.95em; border-bottom: 1px dotted transparent; padding-bottom: 1px; }
+.fig-mark { color: var(--accent); margin-right: 6px; }
+.fig-role { font-size: 0.78em; opacity: 0.7; text-align: right; }
+
+.fig-detail {
+  display: none;
+  padding: 4px 0 12px 96px;
+  font-size: 0.92em;
+  line-height: 1.5;
+  opacity: 0.92;
+}
+
+.fig-detail p { margin: 0 0 0.6em; }
+.fig-detail a { color: var(--fg); text-decoration: underline; text-decoration-style: dotted; }
+.fig-detail a:hover { text-decoration-style: solid; }
+
+.fig-item.expanded .fig-detail { display: block; }
+
+@media (max-width: 600px) {
+  .fig-summary { grid-template-columns: 60px 1fr; }
+  .fig-role { display: none; }
+  .fig-detail { padding-left: 70px; }
+}
+
 /* ---------- Poem ---------- */
 
 .cal-poem-section {
@@ -153,11 +212,7 @@
   margin-bottom: 10px;
 }
 
-[data-kurd-script="two"] .poem-orig.kurd {
-  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-  direction: rtl;
-  text-align: right;
-}
+/* Per-poem direction is set inline via JS (poem.dir) */
 
 .poem-trans {
   white-space: pre-line;
@@ -280,6 +335,18 @@ button.cal-cell-btn:hover {
 }
 
 .cal-cell.has-event .cal-dot { display: none; }
+
+.cal-cell .cal-star {
+  position: absolute;
+  bottom: 1px;
+  left: 4px;
+  font-size: 0.65em;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cal-cell.has-event .cal-star { color: var(--accent-2, #2b0a00); opacity: 0.8; }
+[data-theme="dark"] .cal-cell.has-event .cal-star { color: #111; }
 
 .cal-section-title {
   font-size: 1.1em;

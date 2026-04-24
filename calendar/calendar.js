@@ -60,28 +60,71 @@
   const G_DOW_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const G_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  // ---------- Important days (Gregorian fixed dates, with month, day) ----------
-  // kind: 'civic' (national days, memorials) or 'figure' (poets, writers, leaders)
+  // ---------- Important days (civic / national / memorial) ----------
   const EVENTS = [
-    // Civic / memorial
-    { m: 1,  d: 22, name: 'Republic of Mahabad', sub: 'Founding (1946)', slug: 'mahabad', kind: 'civic' },
-    { m: 2,  d: 21, name: 'Mother Language Day', sub: 'International', slug: 'mother-language', kind: 'civic' },
-    { m: 3,  d: 16, name: 'Halabja Memorial', sub: 'Chemical attack remembrance (1988)', slug: 'halabja', kind: 'civic' },
-    { m: 3,  d: 21, name: 'Newroz', sub: 'Kurdish New Year', slug: 'newroz', kind: 'civic' },
-    { m: 4,  d: 14, name: 'Anfal Memorial', sub: 'Anfal campaign remembrance', slug: 'anfal', kind: 'civic' },
-    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî', sub: 'Kurdish Language Day', slug: 'kurdish-language', kind: 'civic' },
-    { m: 7,  d: 19, name: 'Rojava Revolution', sub: 'Anniversary (2012)', slug: null, kind: 'civic' },
-    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial', sub: 'Sinjar attack remembrance (2014)', slug: null, kind: 'civic' },
-    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum', sub: '2017', slug: 'referendum', kind: 'civic' },
-    { m: 12, d: 17, name: 'Kurdish Flag Day', sub: 'Adopted in Kurdistan Region (1999)', slug: 'flag-day', kind: 'civic' },
+    { m: 1,  d: 22, name: 'Republic of Mahabad', sub: 'Founding (1946)', slug: 'mahabad' },
+    { m: 2,  d: 21, name: 'Mother Language Day', sub: 'International', slug: 'mother-language' },
+    { m: 3,  d: 16, name: 'Halabja Memorial', sub: 'Chemical attack remembrance (1988)', slug: 'halabja' },
+    { m: 3,  d: 21, name: 'Newroz', sub: 'Kurdish New Year', slug: 'newroz' },
+    { m: 4,  d: 14, name: 'Anfal Memorial', sub: 'Anfal campaign remembrance', slug: 'anfal' },
+    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî', sub: 'Kurdish Language Day', slug: 'kurdish-language' },
+    { m: 7,  d: 19, name: 'Rojava Revolution', sub: 'Anniversary (2012)', slug: null },
+    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial', sub: 'Sinjar attack remembrance (2014)', slug: null },
+    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum', sub: '2017', slug: 'referendum' },
+    { m: 12, d: 17, name: 'Kurdish Flag Day', sub: 'Adopted in Kurdistan Region (1999)', slug: 'flag-day' },
+  ];
 
-    // Cultural figures (birth ★ / death ✦)
-    { m: 1,  d: 1,  name: 'Mehmed Uzun ★', sub: 'Kurdish novelist (b. 1953, d. 2007)', slug: null, kind: 'figure' },
-    { m: 5,  d: 2,  name: 'Şêrko Bêkes ★', sub: 'Sorani poet (b. 1940, d. 2013)', slug: null, kind: 'figure' },
-    { m: 8,  d: 4,  name: 'Şêrko Bêkes ✦', sub: 'Death anniversary (2013)', slug: null, kind: 'figure' },
-    { m: 10, d: 6,  name: 'Yaşar Kemal ★', sub: 'Kurdish-Turkish novelist (b. 1923, d. 2015)', slug: null, kind: 'figure' },
-    { m: 10, d: 22, name: 'Cegerxwîn ✦', sub: 'Kurdish poet (b. 1903, d. 1984)', slug: null, kind: 'figure' },
-    { m: 11, d: 18, name: 'Ehmedê Xanî ★', sub: 'Author of Mem û Zîn (b. ~1651, d. 1707) — date approximate', slug: null, kind: 'figure' },
+  // ---------- Figures (poets, writers, leaders, activists) ----------
+  // type: 'b' (birth) or 'd' (death anniversary)
+  // Dates from Wikipedia where verifiable; some are approximate (~).
+  const FIGURES = [
+    // January
+    { m: 1, d: 1, type: 'b', name: 'Mehmed Uzun', role: 'Kurdish novelist', years: '1953—2007', bio: 'Kurmanji-language novelist whose works helped revive modern literary Kurmanji. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
+    { m: 1, d: 9, type: 'd', name: 'Sakine Cansız', role: 'Kurdish political activist', years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
+
+    // February
+    { m: 2, d: 12, type: 'b', name: 'Sakine Cansız', role: 'Kurdish political activist', years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
+    { m: 2, d: 28, type: 'd', name: 'Yaşar Kemal', role: 'Kurdish-Turkish novelist', years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
+
+    // March
+    { m: 3, d: 1,  type: 'd', name: 'Mustafa Barzani', role: 'Kurdish leader', years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq; Defense Minister of the Republic of Mahabad.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
+    { m: 3, d: 4,  type: 'd', name: 'Saladin (Selahaddînê Eyûbî)', role: 'Sultan and military leader', years: '1137—1193', bio: 'Founder of the Ayyubid dynasty; of Kurdish origin from Tikrit.', wiki: 'https://en.wikipedia.org/wiki/Saladin' },
+    { m: 3, d: 14, type: 'b', name: 'Mustafa Barzani', role: 'Kurdish leader', years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
+    { m: 3, d: 31, type: 'd', name: 'Qazi Muhammad', role: 'President of the Republic of Mahabad', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Mahabad. Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad' },
+
+    // April
+    { m: 4, d: 4,  type: 'b', name: 'Abdullah Öcalan', role: 'Founder of the PKK', years: 'b. 1948', bio: 'Co-founder of the PKK and one of the most controversial figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan' },
+
+    // May
+    { m: 5, d: 2,  type: 'b', name: 'Şêrko Bêkes', role: 'Sorani poet', years: '1940—2013', bio: 'One of the most important Kurdish poets of the 20th century. Pioneer of the "poster poem" form.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
+    { m: 5, d: 9,  type: 'd', name: 'Ferzad Kemanger', role: 'Kurdish teacher and activist', years: '1975—2010', bio: 'Iranian-Kurdish teacher and human-rights activist; executed by the Islamic Republic of Iran on charges he denied.', wiki: 'https://en.wikipedia.org/wiki/Farzad_Kamangar' },
+    { m: 5, d: 12, type: 'd', name: 'Leyla Qasim', role: 'Kurdish activist', years: '1952—1974', bio: 'First Kurdish woman to be executed for political activism in modern Iraq. Member of the Kurdistan Democratic Party.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Qasim' },
+
+    // June
+    { m: 6, d: 11, type: 'd', name: 'Piremerd', role: 'Sorani poet, journalist', years: '1867—1950', bio: 'Pen name of Hac Tofiq. Influential Sorani poet, journalist, and educator from Sulaymaniyah.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
+
+    // July
+    { m: 7, d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou', role: 'Leader of KDPI', years: '1930—1989', bio: 'Long-time leader of the Democratic Party of Iranian Kurdistan. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
+
+    // August
+    { m: 8, d: 4,  type: 'd', name: 'Şêrko Bêkes', role: 'Sorani poet', years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
+
+    // September
+    { m: 9, d: 17, type: 'd', name: 'Sadegh Sharafkandi', role: 'Successor of Ghassemlou', years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi' },
+
+    // October
+    { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal', role: 'Kurdish-Turkish novelist', years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
+    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun', role: 'Kurdish novelist', years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurmanji literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
+    { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef', role: 'Syrian-Kurdish politician', years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf' },
+    { m: 10, d: 22, type: 'd', name: 'Cegerxwîn', role: 'Kurdish poet', years: '1903—1984', bio: 'One of the most influential Kurmanji poets; pen name of Şêx Mûs Hesen. His verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn' },
+
+    // November
+    { m: 11, d: 9,  type: 'b', name: 'Piremerd', role: 'Sorani poet, journalist', years: '1867—1950', bio: 'Pen name of Hac Tofiq. Sulaymaniyah-born poet whose journalism shaped early modern Sorani prose.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
+    { m: 11, d: 18, type: 'b', name: 'Ehmedê Xanî', role: 'Classical poet', years: '~1651—1707', bio: 'Author of the Kurdish national epic Mem û Zîn (1692); pioneer of literary Kurmanji. Birth date is approximate.', wiki: 'https://en.wikipedia.org/wiki/Ahmad_Khani' },
+
+    // December
+    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou', role: 'Leader of KDPI', years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
+    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer', role: 'Kurdish singer', years: 'b. 1955', bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurmanji popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' },
   ];
 
   // ---------- helpers ----------
@@ -93,6 +136,7 @@
            g.getDate() === t.getDate();
   }
   function eventOn(m, d) { return EVENTS.find(e => e.m === m && e.d === d); }
+  function figuresOn(m, d) { return FIGURES.filter(f => f.m === m && f.d === d); }
 
   function daysUntil(targetMonth, targetDay) {
     const today = new Date();
@@ -186,34 +230,39 @@
     else renderConverterG2K(document.getElementById('conv-input').value);
   }
 
-  // ---------- Poems (curated; short excerpts only, sources cited) ----------
-  // Note: vejin.net does not publish a public API. This is a small starter set
-  // of widely-quoted lines. Send corrections via the GitHub repo.
+  // ---------- Poems (small curated starter set — see README of the project) ----------
+  // Each entry includes its own script direction so Latin lines render LTR
+  // and Arabic-script lines render RTL regardless of the calendar UI script.
   const POEMS = [
     {
       orig: "Ger dê hebûya me jî îtîfaq,\nVêkra bikira me inqiyad û itaq.",
-      trans: "If only we had unity among us,\nwe would together break our chains.",
-      attr: "Ehmedê Xanî — Mem û Zîn (1692)",
+      trans: "If only we had unity among us,\nwe could together break our chains.",
+      attr: "Ehmedê Xanî — Mem û Zîn (1692, paraphrase)",
+      dir: 'ltr',
     },
     {
       orig: "Ji ber serma û baranê namîne kuro,\nev gulên berfê ji baxçe ranabin.",
       trans: "The cold and rain cannot keep them down, my child;\nthese snowflakes will not give up the garden.",
-      attr: "Folk verse",
+      attr: "Anonymous folk verse",
+      dir: 'ltr',
     },
     {
       orig: "Ez dixwazim ku biçim, lê na, ne wisa.\nDilê min hîn jî li vir e.",
       trans: "I want to leave, but no, not like this.\nMy heart is still here.",
-      attr: "Cegerxwîn (1903–1984), excerpt",
+      attr: "Anonymous (in the manner of Cegerxwîn)",
+      dir: 'ltr',
     },
     {
       orig: "خۆزگە دەمێک بمەینەوە لە کوردستان،\nهەناسەی شاخەکانی هەڵبدەم.",
-      trans: "I wish I could stay a while in Kurdistan,\nand breathe in the breath of its mountains.",
-      attr: "Şêrko Bêkes (1940–2013), excerpt",
+      trans: "I wish I could stay a while in Kurdistan,\nand breathe the breath of its mountains.",
+      attr: "Anonymous (in the manner of Şêrko Bêkes)",
+      dir: 'rtl',
     },
     {
       orig: "Bila bêhna gulan,\nbêhna axa welêt be.",
       trans: "Let the scent of roses\nbe the scent of the homeland's earth.",
-      attr: "Anonymous, often attributed to Cegerxwîn",
+      attr: "Anonymous folk verse",
+      dir: 'ltr',
     },
   ];
 
@@ -223,6 +272,9 @@
     const trans = document.getElementById('poem-trans');
     const attr = document.getElementById('poem-attr');
     orig.textContent = p.orig;
+    orig.setAttribute('dir', p.dir);
+    orig.style.fontFamily = p.dir === 'rtl' ? "'Vazirmatn','Tahoma',sans-serif" : '';
+    orig.style.textAlign = p.dir === 'rtl' ? 'right' : 'left';
     trans.textContent = p.trans;
     attr.textContent = '— ' + p.attr;
   }
@@ -317,12 +369,17 @@
       el.className = 'cal-cell cal-cell-btn';
       const date = new Date(y, m, d);
       const ev = eventOn(m + 1, d);
+      const figs = figuresOn(m + 1, d);
       if (isToday(date, g)) el.classList.add('today');
       if (ev) {
         el.classList.add('has-event');
         el.title = ev.name + ' — ' + ev.sub;
       }
-      // Jalali day for the corner badge
+      if (figs.length) {
+        el.classList.add('has-figure');
+        const figTitle = figs.map(f => f.name + ' (' + (f.type === 'b' ? 'b.' : 'd.') + ')').join(', ');
+        el.title = (el.title ? el.title + '\n' : '') + figTitle;
+      }
       const jal = gregToJalali(y, m + 1, d);
       el.innerHTML =
         '<span class="cal-num-greg">' + d + '</span>' +
@@ -332,9 +389,15 @@
         dot.className = 'cal-dot';
         el.appendChild(dot);
       }
+      if (figs.length) {
+        const star = document.createElement('span');
+        star.className = 'cal-star';
+        star.textContent = '★';
+        el.appendChild(star);
+      }
       const iso = y + '-' + (m + 1).toString().padStart(2, '0') + '-' + d.toString().padStart(2, '0');
       el.dataset.iso = iso;
-      el.addEventListener('click', () => selectDay(iso, ev));
+      el.addEventListener('click', () => selectDay(iso, ev, figs));
       grid.appendChild(el);
     }
   }
@@ -344,8 +407,7 @@
     return String(n).replace(/\d/g, d => m[d]);
   }
 
-  function selectDay(iso, ev) {
-    // Switch converter to Greg→Kurdish, fill input, render
+  function selectDay(iso, ev, figs) {
     convDir = 'g2k';
     document.querySelectorAll('.seg[data-control="conv-dir"] button').forEach(b =>
       b.classList.toggle('active', b.dataset.value === 'g2k'));
@@ -353,10 +415,24 @@
     document.getElementById('conv-mode-k2g').hidden = true;
     document.getElementById('conv-input').value = iso;
     renderConverter();
-    document.querySelector('.cal-converter').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (ev && ev.slug) {
-      // optional: also offer event link via toast or row — kept simple
+    if (figs && figs.length) {
+      // ensure all figures are visible, then scroll to and expand the first match
+      figuresShowAll = true;
+      renderFigures();
+      const first = figs[0];
+      const slug = figureSlug(first);
+      const el = document.getElementById('fig-' + slug);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('expanded');
+      }
+    } else {
+      document.querySelector('.cal-converter').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  function figureSlug(f) {
+    return f.m + '-' + f.d + '-' + f.type + '-' + (f.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
 
   function renderEvents() {
@@ -395,8 +471,62 @@
     renderNewroz();
     renderMonth();
     renderEvents();
+    renderFigures();
     renderConverter();
     renderPoem();
+  }
+
+  // ---------- Figures section ----------
+
+  let figuresShowAll = false;
+
+  function renderFigures() {
+    const list = document.getElementById('figures-list');
+    if (!list) return;
+    list.innerHTML = '';
+    const today = new Date();
+    const curMonth = today.getMonth() + 1;
+    const items = figuresShowAll
+      ? FIGURES.slice().sort((a, b) => a.m - b.m || a.d - b.d)
+      : FIGURES.filter(f => f.m === curMonth).sort((a, b) => a.d - b.d);
+
+    if (!items.length) {
+      const li = document.createElement('li');
+      li.style.opacity = '0.7';
+      li.style.fontSize = '0.9em';
+      li.textContent = 'No figures recorded for this month. Tap "Show all" for the full list.';
+      list.appendChild(li);
+    }
+
+    items.forEach(f => {
+      const slug = figureSlug(f);
+      const li = document.createElement('li');
+      li.id = 'fig-' + slug;
+      li.className = 'fig-item';
+      const date = G_MONTHS[f.m - 1].slice(0, 3) + ' ' + f.d;
+      const star = f.type === 'b' ? '★' : '✦';
+      const summary = document.createElement('button');
+      summary.type = 'button';
+      summary.className = 'fig-summary';
+      summary.innerHTML =
+        '<span class="fig-when">' + date + '</span>' +
+        '<span class="fig-name"><span class="fig-mark">' + star + '</span>' + f.name + '</span>' +
+        '<span class="fig-role">' + f.role + ' · ' + f.years + '</span>';
+      summary.addEventListener('click', () => li.classList.toggle('expanded'));
+
+      const detail = document.createElement('div');
+      detail.className = 'fig-detail';
+      detail.innerHTML =
+        '<p>' + f.bio + '</p>' +
+        (f.wiki ? '<p><a href="' + f.wiki + '" target="_blank" rel="noopener">Wikipedia &rarr;</a></p>' : '');
+
+      li.appendChild(summary);
+      li.appendChild(detail);
+      list.appendChild(li);
+    });
+
+    const btn = document.getElementById('figures-toggle');
+    if (btn) btn.textContent = figuresShowAll ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
   }
 
   // ---------- nav ----------
@@ -483,6 +613,13 @@
 
   // Poem
   document.getElementById('poem-shuffle').addEventListener('click', renderPoem);
+
+  // Figures show-all toggle
+  const figToggle = document.getElementById('figures-toggle');
+  if (figToggle) figToggle.addEventListener('click', () => {
+    figuresShowAll = !figuresShowAll;
+    renderFigures();
+  });
 
   renderAll();
 })();

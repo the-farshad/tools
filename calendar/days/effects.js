@@ -152,8 +152,46 @@
     requestAnimationFrame(tick);
   }
 
+  // ---------- effect: sunRiseSet (sun arcing across with warm sky) ----------
+  function sunRiseSet() {
+    let t = 0;
+    function tick() {
+      ctx.clearRect(0, 0, overlay.width, overlay.height);
+      // 0..1..0 cycle: sunrise → noon → sunset
+      const cycle = (Math.sin(t * 0.004) + 1) / 2;
+      const arcT = (Math.cos(t * 0.004 - Math.PI) + 1) / 2; // 0 at edges, 1 at top
+      const sunX = W() * 0.15 + cycle * W() * 0.7;
+      const sunY = H() * 0.78 - arcT * H() * 0.55;
+      // sky band
+      const grad = ctx.createLinearGradient(0, 0, 0, H());
+      grad.addColorStop(0, 'rgba(' + (240 - 80 * arcT) + ',' + (140 + 60 * arcT) + ',' + (90 + 100 * arcT) + ',0.10)');
+      grad.addColorStop(1, 'rgba(255,140,60,0.18)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W(), H());
+      // glow
+      const glow = ctx.createRadialGradient(sunX, sunY, 30, sunX, sunY, 220);
+      glow.addColorStop(0, 'rgba(255, 200, 100, 0.45)');
+      glow.addColorStop(1, 'rgba(255, 200, 100, 0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, 220, 0, Math.PI * 2);
+      ctx.fill();
+      // sun core
+      ctx.fillStyle = 'rgba(255, ' + (200 - 60 * (1 - arcT)) + ', ' + (90 - 60 * (1 - arcT)) + ', 0.85)';
+      ctx.beginPath();
+      ctx.arc(sunX, sunY, 42, 0, Math.PI * 2);
+      ctx.fill();
+      // horizon line
+      ctx.fillStyle = 'rgba(60, 30, 20, 0.18)';
+      ctx.fillRect(0, H() * 0.78, W(), 2);
+      t++;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   const EFFECTS = {
-    embers, ash, flagStripes, alphabet, candles,
+    embers, ash, flagStripes, alphabet, candles, sunRiseSet,
   };
   if (EFFECTS[effect]) EFFECTS[effect]();
 })();

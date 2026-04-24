@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": "https://tools.thefarshad.com/calendar/",
+  "license": "CC0-1.0",
+  "kurd_year_offset": 1321,
+  "events": [
+    { "month": 1, "day": 22, "name": "Republic of Mahabad", "sub": "Founding (1946)", "slug": "mahabad", "kind": "civic" },
+    { "month": 2, "day": 21, "name": "Mother Language Day", "sub": "International", "slug": "mother-language", "kind": "civic" },
+    { "month": 3, "day": 16, "name": "Halabja Memorial", "sub": "Chemical attack remembrance (1988)", "slug": "halabja", "kind": "civic" },
+    { "month": 3, "day": 21, "name": "Newroz", "sub": "Kurdish New Year", "slug": "newroz", "kind": "civic" },
+    { "month": 4, "day": 14, "name": "Anfal Memorial", "sub": "Anfal campaign remembrance", "slug": "anfal", "kind": "civic" },
+    { "month": 5, "day": 15, "name": "Roja Zimanê Kurdî", "sub": "Kurdish Language Day", "slug": "kurdish-language", "kind": "civic" },
+    { "month": 7, "day": 19, "name": "Rojava Revolution", "sub": "Anniversary (2012)", "slug": null, "kind": "civic" },
+    { "month": 8, "day": 3, "name": "Yezîdî Genocide Memorial", "sub": "Sinjar attack remembrance (2014)", "slug": null, "kind": "civic" },
+    { "month": 9, "day": 25, "name": "Kurdistan Independence Referendum", "sub": "2017", "slug": "referendum", "kind": "civic" },
+    { "month": 12, "day": 17, "name": "Kurdish Flag Day", "sub": "Adopted in Kurdistan Region (1999)", "slug": "flag-day", "kind": "civic" },
+
+    { "month": 1, "day": 1, "name": "Mehmed Uzun (birth)", "sub": "Kurdish novelist (b. 1953, d. 2007)", "slug": null, "kind": "figure" },
+    { "month": 5, "day": 2, "name": "Şêrko Bêkes (birth)", "sub": "Sorani poet (b. 1940, d. 2013)", "slug": null, "kind": "figure" },
+    { "month": 8, "day": 4, "name": "Şêrko Bêkes (death)", "sub": "Death anniversary (2013)", "slug": null, "kind": "figure" },
+    { "month": 10, "day": 6, "name": "Yaşar Kemal (birth)", "sub": "Kurdish-Turkish novelist (b. 1923, d. 2015)", "slug": null, "kind": "figure" },
+    { "month": 10, "day": 22, "name": "Cegerxwîn (death)", "sub": "Kurdish poet (b. 1903, d. 1984)", "slug": null, "kind": "figure" },
+    { "month": 11, "day": 18, "name": "Ehmedê Xanî (birth)", "sub": "Author of Mem û Zîn (b. ~1651, d. 1707) — date approximate", "slug": null, "kind": "figure" }
+  ],
+  "months": {
+    "central_kurdish_kurdi": ["Xakelêwe","Gulan","Cozerdan","Pûşper","Gelawêj","Xermanan","Rezber","Gelarêzan","Sermawez","Befranbar","Rêbendan","Reşeme"],
+    "central_kurdish_arabic": ["خاکەلێوە","گوڵان","جۆزەردان","پووشپەڕ","گەلاوێژ","خەرمانان","ڕەزبەر","گەڵاڕێزان","سەرماوەز","بەفرانبار","ڕێبەندان","ڕەشەمە"],
+    "northern_kurdish": ["Çile","Sibat","Adar","Nîsan","Gulan","Hezîran","Tîrmeh","Tebax","Îlon","Cotmeh","Mijdar","Berfanbar"]
+  }
+}

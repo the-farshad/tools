@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Kurdish Calendar API | Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles/style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    pre.api-code {
+      background: var(--code-bg);
+      padding: 12px 14px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: ui-monospace, monospace;
+      font-size: 0.88em;
+      line-height: 1.5;
+      margin: 0 0 14px;
+      white-space: pre;
+    }
+    .api-endpoint {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 12px;
+      align-items: baseline;
+      margin: 6px 0;
+    }
+    .api-endpoint .verb {
+      font-family: ui-monospace, monospace;
+      font-size: 0.75em;
+      letter-spacing: 0.08em;
+      background: var(--btn-bg-strong);
+      color: var(--fg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .api-endpoint code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.92em;
+    }
+    .api-endpoint a { color: var(--fg); text-decoration: underline; text-decoration-style: dotted; }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="page-header">
+      <a href="../index.html" class="back-link">&larr; calendar</a>
+      <h1>Calendar API</h1>
+    </header>
+
+    <p>
+      A small, zero-dependency client-side library and a couple of static
+      JSON endpoints for working with the Kurdish (Jalali) calendar and
+      important days.
+    </p>
+
+    <h2 style="font-weight:normal">Endpoints</h2>
+
+    <div class="api-endpoint">
+      <span class="verb">GET</span>
+      <code><a href="./events.json">events.json</a></code>
+    </div>
+    <p style="margin:0 0 14px;opacity:0.85;font-size:0.9em">
+      Static list of important days plus month names. Updated when the
+      curated list changes; always safe to cache.
+    </p>
+
+    <div class="api-endpoint">
+      <span class="verb">GET</span>
+      <code><a href="./today.json">today.json</a></code>
+    </div>
+    <p style="margin:0 0 14px;opacity:0.85;font-size:0.9em">
+      Snapshot of today in all three formats &mdash; Gregorian, Central
+      Kurdish (with Kurdish-script formatted variant), Northern Kurdish
+      &mdash; plus any matching event. Re-generated on each deploy of
+      this site.
+    </p>
+
+    <div class="api-endpoint">
+      <span class="verb">JS</span>
+      <code><a href="./kurdish-calendar.js">kurdish-calendar.js</a></code>
+    </div>
+    <p style="margin:0 0 14px;opacity:0.85;font-size:0.9em">
+      Browser library exposing <code>KurdishCalendar.today()</code>,
+      <code>describe(date)</code>, <code>gregToJalali()</code>,
+      <code>jalaliToGreg()</code>, <code>events()</code>,
+      <code>eventOn(month, day)</code>, <code>daysUntilNewroz()</code>.
+    </p>
+
+    <h2 style="font-weight:normal">Quick start</h2>
+
+    <h3 style="font-weight:normal;font-size:1em;opacity:0.85">In a browser</h3>
+    <pre class="api-code">&lt;script src="https://tools.thefarshad.com/calendar/api/kurdish-calendar.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const t = KurdishCalendar.today();
+  console.log(t.central.formatted_arabic);   // ٤ گوڵان ٢٧٢٦
+  console.log(t.northern.month_name);        // Nîsan
+  console.log(t.events);                     // [] today, or matched events
+&lt;/script&gt;</pre>
+
+    <h3 style="font-weight:normal;font-size:1em;opacity:0.85">From the command line</h3>
+    <pre class="api-code">curl https://tools.thefarshad.com/calendar/api/today.json
+curl https://tools.thefarshad.com/calendar/api/events.json</pre>
+
+    <h3 style="font-weight:normal;font-size:1em;opacity:0.85">As an npm-style import (browser ESM)</h3>
+    <pre class="api-code">&lt;script type="module"&gt;
+  import K from "https://tools.thefarshad.com/calendar/api/kurdish-calendar.js";
+  console.log(K.today());
+&lt;/script&gt;</pre>
+
+    <h2 style="font-weight:normal">Conventions</h2>
+    <ul>
+      <li>Months are <strong>1-indexed</strong> (1 = January or Xakelêwe).</li>
+      <li>Kurdish year = Jalali year + 1321.</li>
+      <li>Week starts <strong>Saturday</strong> (index 0) for Central Kurdish day-of-week names.</li>
+      <li>Conversion uses the browser's built-in ICU Jalali calendar, so it&rsquo;s accurate.</li>
+      <li>License: <strong>CC0-1.0</strong>. Use, fork, embed freely.</li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://thefarshad.com">Farshad</a> &middot;
+    <a href="https://github.com/the-farshad/tools">source on GitHub</a>
+  </footer>
+</body>
+
+</html>

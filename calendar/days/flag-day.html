@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-effect="flagStripes">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Kurdish Flag Day | Kurdish Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&family=Vazirmatn:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles/style.css">
+  <link rel="stylesheet" href="../calendar.css">
+  <link rel="stylesheet" href="./days.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <canvas id="event-overlay" aria-hidden="true"></canvas>
+
+  <main class="page event-page">
+    <a href="../index.html" class="back-link event-back">&larr; calendar</a>
+
+    <header class="event-hero">
+      <div class="event-eyebrow">17 December</div>
+      <h1 class="event-title">Kurdish Flag Day</h1>
+      <div class="event-when">Roja Alaya Kurdistanê</div>
+    </header>
+
+    <section class="event-section">
+      <h2>Three colors and a sun</h2>
+      <p>
+        The Kurdish flag has three horizontal stripes &mdash; red, white,
+        green &mdash; with a 21-rayed golden sun in the center. The
+        design dates back to the Republic of Mahabad (1946) and was
+        formally adopted as the official flag of the Kurdistan Region
+        on 17 December 1999.
+      </p>
+      <p>
+        The 21 rays of the sun are often associated with Newroz (the
+        21st day of March) and with the long-standing solar symbolism
+        in pre-Islamic Iranian and Mesopotamian cultures.
+      </p>
+    </section>
+
+    <blockquote class="event-quote">
+      Bijî alaya me. &mdash; <em>Long live our flag.</em>
+    </blockquote>
+
+    <section class="event-section">
+      <h2>More</h2>
+      <ul class="event-links">
+        <li><a href="https://en.wikipedia.org/wiki/Flag_of_Kurdistan" target="_blank" rel="noopener">Flag of Kurdistan &mdash; Wikipedia</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="./effects.js"></script>
+</body>
+
+</html>

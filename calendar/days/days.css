@@ -1,0 +1,88 @@
+#event-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.event-page {
+  position: relative;
+  z-index: 1;
+}
+
+.event-hero {
+  padding: 28px 0 20px;
+  border-bottom: 1px dashed var(--rule);
+  margin-bottom: 24px;
+}
+
+.event-eyebrow {
+  font-size: 0.78em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 8px;
+}
+
+.event-title {
+  font-weight: normal;
+  font-size: 2.4em;
+  line-height: 1.05;
+  margin: 0 0 8px;
+}
+
+.event-when {
+  font-size: 1em;
+  opacity: 0.85;
+}
+
+.event-quote {
+  border-left: 3px solid var(--accent);
+  padding: 8px 0 8px 14px;
+  margin: 18px 0;
+  font-style: italic;
+  font-size: 1.05em;
+  opacity: 0.95;
+}
+
+.event-quote cite {
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+  opacity: 0.7;
+  font-size: 0.85em;
+}
+
+.event-section {
+  margin: 0 0 22px;
+}
+
+.event-section h2 {
+  font-weight: normal;
+  font-size: 1.25em;
+  margin: 0 0 8px;
+  opacity: 0.95;
+}
+
+.event-section p { margin: 0 0 0.9em; line-height: 1.55; }
+.event-section a { color: var(--fg); text-decoration: underline; text-decoration-style: dotted; }
+.event-section a:hover { text-decoration-style: solid; }
+
+.event-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-links li { padding: 4px 0; }
+
+.event-back {
+  display: inline-block;
+  font-size: 0.9em;
+  margin-bottom: 6px;
+}
+
+[data-effect="ash"] body { filter: grayscale(0.55); }

@@ -1,15 +1,16 @@
 (function () {
-  // ---------- Persian (Jalali) calendar — for Central Kurdish (Rojhilat) ----------
-  // Use built-in Intl ICU for accuracy.
-  const KURD_YEAR_OFFSET = 1321; // Kurdish year ≈ Persian year + 1321
+  // ---------- Jalali (Solar Hijri) calendar — used for Central Kurdish months ----------
+  // Note: the ICU identifier is "persian" — that string is fixed by the standard
+  // and we can't rename it; conceptually we treat it as the Jalali calendar.
+  const KURD_YEAR_OFFSET = 1321; // Kurdish year ≈ Jalali year + 1321
 
-  const persianFmt = new Intl.DateTimeFormat('en-u-ca-persian-nu-latn', {
+  const jalaliFmt = new Intl.DateTimeFormat('en-u-ca-persian-nu-latn', {
     year: 'numeric', month: 'numeric', day: 'numeric',
   });
 
-  function gregToPersian(gy, gm, gd) {
+  function gregToJalali(gy, gm, gd) {
     const date = new Date(Date.UTC(gy, gm - 1, gd, 12)); // noon UTC to avoid DST edges
-    const parts = persianFmt.formatToParts(date);
+    const parts = jalaliFmt.formatToParts(date);
     const get = type => parseInt(parts.find(p => p.type === type).value, 10);
     return { y: get('year'), m: get('month'), d: get('day') };
   }
@@ -46,14 +47,14 @@
   // ---------- Important days (Gregorian fixed dates, with month, day) ----------
   // 1-indexed month
   const EVENTS = [
-    { m: 1,  d: 22, name: 'Republic of Mahabad', sub: 'Founding (1946)' },
-    { m: 2,  d: 21, name: 'Mother Language Day', sub: 'International, marked widely in Kurdish communities' },
-    { m: 3,  d: 16, name: 'Halabja Memorial', sub: 'Chemical attack remembrance (1988)' },
-    { m: 3,  d: 21, name: 'Newroz', sub: 'Kurdish New Year' },
-    { m: 4,  d: 14, name: 'Anfal Memorial', sub: 'Anfal campaign remembrance' },
-    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî', sub: 'Kurdish Language Day' },
-    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum', sub: 'Referendum anniversary (2017)' },
-    { m: 12, d: 17, name: 'Kurdish Flag Day', sub: 'Adopted in Kurdistan Region (1999)' },
+    { m: 1,  d: 22, name: 'Republic of Mahabad', sub: 'Founding (1946)', slug: 'mahabad' },
+    { m: 2,  d: 21, name: 'Mother Language Day', sub: 'International, marked widely in Kurdish communities', slug: 'mother-language' },
+    { m: 3,  d: 16, name: 'Halabja Memorial', sub: 'Chemical attack remembrance (1988)', slug: 'halabja' },
+    { m: 3,  d: 21, name: 'Newroz', sub: 'Kurdish New Year', slug: 'newroz' },
+    { m: 4,  d: 14, name: 'Anfal Memorial', sub: 'Anfal campaign remembrance', slug: 'anfal' },
+    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî', sub: 'Kurdish Language Day', slug: 'kurdish-language' },
+    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum', sub: 'Referendum anniversary (2017)', slug: 'referendum' },
+    { m: 12, d: 17, name: 'Kurdish Flag Day', sub: 'Adopted in Kurdistan Region (1999)', slug: 'flag-day' },
   ];
 
   // ---------- helpers ----------
@@ -111,7 +112,7 @@
       G_MONTHS[g.getMonth()] + ' ' + g.getDate() + ', ' + g.getFullYear();
     document.getElementById('g-day').textContent = G_DOW_LONG[g.getDay()];
 
-    const p = gregToPersian(g.getFullYear(), g.getMonth() + 1, g.getDate());
+    const p = gregToJalali(g.getFullYear(), g.getMonth() + 1, g.getDate());
     document.getElementById('ck-date').textContent = fmtCK(p, sc);
     document.getElementById('ck-day').textContent = fmtCKDay(g, sc);
 
@@ -129,7 +130,7 @@
     const [y, m, d] = dateStr.split('-').map(Number);
     if (!y || !m || !d) { ckEl.textContent = '—'; nkEl.textContent = '—'; return; }
     const g = new Date(y, m - 1, d);
-    const p = gregToPersian(y, m, d);
+    const p = gregToJalali(y, m, d);
     ckEl.textContent = fmtCK(p, sc) + '  ·  ' + fmtCKDay(g, sc);
     nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
   }
@@ -258,8 +259,9 @@
       else if (e.daysAway <= 30) { when.textContent = 'in ' + e.daysAway + ' days'; when.classList.add('upcoming'); }
       else when.textContent = G_MONTHS[e.m - 1].slice(0, 3) + ' ' + e.d;
 
-      const name = document.createElement('span');
+      const name = document.createElement('a');
       name.className = 'cal-day-name';
+      name.href = './days/' + e.slug + '.html';
       name.innerHTML = e.name + '<span class="cal-day-sub">' + e.sub + '</span>';
 
       li.appendChild(when);

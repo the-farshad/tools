@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-effect="ash">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Anfal Memorial | Kurdish Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&family=Vazirmatn:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles/style.css">
+  <link rel="stylesheet" href="../calendar.css">
+  <link rel="stylesheet" href="./days.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <canvas id="event-overlay" aria-hidden="true"></canvas>
+
+  <main class="page event-page">
+    <a href="../index.html" class="back-link event-back">&larr; calendar</a>
+
+    <header class="event-hero">
+      <div class="event-eyebrow">14 April</div>
+      <h1 class="event-title">Anfal Memorial</h1>
+      <div class="event-when">In remembrance of the Anfal campaign of 1986&ndash;1989</div>
+    </header>
+
+    <section class="event-section">
+      <h2>A campaign of erasure</h2>
+      <p>
+        The Anfal campaign was a series of military operations conducted
+        by the Iraqi government against the Kurdish population of
+        northern Iraq. Between 1986 and 1989, an estimated
+        <strong>50,000 to 182,000 Kurds</strong> were killed, more than
+        4,000 villages were destroyed, and chemical weapons were used
+        against civilians. Halabja was one episode within Anfal.
+      </p>
+    </section>
+
+    <blockquote class="event-quote">
+      To remember Anfal is to refuse the silence its planners hoped for.
+    </blockquote>
+
+    <section class="event-section">
+      <h2>Recognition</h2>
+      <p>
+        The Anfal campaign has been recognized as genocide by Iraq, the
+        United Kingdom, Sweden, Norway, and South Korea. Survivors and
+        researchers continue to document mass-grave sites uncovered after
+        2003.
+      </p>
+    </section>
+
+    <section class="event-section">
+      <h2>More</h2>
+      <ul class="event-links">
+        <li><a href="https://en.wikipedia.org/wiki/Anfal_campaign" target="_blank" rel="noopener">Anfal campaign &mdash; Wikipedia</a></li>
+        <li><a href="https://www.hrw.org/reports/1993/iraqanfal/" target="_blank" rel="noopener">Human Rights Watch &mdash; Genocide in Iraq</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="./effects.js"></script>
+</body>
+
+</html>

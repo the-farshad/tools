@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-effect="flagStripes">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Republic of Mahabad | Kurdish Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Ubuntu:wght@400;700&family=VT323&family=Vazirmatn:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../../assets/Farshad-Ghorbani.svg">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" href="../../styles/style.css">
+  <link rel="stylesheet" href="../calendar.css">
+  <link rel="stylesheet" href="./days.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light' || t === 'sepia') document.documentElement.setAttribute('data-theme', t);
+        var f = localStorage.getItem('font');
+        if (['vt323','serif','plex-serif','sans','ubuntu','atkinson'].indexOf(f) >= 0) document.documentElement.setAttribute('data-font', f);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+  <canvas id="event-overlay" aria-hidden="true"></canvas>
+
+  <main class="page event-page">
+    <a href="../index.html" class="back-link event-back">&larr; calendar</a>
+
+    <header class="event-hero">
+      <div class="event-eyebrow">22 January 1946</div>
+      <h1 class="event-title">Republic of Mahabad</h1>
+      <div class="event-when">The first &mdash; and only &mdash; Kurdish republic of the 20th century</div>
+    </header>
+
+    <section class="event-section">
+      <h2>A republic in the mountains</h2>
+      <p>
+        On 22 January 1946, in Mahabad in northwestern Iran, Qazi
+        Muhammad declared the Republic of Kurdistan. Its flag was red,
+        white, and green with a sun in the center; its language of
+        government was Kurdish. The republic lasted only eleven months
+        before Iranian forces re-took the region.
+      </p>
+      <p>
+        Qazi Muhammad and several colleagues were executed in March 1947
+        in the same square where the republic had been proclaimed.
+      </p>
+    </section>
+
+    <blockquote class="event-quote">
+      Bijî Komara Mahabad. &mdash; <em>Long live the Republic of Mahabad.</em>
+    </blockquote>
+
+    <section class="event-section">
+      <h2>Why it still matters</h2>
+      <p>
+        Brief as it was, the republic produced the first modern textbooks
+        and newspapers in Kurdish, recognized Kurdish as an official
+        language, and remains a touchstone for Kurdish political
+        memory. Its flag is the basis of the Kurdistan Region's flag
+        today.
+      </p>
+    </section>
+
+    <section class="event-section">
+      <h2>More</h2>
+      <ul class="event-links">
+        <li><a href="https://en.wikipedia.org/wiki/Republic_of_Mahabad" target="_blank" rel="noopener">Republic of Mahabad &mdash; Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Qazi_Muhammad" target="_blank" rel="noopener">Qazi Muhammad</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="./effects.js"></script>
+</body>
+
+</html>

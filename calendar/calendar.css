@@ -245,4 +245,15 @@
   margin-top: 2px;
 }
 
+a.cal-day-name {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+  display: block;
+}
+
+a.cal-day-name:hover {
+  border-bottom-color: var(--fg);
+}
+
 .cal-day-when.upcoming { color: var(--accent); opacity: 1; font-weight: 600; }

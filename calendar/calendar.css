@@ -46,6 +46,8 @@
   .cal-today-grid { grid-template-columns: 1fr; }
 }
 
+[hidden] { display: none !important; }
+
 .cal-newroz {
   display: flex;
   align-items: center;

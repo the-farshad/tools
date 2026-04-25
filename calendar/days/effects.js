@@ -435,8 +435,66 @@
     requestAnimationFrame(tick);
   }
 
+  // ---------- effect: parchment (floating scrolls on a worn surface) ----------
+  function parchment() {
+    const PAPERS = 6;
+    const papers = [];
+    for (let i = 0; i < PAPERS; i++) papers.push(spawnPaper(true));
+    function spawnPaper(initial) {
+      return {
+        x: Math.random() * W(),
+        y: initial ? Math.random() * H() : H() + 60,
+        w: 80 + Math.random() * 60,
+        h: 110 + Math.random() * 70,
+        rot: (Math.random() - 0.5) * 0.5,
+        vy: -0.15 - Math.random() * 0.25,
+        vx: (Math.random() - 0.5) * 0.15,
+        vrot: (Math.random() - 0.5) * 0.0025,
+        sway: Math.random() * Math.PI * 2,
+      };
+    }
+    function tick() {
+      ctx.clearRect(0, 0, overlay.width, overlay.height);
+      // sepia-tinted wash
+      ctx.fillStyle = 'rgba(120, 90, 60, 0.04)';
+      ctx.fillRect(0, 0, W(), H());
+      for (let i = 0; i < papers.length; i++) {
+        const p = papers[i];
+        p.sway += 0.01;
+        p.x += p.vx + Math.sin(p.sway) * 0.15;
+        p.y += p.vy;
+        p.rot += p.vrot;
+        if (p.y + p.h < -20) { papers[i] = spawnPaper(false); continue; }
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        // shadow
+        ctx.fillStyle = 'rgba(60, 40, 20, 0.10)';
+        ctx.fillRect(-p.w / 2 + 3, -p.h / 2 + 3, p.w, p.h);
+        // parchment body
+        ctx.fillStyle = 'rgba(245, 230, 200, 0.55)';
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        // ink lines suggesting writing
+        ctx.fillStyle = 'rgba(70, 50, 30, 0.45)';
+        for (let line = 0; line < 5; line++) {
+          const ly = -p.h / 2 + 14 + line * 14;
+          const lw = p.w * (0.5 + Math.random() * 0.4);
+          ctx.fillRect(-p.w / 2 + 8, ly, lw, 2);
+        }
+        // a wax seal
+        ctx.fillStyle = 'rgba(160, 30, 30, 0.55)';
+        ctx.beginPath();
+        ctx.arc(0, p.h / 2 - 14, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   const EFFECTS = {
-    embers, ash, flagStripes, alphabet, candles, sunRiseSet, flagRaise, snowFlowers,
+    embers, ash, flagStripes, alphabet, candles, sunRiseSet, flagRaise, snowFlowers, parchment,
   };
   if (EFFECTS[effect]) EFFECTS[effect]();
 })();

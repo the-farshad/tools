@@ -261,43 +261,40 @@
   }
 
   // ---------- Poems ----------
-  // Real Kurdish poetry pulled at runtime from the allekok-poems collection
-  // (https://github.com/allekok/allekok-poems — used per its public-domain
-  // license). We hold a small curated index of paths.
-  //
-  // To add a manual English translation for a poem, find its entry in
-  // POEM_TRANSLATIONS below and fill the value with the translated text.
-  // Without a manual translation, the UI shows a "Translate ↗" link that
-  // sends the original to Google Translate (sl=ckb, tl=en).
-  const POEM_BASE = 'https://raw.githubusercontent.com/allekok/allekok-poems/master/شیعرەکان/';
-  const POEM_VIEW = 'https://github.com/allekok/allekok-poems/blob/master/شیعرەکان/';
-  const POEM_TRANSLATIONS = {
-    // 'path/relative/to/شیعرەکان': 'English translation here',
-    // (Empty for now — populate as translations become available.)
-  };
+  // Mirrored from allekok-poems (CC0) into ./poems/. To add a poem, drop
+  // a text file under a poet folder and add its path here. To add an
+  // English translation, edit ./poems/translations.json (loaded on init).
+  const POEM_BASE = './poems/';
+  const POEM_VIEW = 'https://github.com/the-farshad/tools/blob/main/calendar/poems/';
+  let POEM_TRANSLATIONS = {};
+  fetch('./poems/translations.json')
+    .then(r => r.ok ? r.json() : {})
+    .then(j => { POEM_TRANSLATIONS = j || {}; })
+    .catch(() => {});
+
   const POEM_INDEX = [
     // Şêrko Bêkes — Trifey Helbest
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٥. چەپکە هەڵبەست',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٣٤. هەڵبەست',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١٩. لەگەڵ نالیدا',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٤٢. وێنەکەی',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٦. کاتێ',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٣. نەوەی نوێ',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٩. کەی بێ؟',
-    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٦. بڕوام',
+    'sherko-bekas/11-tenya.txt',
+    'sherko-bekas/8-be-to.txt',
+    'sherko-bekas/25-cepke-helbest.txt',
+    'sherko-bekas/34-helbest.txt',
+    'sherko-bekas/19-legel-naliday.txt',
+    'sherko-bekas/42-wenekey.txt',
+    'sherko-bekas/26-kate.txt',
+    'sherko-bekas/23-newey-nwe.txt',
+    'sherko-bekas/29-key-be.txt',
+    'sherko-bekas/6-birwam.txt',
     // Hêjar Mukrîyanî — Bo Kurdistan
-    'هەژار موکریانی/بۆ کوردستان/١٧. نامرادێک',
-    'هەژار موکریانی/بۆ کوردستان/٢٧. هەر کوردم',
-    'هەژار موکریانی/بۆ کوردستان/٢٠. وەرام بۆ کچێکی سۆڤیەتی',
-    'هەژار موکریانی/بۆ کوردستان/٣٣. کوردم',
+    'hejar/17-namradek.txt',
+    'hejar/27-her-kurdim.txt',
+    'hejar/20-weram-bo-kicek-soviyeti.txt',
+    'hejar/33-kurdim.txt',
     // Goran — Beheşt û Yadigar
-    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٦. هەرچەن',
-    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٥. بۆ خانمێک',
-    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٢. لە لادێ',
-    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٢. هەڵبەستی ڕەنجاو',
-    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٦. سکاڵا',
+    'goran/26-hercen.txt',
+    'goran/15-bo-xanmek.txt',
+    'goran/22-le-lade.txt',
+    'goran/12-helbesti-renjaw.txt',
+    'goran/6-sikalla.txt',
   ];
 
   function parseAllekok(text) {

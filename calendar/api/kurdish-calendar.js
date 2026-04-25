@@ -35,36 +35,36 @@
 
   var EVENTS = [
     { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',           slug: 'mahabad' },
-    { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',          slug: null },
+    { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',          slug: 'kobane-liberation' },
     { m: 2,  d: 21, name: 'Mother Language Day',                      sub: 'International',                         slug: 'mother-language' },
     { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',    slug: 'halabja' },
     { m: 3,  d: 21, name: 'Newroz',                                   sub: 'Kurdish New Year',                      slug: 'newroz' },
-    { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)', slug: null },
+    { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)', slug: 'mahabad-execution' },
     { m: 4,  d: 14, name: 'Anfal Memorial',                           sub: 'Anfal campaign remembrance',            slug: 'anfal' },
     { m: 5,  d: 15, name: 'Roja Zimanê Kurdî',                        sub: 'Kurdish Language Day',                  slug: 'kurdish-language' },
-    { m: 6,  d: 1,  name: 'Founding of the PUK',                      sub: 'Patriotic Union of Kurdistan (1975)',   slug: null },
+    { m: 6,  d: 1,  name: 'Founding of the PUK',                      sub: 'Patriotic Union of Kurdistan (1975)',   slug: 'puk-founding' },
     { m: 7,  d: 19, name: 'Rojava Revolution',                        sub: 'Anniversary (2012)',                    slug: 'rojava-revolution' },
     { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial',                 sub: 'Sinjar attack remembrance (2014)',      slug: 'yezidi-memorial' },
-    { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',     slug: null },
-    { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',          slug: null },
+    { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',     slug: 'kdp-founding' },
+    { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',          slug: 'kobane-siege' },
     { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                  slug: 'referendum' },
-    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          slug: null },
+    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          slug: 'mahabad-fall' },
     { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',                    slug: 'flag-day' },
-    { m: 8,  d: 23, name: 'Battle of Chaldiran',                      sub: '1514 — Ottoman-Safavid war; Kurdistan split between two empires', slug: null },
-    { m: 5,  d: 17, name: 'Treaty of Zuhab',                          sub: '1639 — first formal partition of Kurdistan',            slug: null },
-    { m: 8,  d: 10, name: 'Treaty of Sèvres',                         sub: '1920 — first international promise of a Kurdish state', slug: null },
-    { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan',         slug: null },
-    { m: 4,  d: 7,  name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising',   slug: null },
-    { m: 5,  d: 19, name: 'First Kurdistan Region elections',         sub: '1992 — first parliamentary vote in Iraqi Kurdistan',    slug: null },
-    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       slug: null },
-    { m: 2,  d: 13, name: 'Beginning of the Sheikh Said rebellion',   sub: '1925 — Kurdish uprising in Turkey',                     slug: null },
-    { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   slug: null },
-    { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        slug: null },
-    { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           slug: null },
-    { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', slug: null },
-    { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          slug: null },
-    { m: 11, d: 27, name: 'Founding of the PKK',                      sub: "1978 — Kurdistan Workers' Party",                       slug: null },
-    { m: 10, d: 15, name: 'Founding of the HDP',                      sub: "2012 — Peoples' Democratic Party (Turkey)",             slug: null }
+    { m: 8,  d: 23, name: 'Battle of Chaldiran',                      sub: '1514 — Ottoman-Safavid war; Kurdistan split between two empires', slug: 'chaldiran' },
+    { m: 5,  d: 17, name: 'Treaty of Zuhab',                          sub: '1639 — first formal partition of Kurdistan',            slug: 'zuhab' },
+    { m: 8,  d: 10, name: 'Treaty of Sèvres',                         sub: '1920 — first international promise of a Kurdish state', slug: 'sevres' },
+    { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan',         slug: 'lausanne' },
+    { m: 4,  d: 7,  name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising',   slug: 'no-fly-zone' },
+    { m: 5,  d: 19, name: 'First Kurdistan Region elections',         sub: '1992 — first parliamentary vote in Iraqi Kurdistan',    slug: 'kri-elections' },
+    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       slug: 'kirkuk-2017' },
+    { m: 2,  d: 13, name: 'Beginning of the Sheikh Said rebellion',   sub: '1925 — Kurdish uprising in Turkey',                     slug: 'sheikh-said-rebellion' },
+    { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   slug: '1991-uprising' },
+    { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        slug: 'qamishlo-uprising' },
+    { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           slug: 'jina-amini' },
+    { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', slug: 'khoyboun' },
+    { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          slug: 'kdpi-founding' },
+    { m: 11, d: 27, name: 'Founding of the PKK',                      sub: "1978 — Kurdistan Workers' Party",                       slug: 'pkk-founding' },
+    { m: 10, d: 15, name: 'Founding of the HDP',                      sub: "2012 — Peoples' Democratic Party (Turkey)",             slug: 'hdp-founding' }
   ];
 
   var FIGURES = [
@@ -160,7 +160,7 @@
   function carsemaSor(year) {
     for (var d = 14; d <= 20; d++) {
       if (new Date(year, 3, d).getDay() === 3) {
-        return { m: 4, d: d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', slug: null };
+        return { m: 4, d: d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', slug: 'carsema-sor' };
       }
     }
     return null;
@@ -238,7 +238,7 @@
   }
 
   return {
-    version: '3.3.0',
+    version: '3.4.0',
     KURD_YEAR_OFFSET: KURD_YEAR_OFFSET,
     today: today,
     describe: describe,

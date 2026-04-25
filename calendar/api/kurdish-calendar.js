@@ -61,6 +61,9 @@
     { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   slug: '1991-uprising' },
     { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        slug: 'qamishlo-uprising' },
     { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           slug: 'jina-amini' },
+    { m: 9,  d: 20, name: 'Founding of the PYD',                      sub: '2003 — Democratic Union Party (Syrian Kurdistan)',                slug: 'pyd-founding' },
+    { m: 9,  d: 21, name: 'Founding of Gorran',                       sub: '2009 — Movement for Change (Iraqi Kurdistan)',                    slug: 'goran-founding' },
+    { m: 9,  d: 26, name: 'Founding of Komala',                       sub: '1969 — Society of Revolutionary Toilers (Iranian Kurdistan)',     slug: 'komala-founding' },
     { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', slug: 'khoyboun' },
     { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          slug: 'kdpi-founding' },
     { m: 11, d: 27, name: 'Founding of the PKK',                      sub: "1978 — Kurdistan Workers' Party",                       slug: 'pkk-founding' },
@@ -238,7 +241,7 @@
   }
 
   return {
-    version: '3.4.0',
+    version: '3.5.0',
     KURD_YEAR_OFFSET: KURD_YEAR_OFFSET,
     today: today,
     describe: describe,

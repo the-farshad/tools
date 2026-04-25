@@ -92,6 +92,9 @@
     { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        slug: 'qamishlo-uprising' },
     { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           slug: 'jina-amini' },
     // Major Kurdish political organizations (chronological, neutral)
+    { m: 9,  d: 20, name: 'Founding of the PYD',                      sub: '2003 — Democratic Union Party (Syrian Kurdistan)',                slug: 'pyd-founding' },
+    { m: 9,  d: 21, name: 'Founding of Gorran',                       sub: '2009 — Movement for Change (Iraqi Kurdistan)',                    slug: 'goran-founding' },
+    { m: 9,  d: 26, name: 'Founding of Komala',                       sub: '1969 — Society of Revolutionary Toilers (Iranian Kurdistan)',     slug: 'komala-founding' },
     { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', slug: 'khoyboun' },
     { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          slug: 'kdpi-founding' },
     { m: 11, d: 27, name: 'Founding of the PKK',                      sub: '1978 — Kurdistan Workers\' Party',                      slug: 'pkk-founding' },
@@ -390,17 +393,98 @@
     return lines.slice(0, maxLines).join('\n') + '\n…';
   }
 
+  // ---- Poem state for the currently displayed piece ----
+  let currentPoem = null;       // {path, body, fullBody, poet, book, title, viewUrl, dir}
+  let poemExpanded = false;
+  const POEM_BM_KEY = 'cal-poem-bookmarks';
+
+  function getBookmarks() {
+    try { return JSON.parse(localStorage.getItem(POEM_BM_KEY) || '[]'); }
+    catch { return []; }
+  }
+  function setBookmarks(arr) {
+    try { localStorage.setItem(POEM_BM_KEY, JSON.stringify(arr)); } catch (e) {}
+  }
+  function isBookmarked(path) {
+    return getBookmarks().some(b => b.path === path);
+  }
+  function toggleBookmark() {
+    if (!currentPoem) return;
+    const arr = getBookmarks();
+    const idx = arr.findIndex(b => b.path === currentPoem.path);
+    if (idx >= 0) arr.splice(idx, 1);
+    else arr.unshift({
+      path: currentPoem.path,
+      poet: currentPoem.poet,
+      book: currentPoem.book,
+      title: currentPoem.title,
+      savedAt: Math.floor(Date.now() / 1000),
+    });
+    setBookmarks(arr);
+    renderPoemActions();
+    renderSavedList();
+  }
+
+  function renderSavedList() {
+    const ul = document.getElementById('poem-saved');
+    const countEl = document.getElementById('poem-saved-count');
+    const arr = getBookmarks();
+    if (countEl) countEl.textContent = arr.length;
+    if (!ul) return;
+    ul.innerHTML = '';
+    if (arr.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'poem-saved-empty';
+      li.textContent = 'No saved poems yet. Tap ☆ to save one.';
+      ul.appendChild(li);
+      return;
+    }
+    arr.forEach(b => {
+      const li = document.createElement('li');
+      li.className = 'poem-saved-item';
+      li.innerHTML =
+        '<button type="button" class="poem-saved-load" data-path="' + escapeHtml(b.path) + '">' +
+          '<span class="poem-saved-title">' + escapeHtml(b.title || '(untitled)') + '</span>' +
+          '<span class="poem-saved-meta">' + escapeHtml(b.poet || '') + (b.book ? ' · ' + escapeHtml(b.book) : '') + '</span>' +
+        '</button>' +
+        '<button type="button" class="poem-saved-remove" data-path="' + escapeHtml(b.path) + '" title="Remove">&times;</button>';
+      ul.appendChild(li);
+    });
+  }
+
+  function renderPoemActions() {
+    const attr = document.getElementById('poem-attr');
+    if (!attr || !currentPoem) return;
+    const linkStyle = 'color:var(--fg);text-decoration:underline;text-decoration-style:dotted;cursor:pointer;background:none;border:0;padding:0;font:inherit';
+    const translateUrl = 'https://translate.google.com/?sl=ckb&tl=en&text=' + encodeURIComponent(currentPoem.fullBody || currentPoem.body || '');
+    const saved = isBookmarked(currentPoem.path);
+    const star = saved ? '★' : '☆';
+    const expandLabel = poemExpanded ? 'show less' : 'view full';
+
+    attr.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
+    attr.innerHTML =
+      '<span dir="rtl">— ' + escapeHtml(currentPoem.poet || '') +
+      (currentPoem.book ? '  ·  <span style="opacity:.75">' + escapeHtml(currentPoem.book) + '</span>' : '') +
+      '</span>' +
+      '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline">' +
+        '<button type="button" class="poem-bookmark" title="' + (saved ? 'Remove bookmark' : 'Bookmark') + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
+        (currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + expandLabel + '</button>' : '') +
+        (poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">show less</button>' : '') +
+        (currentPoem.viewUrl ? '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">on GitHub &#x2197;</a>' : '') +
+        ((currentPoem.fullBody || currentPoem.body) ? '<a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">translate &#x2197;</a>' : '') +
+      '</span>';
+  }
+
   function setPoemUI(p) {
+    currentPoem = p;
+    poemExpanded = false;
     const orig = document.getElementById('poem-orig');
     const trans = document.getElementById('poem-trans');
-    const attr = document.getElementById('poem-attr');
     orig.textContent = p.body;
     orig.setAttribute('dir', p.dir || 'rtl');
     orig.style.fontFamily = (p.dir || 'rtl') === 'rtl' ? "'Vazirmatn','Tahoma',sans-serif" : '';
     orig.style.textAlign = (p.dir || 'rtl') === 'rtl' ? 'right' : 'left';
 
-    // Translation slot: manual English translation if provided, else
-    // hide and offer a "Translate ↗" link in the attribution row.
     if (p.translation) {
       trans.textContent = p.translation;
       trans.setAttribute('dir', 'ltr');
@@ -408,33 +492,21 @@
       trans.style.textAlign = 'left';
       trans.style.display = '';
     } else {
-      // show poem title in Kurdish script as fallback
       trans.textContent = p.title || '';
       trans.setAttribute('dir', 'rtl');
       trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
       trans.style.textAlign = 'right';
       trans.style.display = p.title ? '' : 'none';
     }
+    renderPoemActions();
+  }
 
-    // Attribution row uses Vazirmatn so Kurdish-script names render correctly,
-    // and includes view-full + translate links.
-    attr.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
-    attr.style.direction = 'rtl';
-    attr.style.textAlign = 'right';
-    if (p.viewUrl || p.body) {
-      const linkStyle = 'color:var(--fg);text-decoration:underline;text-decoration-style:dotted';
-      const translateUrl = 'https://translate.google.com/?sl=ckb&tl=en&text=' + encodeURIComponent(p.body || '');
-      attr.innerHTML =
-        '<span dir="rtl">— ' + escapeHtml(p.poet || '') +
-        (p.book ? '  ·  <span style="opacity:.75">' + escapeHtml(p.book) + '</span>' : '') +
-        '</span>' +
-        '<span dir="ltr" style="opacity:.85;margin-right:8px;font-family:inherit">' +
-          (p.viewUrl ? '<a href="' + p.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">view full</a>' : '') +
-          (p.body ? '  ·  <a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">translate &#x2197;</a>' : '') +
-        '</span>';
-    } else {
-      attr.textContent = '— ' + (p.attr || (p.poet || ''));
-    }
+  function togglePoemExpand() {
+    if (!currentPoem || !currentPoem.fullBody) return;
+    poemExpanded = !poemExpanded;
+    const orig = document.getElementById('poem-orig');
+    orig.textContent = poemExpanded ? currentPoem.fullBody : currentPoem.body;
+    renderPoemActions();
   }
 
   function escapeHtml(s) {
@@ -443,9 +515,8 @@
     }[c]));
   }
 
-  function renderPoem() {
-    setPoemUI({ body: 'Loading…', poet: '', dir: 'ltr' });
-    const path = POEM_INDEX[Math.floor(Math.random() * POEM_INDEX.length)];
+  function loadPoem(path) {
+    setPoemUI({ path: path, body: 'Loading…', fullBody: '', poet: '', dir: 'ltr' });
     const url = POEM_BASE + encodeURI(path);
     const enUrl = POEM_BASE + encodeURI(path + '.en');
     const view = POEM_VIEW + encodeURI(path);
@@ -459,13 +530,13 @@
         const truncated = truncateLines(parsed.body, 6);
         let translation = '';
         if (enText) {
-          // .en sibling may have the same header format or be plain text;
-          // strip header if present.
           const enParsed = parseAllekok(enText);
-          translation = truncateLines(enParsed.body || enText.trim(), 8);
+          translation = enParsed.body || enText.trim();
         }
         setPoemUI({
+          path: path,
           body: truncated,
+          fullBody: parsed.body,
           poet: parsed.poet,
           book: parsed.book,
           title: parsed.title,
@@ -476,10 +547,17 @@
       })
       .catch(err => {
         setPoemUI({
+          path: path,
           body: 'Could not load a poem (' + err.message + ').\nSee https://github.com/the-farshad/poems',
+          fullBody: '',
           poet: '', dir: 'ltr',
         });
       });
+  }
+
+  function renderPoem() {
+    const path = POEM_INDEX[Math.floor(Math.random() * POEM_INDEX.length)];
+    loadPoem(path);
   }
 
   // ---------- ICS export ----------
@@ -869,6 +947,36 @@
 
   // Poem
   document.getElementById('poem-shuffle').addEventListener('click', renderPoem);
+
+  // Poem actions (delegated): bookmark, expand
+  document.getElementById('poem-attr').addEventListener('click', (e) => {
+    if (e.target.closest('.poem-bookmark')) toggleBookmark();
+    if (e.target.closest('.poem-expand')) togglePoemExpand();
+  });
+
+  // Saved-poems toggle
+  const savedToggle = document.getElementById('poem-saved-toggle');
+  const savedList = document.getElementById('poem-saved');
+  if (savedToggle && savedList) {
+    savedToggle.addEventListener('click', () => {
+      savedList.hidden = !savedList.hidden;
+      if (!savedList.hidden) renderSavedList();
+    });
+    savedList.addEventListener('click', (e) => {
+      const load = e.target.closest('.poem-saved-load');
+      const remove = e.target.closest('.poem-saved-remove');
+      if (load) {
+        loadPoem(load.dataset.path);
+        savedList.hidden = true;
+      } else if (remove) {
+        const arr = getBookmarks().filter(b => b.path !== remove.dataset.path);
+        setBookmarks(arr);
+        renderSavedList();
+        renderPoemActions();
+      }
+    });
+  }
+  renderSavedList();
 
   // Figures show-all toggle
   const figToggle = document.getElementById('figures-toggle');

@@ -220,6 +220,27 @@
       "name": "Founding of the HDP",
       "sub": "2012 — Peoples' Democratic Party (Turkey)",
       "slug": "hdp-founding"
+    },
+    {
+      "month": 9,
+      "day": 20,
+      "name": "Founding of the PYD",
+      "sub": "2003 — Democratic Union Party (Syrian Kurdistan)",
+      "slug": "pyd-founding"
+    },
+    {
+      "month": 9,
+      "day": 21,
+      "name": "Founding of Gorran",
+      "sub": "2009 — Movement for Change (Iraqi Kurdistan)",
+      "slug": "goran-founding"
+    },
+    {
+      "month": 9,
+      "day": 26,
+      "name": "Founding of Komala",
+      "sub": "1969 — Society of Revolutionary Toilers (Iranian Kurdistan)",
+      "slug": "komala-founding"
     }
   ],
   "figures": [

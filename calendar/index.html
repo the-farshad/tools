@@ -135,8 +135,10 @@
     <section class="cal-poem-section">
       <div class="cal-month-head" style="margin:0 0 8px">
         <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Poem</h2>
+        <button type="button" class="btn" id="poem-saved-toggle" title="Saved poems">&#9734; <span id="poem-saved-count">0</span></button>
         <button type="button" class="btn" id="poem-shuffle">Another &#x21bb;</button>
       </div>
+      <ul class="cal-poem-saved" id="poem-saved" hidden></ul>
       <article class="cal-poem" id="poem">
         <div class="poem-orig" id="poem-orig"></div>
         <div class="poem-trans" id="poem-trans"></div>

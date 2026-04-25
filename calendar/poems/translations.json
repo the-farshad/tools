@@ -1,6 +1,0 @@
-{
-  "_": "Map a poem's relative path to its English translation. Empty file = no manual translations yet (UI falls back to Google Translate link).",
-  "_example": {
-    "sherko-bekas/11-tenya.txt": "Only the lamp of Kurdishness held in hand\nlights up the night of my land.\n\nOnly the arm of the road of honor\nundoes the noose around my neck."
-  }
-}

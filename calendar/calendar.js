@@ -261,40 +261,42 @@
   }
 
   // ---------- Poems ----------
-  // Mirrored from allekok-poems (CC0) into ./poems/. To add a poem, drop
-  // a text file under a poet folder and add its path here. To add an
-  // English translation, edit ./poems/translations.json (loaded on init).
-  const POEM_BASE = './poems/';
-  const POEM_VIEW = 'https://github.com/the-farshad/tools/blob/main/calendar/poems/';
-  let POEM_TRANSLATIONS = {};
-  fetch('./poems/translations.json')
-    .then(r => r.ok ? r.json() : {})
-    .then(j => { POEM_TRANSLATIONS = j || {}; })
-    .catch(() => {});
+  // Fetched live from your fork: github.com/the-farshad/poems
+  // (originally allekok-poems, public domain).
+  //
+  // Adding poems: just push them to your fork under شیعرەکان/ — to surface
+  // here, also append their path to POEM_INDEX below.
+  //
+  // Adding translations: drop a sibling file with ".en" appended next to
+  // the poem (same folder, same name + ".en"). The calendar fetches both;
+  // if the .en sibling exists it shows as the translation, otherwise the
+  // UI offers a one-click "Translate ↗" link to Google Translate.
+  const POEM_BASE = 'https://raw.githubusercontent.com/the-farshad/poems/master/شیعرەکان/';
+  const POEM_VIEW = 'https://github.com/the-farshad/poems/blob/master/شیعرەکان/';
 
   const POEM_INDEX = [
     // Şêrko Bêkes — Trifey Helbest
-    'sherko-bekas/11-tenya.txt',
-    'sherko-bekas/8-be-to.txt',
-    'sherko-bekas/25-cepke-helbest.txt',
-    'sherko-bekas/34-helbest.txt',
-    'sherko-bekas/19-legel-naliday.txt',
-    'sherko-bekas/42-wenekey.txt',
-    'sherko-bekas/26-kate.txt',
-    'sherko-bekas/23-newey-nwe.txt',
-    'sherko-bekas/29-key-be.txt',
-    'sherko-bekas/6-birwam.txt',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٥. چەپکە هەڵبەست',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٣٤. هەڵبەست',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/١٩. لەگەڵ نالیدا',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٤٢. وێنەکەی',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٦. کاتێ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٣. نەوەی نوێ',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٩. کەی بێ؟',
+    'شێرکۆ بێکەس/تریفەی ھەڵبەست/٦. بڕوام',
     // Hêjar Mukrîyanî — Bo Kurdistan
-    'hejar/17-namradek.txt',
-    'hejar/27-her-kurdim.txt',
-    'hejar/20-weram-bo-kicek-soviyeti.txt',
-    'hejar/33-kurdim.txt',
+    'هەژار موکریانی/بۆ کوردستان/١٧. نامرادێک',
+    'هەژار موکریانی/بۆ کوردستان/٢٧. هەر کوردم',
+    'هەژار موکریانی/بۆ کوردستان/٢٠. وەرام بۆ کچێکی سۆڤیەتی',
+    'هەژار موکریانی/بۆ کوردستان/٣٣. کوردم',
     // Goran — Beheşt û Yadigar
-    'goran/26-hercen.txt',
-    'goran/15-bo-xanmek.txt',
-    'goran/22-le-lade.txt',
-    'goran/12-helbesti-renjaw.txt',
-    'goran/6-sikalla.txt',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٦. هەرچەن',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٥. بۆ خانمێک',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٢. لە لادێ',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٢. هەڵبەستی ڕەنجاو',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٦. سکاڵا',
   ];
 
   function parseAllekok(text) {
@@ -376,28 +378,39 @@
   }
 
   function renderPoem() {
-    setPoemUI({ body: 'Loading…', poet: 'allekok-poems', dir: 'ltr' });
+    setPoemUI({ body: 'Loading…', poet: '', dir: 'ltr' });
     const path = POEM_INDEX[Math.floor(Math.random() * POEM_INDEX.length)];
     const url = POEM_BASE + encodeURI(path);
+    const enUrl = POEM_BASE + encodeURI(path + '.en');
     const view = POEM_VIEW + encodeURI(path);
-    fetch(url)
-      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
-      .then(text => {
+
+    Promise.all([
+      fetch(url).then(r => r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status))),
+      fetch(enUrl).then(r => r.ok ? r.text() : '').catch(() => ''),
+    ])
+      .then(([text, enText]) => {
         const parsed = parseAllekok(text);
         const truncated = truncateLines(parsed.body, 6);
+        let translation = '';
+        if (enText) {
+          // .en sibling may have the same header format or be plain text;
+          // strip header if present.
+          const enParsed = parseAllekok(enText);
+          translation = truncateLines(enParsed.body || enText.trim(), 8);
+        }
         setPoemUI({
           body: truncated,
           poet: parsed.poet,
           book: parsed.book,
           title: parsed.title,
           viewUrl: view,
-          translation: POEM_TRANSLATIONS[path] || '',
+          translation: translation,
           dir: 'rtl',
         });
       })
       .catch(err => {
         setPoemUI({
-          body: 'Could not load a poem from allekok-poems (' + err.message + ').\nSee https://github.com/allekok/allekok-poems',
+          body: 'Could not load a poem (' + err.message + ').\nSee https://github.com/the-farshad/poems',
           poet: '', dir: 'ltr',
         });
       });

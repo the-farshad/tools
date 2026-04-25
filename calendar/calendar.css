@@ -1,7 +1,36 @@
 /* ---------- Kurdish Calendar ---------- */
 
+/* Shared section sizing — every block uses the same padding + radius +
+   bottom-margin so the visual rhythm is even.  */
+:root {
+  --cal-card-pad: 16px;
+  --cal-card-radius: 8px;
+  --cal-section-gap: 22px;
+}
+
+.cal-today,
+.cal-newroz,
+.cal-converter,
+.cal-month-section,
+.cal-days-section,
+.cal-figures-section,
+.cal-poem-section {
+  margin: 0 0 var(--cal-section-gap);
+}
+
+/* Bordered "card" surface used by newroz, converter, and poem. */
+.cal-newroz,
+.cal-converter,
+.cal-poem,
+.cal-poem-saved {
+  padding: var(--cal-card-pad);
+  border: 1px dashed var(--btn-border);
+  border-radius: var(--cal-card-radius);
+  background: var(--btn-bg);
+}
+
 .cal-today {
-  margin: 0 0 18px;
+  margin: 0 0 var(--cal-section-gap);
 }
 
 .cal-today-grid {
@@ -11,9 +40,9 @@
 }
 
 .cal-today-card {
-  padding: 14px 16px;
+  padding: var(--cal-card-pad);
   border: 1px solid var(--btn-border);
-  border-radius: 6px;
+  border-radius: var(--cal-card-radius);
   background: var(--btn-bg);
 }
 
@@ -143,11 +172,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
-  margin: 0 0 18px;
-  border: 1px dashed var(--btn-border);
-  border-radius: 6px;
-  background: var(--btn-bg);
   font-size: 0.95em;
 }
 
@@ -159,13 +183,7 @@
   font-size: 0.85em;
 }
 
-.cal-converter {
-  margin: 0 0 24px;
-  padding: 14px 16px;
-  border: 1px dashed var(--btn-border);
-  border-radius: 6px;
-  background: var(--btn-bg);
-}
+/* .cal-converter sizing comes from the shared card rule above */
 
 .cal-converter .conv-row {
   display: flex;
@@ -226,7 +244,7 @@
 
 /* ---------- Figures ---------- */
 
-.cal-figures-section { margin: 0 0 24px; }
+/* margin from shared section rule */
 
 .cal-figures-list {
   list-style: none;
@@ -310,16 +328,7 @@
 
 /* ---------- Poem ---------- */
 
-.cal-poem-section {
-  margin: 24px 0 0;
-}
-
-.cal-poem {
-  padding: 16px 18px;
-  border: 1px dashed var(--btn-border);
-  border-radius: 6px;
-  background: var(--btn-bg);
-}
+/* .cal-poem-section + .cal-poem sizing come from the shared rule above */
 
 .poem-orig {
   white-space: pre-line;
@@ -363,13 +372,10 @@
 
 .cal-poem-saved {
   list-style: none;
-  padding: 0;
   margin: 0 0 14px;
-  border: 1px dashed var(--btn-border);
-  border-radius: 6px;
-  background: var(--btn-bg);
   max-height: 280px;
   overflow-y: auto;
+  /* padding/border/radius/bg from shared card rule */
 }
 
 .cal-poem-saved[hidden] { display: none; }
@@ -426,9 +432,7 @@
 
 .poem-saved-remove:hover { opacity: 1; color: var(--error); }
 
-.cal-month-section {
-  margin: 0 0 24px;
-}
+/* .cal-month-section margin from shared section rule */
 
 .cal-month-head {
   display: flex;

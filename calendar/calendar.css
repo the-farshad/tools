@@ -49,61 +49,92 @@
 /* ---------- mobile-first calendar polish ---------- */
 
 @media (max-width: 600px) {
-  /* tighten the page */
-  .page { padding: 0 14px; margin: 28px auto; }
-  .page-header h1 { font-size: 1.7em; }
+  /* page */
+  .page { padding: 0 12px; margin: 24px auto; font-size: 16px; }
+  .page-header { margin-bottom: 8px; }
+  .page-header h1 { font-size: 1.7em; margin: 4px 0 8px; }
+  .back-link { font-size: 0.85em; }
 
-  /* reader controls — let segments wrap, larger touch targets */
-  .reader-controls { gap: 6px; }
-  .seg button { padding: 8px 12px; min-width: 36px; font-size: 1em; }
+  /* reader controls — each .seg can scroll horizontally if it overflows */
+  .reader-controls { gap: 6px; margin-bottom: 14px; }
+  .seg {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg button { padding: 7px 10px; min-width: 34px; font-size: 0.95em; flex-shrink: 0; }
 
-  /* month grid: smaller cells, tighter font */
-  .cal-grid { gap: 3px; font-size: 0.85em; }
-  .cal-cell, .cal-dow { padding: 6px 1px; min-height: 38px; }
-  .cal-num-greg { font-size: 0.95em; }
-  .cal-num-ku { font-size: 0.65em; right: 2px; top: 1px; }
-  .cal-cell .cal-star { font-size: 0.6em; left: 2px; bottom: 0; }
-  .cal-month-title { font-size: 1em; }
-  .cal-nav { padding: 6px 10px; }
+  /* today card — single column, tight */
+  .cal-today-card { padding: 10px 12px; }
+  .cal-today-date { font-size: 1.2em; }
+  .cal-today-sub { font-size: 0.82em; }
 
-  /* converter: stacks single column */
+  /* converter heading — toggle wraps under the title */
+  .cal-converter { padding: 12px 12px; }
   .cal-converter .conv-out { grid-template-columns: 1fr; gap: 8px; }
-  .cal-converter .conv-row { gap: 6px; }
+  .cal-converter .conv-card { padding: 8px 10px; }
+  .cal-converter .conv-value { font-size: 1em; }
+  .cal-converter .conv-row { flex-direction: column; align-items: stretch; gap: 6px; }
+  .cal-converter .conv-row label { margin-bottom: 2px; }
   .cal-converter select,
-  .cal-converter input[type="date"] { padding: 8px 10px; font-size: 1em; }
+  .cal-converter input[type="date"] { padding: 8px 10px; font-size: 1em; width: 100%; box-sizing: border-box; }
+  #conv-mode-k2g .conv-row { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  #conv-mode-k2g select { flex: 1 1 100px; min-width: 100px; }
 
-  /* days/figures section heads: search input goes full-width on its own row */
-  .cal-month-head { gap: 6px; }
-  .cal-search { width: 100%; flex: 1 0 100%; order: 2; padding: 8px 10px; }
-  .cal-month-head .cal-section-title { flex: 1 1 auto; min-width: 60%; }
-  .cal-month-head .btn { padding: 8px 12px; }
+  /* month grid */
+  .cal-month-section { margin-bottom: 18px; }
+  .cal-month-head { gap: 6px; flex-wrap: nowrap; }
+  .cal-month-title { font-size: 0.95em; }
+  .cal-nav { padding: 6px 10px; min-width: 36px; }
+  .cal-grid { gap: 3px; font-size: 0.82em; }
+  .cal-cell, .cal-dow { padding: 5px 1px; min-height: 36px; }
+  .cal-num-greg { font-size: 0.95em; }
+  .cal-num-ku { font-size: 0.62em; right: 2px; top: 1px; }
+  .cal-cell .cal-star { font-size: 0.55em; left: 2px; bottom: 0; }
+
+  /* days/figures section heads — search on its own row */
+  .cal-month-head { flex-wrap: wrap; }
+  .cal-search { width: 100%; flex: 1 0 100%; order: 99; padding: 8px 10px; font-size: 0.95em; }
+  .cal-month-head .cal-section-title { flex: 1 1 auto; min-width: 0; }
+  .cal-month-head .btn { padding: 7px 10px; font-size: 0.85em; }
 
   /* important-days list */
   .cal-days-list li {
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 64px 1fr;
     gap: 8px;
     padding: 10px 0;
   }
+  .cal-day-when { font-size: 0.78em; }
+  .cal-day-name { font-size: 0.92em; }
+  .cal-day-name .cal-day-sub { font-size: 0.74em; }
 
   /* figures: drop the right-aligned role column */
-  .fig-summary { grid-template-columns: 60px 1fr; padding: 10px 0; }
+  .fig-summary { grid-template-columns: 56px 1fr; padding: 10px 0; gap: 8px; }
   .fig-role { display: none; }
-  .fig-detail { padding-left: 0; padding-right: 0; }
-  .fig-when { font-size: 0.8em; }
+  .fig-detail { padding: 4px 0 12px 0; font-size: 0.9em; }
+  .fig-when { font-size: 0.78em; }
+  .fig-name { font-size: 0.92em; }
 
-  /* poem section — comfy reading on small screens */
-  .cal-poem { padding: 14px 12px; }
+  /* poem */
+  .cal-poem { padding: 12px 12px; }
   .poem-orig { font-size: 1em; line-height: 1.55; }
-  .poem-trans { font-size: 0.92em; }
-  .poem-attr { font-size: 0.78em; gap: 8px; }
+  .poem-trans { font-size: 0.9em; }
+  .poem-attr { font-size: 0.76em; gap: 6px; flex-direction: column; align-items: flex-end; }
+  .poem-attr > span:last-child { align-self: flex-start; }
 }
 
-@media (max-width: 360px) {
-  /* really tiny screens — strip even more */
-  .cal-grid { font-size: 0.78em; }
-  .cal-cell, .cal-dow { padding: 5px 0; min-height: 34px; }
+@media (max-width: 380px) {
+  /* really tiny screens */
+  .page { padding: 0 10px; font-size: 15px; }
+  .cal-grid { font-size: 0.76em; gap: 2px; }
+  .cal-cell, .cal-dow { padding: 4px 0; min-height: 32px; }
   .cal-num-ku { display: none; }
-  .seg button { padding: 6px 8px; }
+  .seg button { padding: 6px 8px; font-size: 0.9em; }
+  .cal-today-date { font-size: 1.1em; }
+  .cal-month-title { font-size: 0.88em; }
+  .cal-month-head .btn { padding: 6px 8px; font-size: 0.8em; }
 }
 
 [hidden] { display: none !important; }

@@ -205,7 +205,28 @@
            g.getMonth() === t.getMonth() &&
            g.getDate() === t.getDate();
   }
-  function eventOn(m, d) { return EVENTS.find(e => e.m === m && e.d === d); }
+  // ---------- Computed (year-dependent) events ----------
+  // Çarşema Sor (Yezidi New Year): the first Wednesday on or after 14 April
+  // (start of Nisan in the Julian calendar used in Yezidi tradition).
+  function carsemaSor(year) {
+    for (let d = 14; d <= 20; d++) {
+      const dow = new Date(year, 3, d).getDay(); // 0=Sun, 3=Wed
+      if (dow === 3) {
+        return { m: 4, d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', slug: null };
+      }
+    }
+    return null;
+  }
+  const COMPUTED_EVENTS = [carsemaSor];
+
+  function eventsForYear(year) {
+    const computed = COMPUTED_EVENTS.map(fn => fn(year)).filter(Boolean);
+    return EVENTS.concat(computed);
+  }
+
+  function eventOn(m, d, year) {
+    return eventsForYear(year || new Date().getFullYear()).find(e => e.m === m && e.d === d);
+  }
   function figuresOn(m, d) { return FIGURES.filter(f => f.m === m && f.d === d); }
 
   function daysUntil(targetMonth, targetDay) {
@@ -473,7 +494,7 @@
       'PRODID:-//thefarshad//kurdish-calendar//EN',
       'CALSCALE:GREGORIAN',
     ];
-    EVENTS.forEach(e => {
+    eventsForYear(year).forEach(e => {
       const dt = year + pad2(e.m) + pad2(e.d);
       const next = new Date(year, e.m - 1, e.d + 1);
       const dtEnd = next.getFullYear() + pad2(next.getMonth() + 1) + pad2(next.getDate());
@@ -550,7 +571,7 @@
       el.type = 'button';
       el.className = 'cal-cell cal-cell-btn';
       const date = new Date(y, m, d);
-      const ev = eventOn(m + 1, d);
+      const ev = eventOn(m + 1, d, y);
       const figs = figuresOn(m + 1, d);
       if (isToday(date, g)) el.classList.add('today');
       if (ev) {
@@ -628,7 +649,8 @@
     const curMonth = today.getMonth() + 1;
     const q = daysQuery.trim().toLowerCase();
 
-    let items = EVENTS.map(e => ({ ...e, daysAway: daysUntil(e.m, e.d) }));
+    const allEvents = eventsForYear(today.getFullYear());
+    let items = allEvents.map(e => ({ ...e, daysAway: daysUntil(e.m, e.d) }));
     if (q) {
       items = items.filter(e =>
         e.name.toLowerCase().includes(q) ||

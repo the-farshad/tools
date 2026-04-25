@@ -154,8 +154,26 @@
     return String(s).replace(/\d/g, function (d) { return AR_DIGITS[d]; });
   }
 
-  function eventOn(month, day) {
-    return EVENTS.filter(function (e) { return e.m === month && e.d === day; });
+  // ---- Computed (year-dependent) events ----
+  // Çarşema Sor (Yezidi New Year): first Wednesday on or after 14 April.
+  function carsemaSor(year) {
+    for (var d = 14; d <= 20; d++) {
+      if (new Date(year, 3, d).getDay() === 3) {
+        return { m: 4, d: d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', slug: null };
+      }
+    }
+    return null;
+  }
+  var COMPUTED_EVENTS = [carsemaSor];
+
+  function eventsForYear(year) {
+    var computed = COMPUTED_EVENTS.map(function (fn) { return fn(year); }).filter(Boolean);
+    return EVENTS.concat(computed);
+  }
+
+  function eventOn(month, day, year) {
+    var y = year || new Date().getFullYear();
+    return eventsForYear(y).filter(function (e) { return e.m === month && e.d === day; });
   }
 
   function figuresOn(month, day) {
@@ -167,7 +185,7 @@
     var p = gregToJalali(g.getFullYear(), g.getMonth() + 1, g.getDate());
     var ky = p.y + KURD_YEAR_OFFSET;
     var ckDowIdx = (g.getDay() + 1) % 7; // week starts Saturday
-    var matches = eventOn(g.getMonth() + 1, g.getDate());
+    var matches = eventOn(g.getMonth() + 1, g.getDate(), g.getFullYear());
     var figs = figuresOn(g.getMonth() + 1, g.getDate());
     return {
       gregorian: {
@@ -206,7 +224,7 @@
 
   function today() { return describe(new Date()); }
 
-  function events() { return EVENTS.slice(); }
+  function events(year) { return eventsForYear(year || new Date().getFullYear()); }
 
   function figures() { return FIGURES.slice(); }
 
@@ -219,7 +237,7 @@
   }
 
   return {
-    version: '3.2.0',
+    version: '3.3.0',
     KURD_YEAR_OFFSET: KURD_YEAR_OFFSET,
     today: today,
     describe: describe,

@@ -47,7 +47,10 @@
     { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',     slug: null },
     { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',          slug: null },
     { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                  slug: 'referendum' },
-    { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',    slug: 'flag-day' }
+    { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',    slug: 'flag-day' },
+    { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan', slug: null },
+    { m: 8,  d: 10, name: 'Treaty of Sèvres',                         sub: '1920 — first international promise of a Kurdish state', slug: null },
+    { m: 4,  d: 10, name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising', slug: null }
   ];
 
   var FIGURES = [
@@ -94,7 +97,19 @@
     { m: 12, d: 16, type: 'd', name: 'Mihemed Mamlê',           role: 'Kurdish singer',                         years: '1925—1999', wiki: 'https://en.wikipedia.org/wiki/Mohammad_Mamle' },
     { m: 12, d: 18, type: 'd', name: 'Eyşe Şan',                role: 'Kurdish singer',                         years: '1938—1996', wiki: 'https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan' },
     { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou', role: 'Leader of KDPI',                         years: '1930—1989', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
-    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',            role: 'Kurdish singer',                         years: 'b. 1955',   wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' }
+    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',            role: 'Kurdish singer',                         years: 'b. 1955',   wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' },
+    { m: 4,  d: 26, type: 'b', name: 'Celadet Bedirxan',        role: 'Linguist, founder of Hawar journal',     years: '1893—1951', wiki: 'https://en.wikipedia.org/wiki/Celadet_Ali_Bedirkhan' },
+    { m: 9,  d: 21, type: 'b', name: 'Kamuran Bedirxan',        role: 'Writer, diplomat',                       years: '1895—1978', wiki: 'https://en.wikipedia.org/wiki/Kamuran_Bedirkhan' },
+    { m: 11, d: 15, type: 'd', name: 'Idris Bitlisi',           role: 'Historian, statesman',                   years: '1457—1520', wiki: 'https://en.wikipedia.org/wiki/Idris_Bitlisi' },
+    { m: 6,  d: 4,  type: 'd', name: 'Hesen Zîrek',             role: 'Sorani singer',                          years: '1921—1972', wiki: 'https://en.wikipedia.org/wiki/Hassan_Zirak' },
+    { m: 10, d: 28, type: 'b', name: 'Ahmet Kaya',              role: 'Kurdish-Turkish singer',                 years: '1957—2000', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya' },
+    { m: 11, d: 16, type: 'd', name: 'Ahmet Kaya',              role: 'Kurdish-Turkish singer',                 years: '1957—2000', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya' },
+    { m: 2,  d: 1,  type: 'b', name: 'Bahman Ghobadi',          role: 'Kurdish filmmaker',                      years: 'b. 1969',   wiki: 'https://en.wikipedia.org/wiki/Bahman_Ghobadi' },
+    { m: 3,  d: 10, type: 'b', name: 'Nadia Murad',             role: 'Yezîdî activist, Nobel laureate',         years: 'b. 1993',   wiki: 'https://en.wikipedia.org/wiki/Nadia_Murad' },
+    { m: 4,  d: 10, type: 'b', name: 'Selahattin Demirtaş',     role: 'Kurdish-Turkish politician',             years: 'b. 1973',   wiki: 'https://en.wikipedia.org/wiki/Selahattin_Demirta%C5%9F' },
+    { m: 5,  d: 22, type: 'd', name: 'Mîr Bedirxan',            role: 'Kurdish prince',                         years: '1803—1869', wiki: 'https://en.wikipedia.org/wiki/Bedir_Khan_Beg' },
+    { m: 7,  d: 1,  type: 'b', name: 'Karim Khan Zand',         role: 'Founder of the Zand dynasty',             years: '~1705—1779',wiki: 'https://en.wikipedia.org/wiki/Karim_Khan_Zand' },
+    { m: 4,  d: 28, type: 'b', name: 'Bextiyar Elî',            role: 'Sorani novelist',                         years: 'b. 1966',   wiki: 'https://en.wikipedia.org/wiki/Bachtyar_Ali' }
   ];
 
   // Intl-based Jalali (uses ICU "persian" identifier)
@@ -191,7 +206,7 @@
   }
 
   return {
-    version: '3.0.0',
+    version: '3.1.0',
     KURD_YEAR_OFFSET: KURD_YEAR_OFFSET,
     today: today,
     describe: describe,

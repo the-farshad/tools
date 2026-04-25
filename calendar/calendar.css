@@ -46,6 +46,66 @@
   .cal-today-grid { grid-template-columns: 1fr; }
 }
 
+/* ---------- mobile-first calendar polish ---------- */
+
+@media (max-width: 600px) {
+  /* tighten the page */
+  .page { padding: 0 14px; margin: 28px auto; }
+  .page-header h1 { font-size: 1.7em; }
+
+  /* reader controls — let segments wrap, larger touch targets */
+  .reader-controls { gap: 6px; }
+  .seg button { padding: 8px 12px; min-width: 36px; font-size: 1em; }
+
+  /* month grid: smaller cells, tighter font */
+  .cal-grid { gap: 3px; font-size: 0.85em; }
+  .cal-cell, .cal-dow { padding: 6px 1px; min-height: 38px; }
+  .cal-num-greg { font-size: 0.95em; }
+  .cal-num-ku { font-size: 0.65em; right: 2px; top: 1px; }
+  .cal-cell .cal-star { font-size: 0.6em; left: 2px; bottom: 0; }
+  .cal-month-title { font-size: 1em; }
+  .cal-nav { padding: 6px 10px; }
+
+  /* converter: stacks single column */
+  .cal-converter .conv-out { grid-template-columns: 1fr; gap: 8px; }
+  .cal-converter .conv-row { gap: 6px; }
+  .cal-converter select,
+  .cal-converter input[type="date"] { padding: 8px 10px; font-size: 1em; }
+
+  /* days/figures section heads: search input goes full-width on its own row */
+  .cal-month-head { gap: 6px; }
+  .cal-search { width: 100%; flex: 1 0 100%; order: 2; padding: 8px 10px; }
+  .cal-month-head .cal-section-title { flex: 1 1 auto; min-width: 60%; }
+  .cal-month-head .btn { padding: 8px 12px; }
+
+  /* important-days list */
+  .cal-days-list li {
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  /* figures: drop the right-aligned role column */
+  .fig-summary { grid-template-columns: 60px 1fr; padding: 10px 0; }
+  .fig-role { display: none; }
+  .fig-detail { padding-left: 0; padding-right: 0; }
+  .fig-when { font-size: 0.8em; }
+
+  /* poem section — comfy reading on small screens */
+  .cal-poem { padding: 14px 12px; }
+  .poem-orig { font-size: 1em; line-height: 1.55; }
+  .poem-trans { font-size: 0.92em; }
+  .poem-attr { font-size: 0.78em; gap: 8px; }
+}
+
+@media (max-width: 360px) {
+  /* really tiny screens — strip even more */
+  .cal-grid { font-size: 0.78em; }
+  .cal-cell, .cal-dow { padding: 5px 0; min-height: 34px; }
+  .cal-num-ku { display: none; }
+  .seg button { padding: 6px 8px; }
+}
+
 [hidden] { display: none !important; }
 
 .cal-newroz {

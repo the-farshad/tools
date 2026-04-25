@@ -18,7 +18,10 @@
     { "month": 8,  "day": 16, "name": "Founding of the KDP",                      "sub": "Kurdistan Democratic Party (1946)",  "slug": null },
     { "month": 9,  "day": 13, "name": "Beginning of the Siege of Kobanê",         "sub": "ISIS attack on Kobanê (2014)",       "slug": null },
     { "month": 9,  "day": 25, "name": "Kurdistan Independence Referendum",        "sub": "2017",                               "slug": "referendum" },
-    { "month": 12, "day": 17, "name": "Kurdish Flag Day",                         "sub": "Adopted in Kurdistan Region (1999)", "slug": "flag-day" }
+    { "month": 12, "day": 17, "name": "Kurdish Flag Day",                         "sub": "Adopted in Kurdistan Region (1999)", "slug": "flag-day" },
+    { "month": 7,  "day": 24, "name": "Treaty of Lausanne",                       "sub": "1923 — replaced Sèvres; partitioned Kurdistan",       "slug": null },
+    { "month": 8,  "day": 10, "name": "Treaty of Sèvres",                         "sub": "1920 — first international promise of a Kurdish state","slug": null },
+    { "month": 4,  "day": 10, "name": "Establishment of the No-Fly Zone",         "sub": "1991 — protected Iraqi Kurdistan after the uprising", "slug": null }
   ],
   "figures": [
     { "month": 1,  "day": 1,  "type": "b", "name": "Mehmed Uzun",             "role": "Kurdish novelist",                       "years": "1953—2007", "wiki": "https://en.wikipedia.org/wiki/Mehmed_Uzun" },
@@ -64,7 +67,19 @@
     { "month": 12, "day": 16, "type": "d", "name": "Mihemed Mamlê",           "role": "Kurdish singer",                         "years": "1925—1999", "wiki": "https://en.wikipedia.org/wiki/Mohammad_Mamle" },
     { "month": 12, "day": 18, "type": "d", "name": "Eyşe Şan",                "role": "Kurdish singer",                         "years": "1938—1996", "wiki": "https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan" },
     { "month": 12, "day": 22, "type": "b", "name": "Abdul Rahman Ghassemlou", "role": "Leader of KDPI",                         "years": "1930—1989", "wiki": "https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou" },
-    { "month": 12, "day": 23, "type": "b", "name": "Şivan Perwer",            "role": "Kurdish singer",                         "years": "b. 1955",   "wiki": "https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer" }
+    { "month": 12, "day": 23, "type": "b", "name": "Şivan Perwer",            "role": "Kurdish singer",                         "years": "b. 1955",   "wiki": "https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer" },
+    { "month": 4,  "day": 26, "type": "b", "name": "Celadet Bedirxan",        "role": "Linguist, founder of Hawar journal",     "years": "1893—1951", "wiki": "https://en.wikipedia.org/wiki/Celadet_Ali_Bedirkhan" },
+    { "month": 9,  "day": 21, "type": "b", "name": "Kamuran Bedirxan",        "role": "Writer, diplomat",                       "years": "1895—1978", "wiki": "https://en.wikipedia.org/wiki/Kamuran_Bedirkhan" },
+    { "month": 11, "day": 15, "type": "d", "name": "Idris Bitlisi",           "role": "Historian, statesman",                   "years": "1457—1520", "wiki": "https://en.wikipedia.org/wiki/Idris_Bitlisi" },
+    { "month": 6,  "day": 4,  "type": "d", "name": "Hesen Zîrek",             "role": "Sorani singer",                          "years": "1921—1972", "wiki": "https://en.wikipedia.org/wiki/Hassan_Zirak" },
+    { "month": 10, "day": 28, "type": "b", "name": "Ahmet Kaya",              "role": "Kurdish-Turkish singer",                 "years": "1957—2000", "wiki": "https://en.wikipedia.org/wiki/Ahmet_Kaya" },
+    { "month": 11, "day": 16, "type": "d", "name": "Ahmet Kaya",              "role": "Kurdish-Turkish singer",                 "years": "1957—2000", "wiki": "https://en.wikipedia.org/wiki/Ahmet_Kaya" },
+    { "month": 2,  "day": 1,  "type": "b", "name": "Bahman Ghobadi",          "role": "Kurdish filmmaker",                      "years": "b. 1969",   "wiki": "https://en.wikipedia.org/wiki/Bahman_Ghobadi" },
+    { "month": 3,  "day": 10, "type": "b", "name": "Nadia Murad",             "role": "Yezîdî activist, Nobel laureate",         "years": "b. 1993",   "wiki": "https://en.wikipedia.org/wiki/Nadia_Murad" },
+    { "month": 4,  "day": 10, "type": "b", "name": "Selahattin Demirtaş",     "role": "Kurdish-Turkish politician",             "years": "b. 1973",   "wiki": "https://en.wikipedia.org/wiki/Selahattin_Demirta%C5%9F" },
+    { "month": 5,  "day": 22, "type": "d", "name": "Mîr Bedirxan",            "role": "Kurdish prince",                         "years": "1803—1869", "wiki": "https://en.wikipedia.org/wiki/Bedir_Khan_Beg" },
+    { "month": 7,  "day": 1,  "type": "b", "name": "Karim Khan Zand",         "role": "Founder of the Zand dynasty",             "years": "~1705—1779","wiki": "https://en.wikipedia.org/wiki/Karim_Khan_Zand" },
+    { "month": 4,  "day": 28, "type": "b", "name": "Bextiyar Elî",            "role": "Sorani novelist",                        "years": "b. 1966",   "wiki": "https://en.wikipedia.org/wiki/Bachtyar_Ali" }
   ],
   "months": {
     "central_kurdish_kurdi": ["Xakelêwe","Gulan","Cozerdan","Pûşper","Gelawêj","Xermanan","Rezber","Gelarêzan","Sermawez","Befranbar","Rêbendan","Reşeme"],

@@ -263,10 +263,18 @@
   // ---------- Poems ----------
   // Real Kurdish poetry pulled at runtime from the allekok-poems collection
   // (https://github.com/allekok/allekok-poems — used per its public-domain
-  // license). We hold a small curated index of paths to keep network use
-  // tiny; expand the list to surface more poems.
+  // license). We hold a small curated index of paths.
+  //
+  // To add a manual English translation for a poem, find its entry in
+  // POEM_TRANSLATIONS below and fill the value with the translated text.
+  // Without a manual translation, the UI shows a "Translate ↗" link that
+  // sends the original to Google Translate (sl=ckb, tl=en).
   const POEM_BASE = 'https://raw.githubusercontent.com/allekok/allekok-poems/master/شیعرەکان/';
   const POEM_VIEW = 'https://github.com/allekok/allekok-poems/blob/master/شیعرەکان/';
+  const POEM_TRANSLATIONS = {
+    // 'path/relative/to/شیعرەکان': 'English translation here',
+    // (Empty for now — populate as translations become available.)
+  };
   const POEM_INDEX = [
     // Şêrko Bêkes — Trifey Helbest
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
@@ -325,14 +333,40 @@
     orig.setAttribute('dir', p.dir || 'rtl');
     orig.style.fontFamily = (p.dir || 'rtl') === 'rtl' ? "'Vazirmatn','Tahoma',sans-serif" : '';
     orig.style.textAlign = (p.dir || 'rtl') === 'rtl' ? 'right' : 'left';
-    trans.textContent = p.title || '';
-    trans.setAttribute('dir', 'rtl');
-    trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
-    trans.style.textAlign = 'right';
-    if (p.viewUrl) {
-      attr.innerHTML = '— ' + escapeHtml(p.poet) +
+
+    // Translation slot: manual English translation if provided, else
+    // hide and offer a "Translate ↗" link in the attribution row.
+    if (p.translation) {
+      trans.textContent = p.translation;
+      trans.setAttribute('dir', 'ltr');
+      trans.style.fontFamily = '';
+      trans.style.textAlign = 'left';
+      trans.style.display = '';
+    } else {
+      // show poem title in Kurdish script as fallback
+      trans.textContent = p.title || '';
+      trans.setAttribute('dir', 'rtl');
+      trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
+      trans.style.textAlign = 'right';
+      trans.style.display = p.title ? '' : 'none';
+    }
+
+    // Attribution row uses Vazirmatn so Kurdish-script names render correctly,
+    // and includes view-full + translate links.
+    attr.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
+    attr.style.direction = 'rtl';
+    attr.style.textAlign = 'right';
+    if (p.viewUrl || p.body) {
+      const linkStyle = 'color:var(--fg);text-decoration:underline;text-decoration-style:dotted';
+      const translateUrl = 'https://translate.google.com/?sl=ckb&tl=en&text=' + encodeURIComponent(p.body || '');
+      attr.innerHTML =
+        '<span dir="rtl">— ' + escapeHtml(p.poet || '') +
         (p.book ? '  ·  <span style="opacity:.75">' + escapeHtml(p.book) + '</span>' : '') +
-        '  ·  <a href="' + p.viewUrl + '" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;text-decoration-style:dotted">view full</a>';
+        '</span>' +
+        '<span dir="ltr" style="opacity:.85;margin-right:8px;font-family:inherit">' +
+          (p.viewUrl ? '<a href="' + p.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">view full</a>' : '') +
+          (p.body ? '  ·  <a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">translate &#x2197;</a>' : '') +
+        '</span>';
     } else {
       attr.textContent = '— ' + (p.attr || (p.poet || ''));
     }
@@ -353,12 +387,14 @@
       .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
       .then(text => {
         const parsed = parseAllekok(text);
+        const truncated = truncateLines(parsed.body, 6);
         setPoemUI({
-          body: truncateLines(parsed.body, 6),
+          body: truncated,
           poet: parsed.poet,
           book: parsed.book,
           title: parsed.title,
           viewUrl: view,
+          translation: POEM_TRANSLATIONS[path] || '',
           dir: 'rtl',
         });
       })

@@ -186,6 +186,31 @@
 
 .fig-item.expanded .fig-detail { display: block; }
 
+.fig-item.today {
+  background: var(--btn-bg-strong);
+  border-radius: 4px;
+}
+
+.fig-item.today .fig-when::after {
+  content: ' ▸ today';
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.cal-search {
+  font-family: inherit;
+  font-size: 0.85em;
+  background: var(--btn-bg);
+  color: var(--fg);
+  border: 1px solid var(--btn-border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  width: 140px;
+}
+
+.cal-search::placeholder { opacity: 0.6; }
+.cal-search:focus { outline: 1px dashed var(--btn-border); outline-offset: 1px; }
+
 @media (max-width: 600px) {
   .fig-summary { grid-template-columns: 60px 1fr; }
   .fig-role { display: none; }

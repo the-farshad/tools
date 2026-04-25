@@ -147,6 +147,8 @@
     <section class="cal-days-section">
       <div class="cal-month-head" style="margin:0 0 8px">
         <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Important days</h2>
+        <input type="search" id="days-search" placeholder="Search…" class="cal-search" autocomplete="off">
+        <button type="button" class="btn" id="days-toggle">Show all</button>
         <button type="button" class="btn" id="export-ics" title="Download all events as a .ics calendar file">Export .ics</button>
       </div>
       <ul class="cal-days-list" id="days-list"></ul>
@@ -155,6 +157,7 @@
     <section class="cal-figures-section">
       <div class="cal-month-head" style="margin:0 0 8px">
         <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Figures</h2>
+        <input type="search" id="figures-search" placeholder="Search…" class="cal-search" autocomplete="off">
         <button type="button" class="btn" id="figures-toggle">Show all</button>
       </div>
       <ul class="cal-figures-list" id="figures-list"></ul>

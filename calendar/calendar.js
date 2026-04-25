@@ -62,69 +62,94 @@
 
   // ---------- Important days (civic / national / memorial) ----------
   const EVENTS = [
-    { m: 1,  d: 22, name: 'Republic of Mahabad', sub: 'Founding (1946)', slug: 'mahabad' },
-    { m: 2,  d: 21, name: 'Mother Language Day', sub: 'International', slug: 'mother-language' },
-    { m: 3,  d: 16, name: 'Halabja Memorial', sub: 'Chemical attack remembrance (1988)', slug: 'halabja' },
-    { m: 3,  d: 21, name: 'Newroz', sub: 'Kurdish New Year', slug: 'newroz' },
-    { m: 4,  d: 14, name: 'Anfal Memorial', sub: 'Anfal campaign remembrance', slug: 'anfal' },
-    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî', sub: 'Kurdish Language Day', slug: 'kurdish-language' },
-    { m: 7,  d: 19, name: 'Rojava Revolution', sub: 'Anniversary (2012)', slug: null },
-    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial', sub: 'Sinjar attack remembrance (2014)', slug: null },
-    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum', sub: '2017', slug: 'referendum' },
-    { m: 12, d: 17, name: 'Kurdish Flag Day', sub: 'Adopted in Kurdistan Region (1999)', slug: 'flag-day' },
+    { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                slug: 'mahabad' },
+    { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',              slug: null },
+    { m: 2,  d: 21, name: 'Mother Language Day',                      sub: 'International',                             slug: 'mother-language' },
+    { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',        slug: 'halabja' },
+    { m: 3,  d: 21, name: 'Newroz',                                   sub: 'Kurdish New Year',                          slug: 'newroz' },
+    { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)',     slug: null },
+    { m: 4,  d: 14, name: 'Anfal Memorial',                           sub: 'Anfal campaign remembrance',                slug: 'anfal' },
+    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî',                        sub: 'Kurdish Language Day',                      slug: 'kurdish-language' },
+    { m: 6,  d: 1,  name: 'Founding of the PUK',                      sub: 'Patriotic Union of Kurdistan (1975)',       slug: null },
+    { m: 7,  d: 19, name: 'Rojava Revolution',                        sub: 'Anniversary (2012)',                        slug: 'rojava-revolution' },
+    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial',                 sub: 'Sinjar attack remembrance (2014)',          slug: 'yezidi-memorial' },
+    { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',         slug: null },
+    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                      slug: 'referendum' },
+    { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',              slug: null },
+    { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',        slug: 'flag-day' },
   ];
 
   // ---------- Figures (poets, writers, leaders, activists) ----------
-  // type: 'b' (birth) or 'd' (death anniversary)
-  // Dates from Wikipedia where verifiable; some are approximate (~).
+  // type: 'b' (birth) / 'd' (death anniversary). Approximate dates marked ~.
+  // All entries link to Wikipedia where a page exists.
   const FIGURES = [
     // January
-    { m: 1, d: 1, type: 'b', name: 'Mehmed Uzun', role: 'Kurdish novelist', years: '1953—2007', bio: 'Kurmanji-language novelist whose works helped revive modern literary Kurmanji. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
-    { m: 1, d: 9, type: 'd', name: 'Sakine Cansız', role: 'Kurdish political activist', years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
+    { m: 1,  d: 1,  type: 'b', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Kurmanji novelist whose works revived modern literary Kurmanji. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
+    { m: 1,  d: 9,  type: 'd', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
+    { m: 1,  d: 15, type: 'b', name: 'Aram Tigran',                role: 'Kurdish-Armenian musician',         years: '1934—2009', bio: 'Beloved singer who composed and performed in Kurdish, Armenian, Turkish, and Arabic.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran' },
+    { m: 1,  d: 31, type: 'd', name: 'Idris Barzani',              role: 'Kurdish leader',                    years: '1944—1987', bio: 'Son of Mustafa Barzani and joint leader of the KDP after his father; succeeded by his brother Massoud.', wiki: 'https://en.wikipedia.org/wiki/Idris_Barzani' },
 
     // February
-    { m: 2, d: 12, type: 'b', name: 'Sakine Cansız', role: 'Kurdish political activist', years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
-    { m: 2, d: 28, type: 'd', name: 'Yaşar Kemal', role: 'Kurdish-Turkish novelist', years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
+    { m: 2,  d: 12, type: 'b', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
+    { m: 2,  d: 22, type: 'd', name: 'Hejar Mukrîyanî',            role: 'Sorani poet and translator',         years: '1920—1991', bio: 'Pen name of Abdurrahman Sharafkandi. Translator of the Quran and the Shahnameh into Sorani.', wiki: 'https://en.wikipedia.org/wiki/Hejar' },
+    { m: 2,  d: 25, type: 'b', name: 'Sharaf Khan Bidlisi',        role: 'Historian, prince of Bitlis',       years: '1543—1603', bio: 'Author of the Sharafnama (1597), the first major historical chronicle of the Kurds.', wiki: 'https://en.wikipedia.org/wiki/Sharaf_Khan_Bidlisi' },
+    { m: 2,  d: 28, type: 'd', name: 'Yaşar Kemal',                role: 'Kurdish-Turkish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
 
     // March
-    { m: 3, d: 1,  type: 'd', name: 'Mustafa Barzani', role: 'Kurdish leader', years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq; Defense Minister of the Republic of Mahabad.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
-    { m: 3, d: 4,  type: 'd', name: 'Saladin (Selahaddînê Eyûbî)', role: 'Sultan and military leader', years: '1137—1193', bio: 'Founder of the Ayyubid dynasty; of Kurdish origin from Tikrit.', wiki: 'https://en.wikipedia.org/wiki/Saladin' },
-    { m: 3, d: 14, type: 'b', name: 'Mustafa Barzani', role: 'Kurdish leader', years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
-    { m: 3, d: 31, type: 'd', name: 'Qazi Muhammad', role: 'President of the Republic of Mahabad', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Mahabad. Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad' },
+    { m: 3,  d: 1,  type: 'd', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq; Defense Minister of the Republic of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
+    { m: 3,  d: 4,  type: 'd', name: 'Saladin (Selahaddînê Eyûbî)',role: 'Sultan and military leader',        years: '1137—1193', bio: 'Founder of the Ayyubid dynasty; of Kurdish origin from Tikrit. Recaptured Jerusalem in 1187.', wiki: 'https://en.wikipedia.org/wiki/Saladin' },
+    { m: 3,  d: 14, type: 'b', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
+    { m: 3,  d: 15, type: 'b', name: 'Hejar Mukrîyanî',            role: 'Sorani poet and translator',         years: '1920—1991', bio: 'Major figure in 20th-century Kurdish letters; produced one of the most important Sorani-Kurdish dictionaries.', wiki: 'https://en.wikipedia.org/wiki/Hejar' },
+    { m: 3,  d: 31, type: 'd', name: 'Qazi Muhammad',              role: 'President of the Republic of Kurdistan', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Kurdistan (1946). Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad' },
 
     // April
-    { m: 4, d: 4,  type: 'b', name: 'Abdullah Öcalan', role: 'Founder of the PKK', years: 'b. 1948', bio: 'Co-founder of the PKK and one of the most controversial figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan' },
+    { m: 4,  d: 1,  type: 'b', name: 'Yılmaz Güney',               role: 'Kurdish-Turkish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (Palme d\'Or, 1982); one of the most acclaimed filmmakers of his generation.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney' },
+    { m: 4,  d: 4,  type: 'b', name: 'Abdullah Öcalan',            role: 'Founder of the PKK',                years: 'b. 1948',   bio: 'Co-founder of the PKK and one of the most influential — and controversial — figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan' },
+    { m: 4,  d: 18, type: 'd', name: 'Hêmin Mukrîyanî',            role: 'Sorani poet',                       years: '1921—1986', bio: 'Pen name of Mohammad Amin Sheikhalislami. One of the leading Sorani poets of the 20th century.', wiki: 'https://en.wikipedia.org/wiki/H%C3%AAmin' },
 
     // May
-    { m: 5, d: 2,  type: 'b', name: 'Şêrko Bêkes', role: 'Sorani poet', years: '1940—2013', bio: 'One of the most important Kurdish poets of the 20th century. Pioneer of the "poster poem" form.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
-    { m: 5, d: 9,  type: 'd', name: 'Ferzad Kemanger', role: 'Kurdish teacher and activist', years: '1975—2010', bio: 'Iranian-Kurdish teacher and human-rights activist; executed by the Islamic Republic of Iran on charges he denied.', wiki: 'https://en.wikipedia.org/wiki/Farzad_Kamangar' },
-    { m: 5, d: 12, type: 'd', name: 'Leyla Qasim', role: 'Kurdish activist', years: '1952—1974', bio: 'First Kurdish woman to be executed for political activism in modern Iraq. Member of the Kurdistan Democratic Party.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Qasim' },
+    { m: 5,  d: 2,  type: 'b', name: 'Şêrko Bêkes',                role: 'Sorani poet',                       years: '1940—2013', bio: 'One of the giants of modern Kurdish poetry. Pioneered the "poster poem" form.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
+    { m: 5,  d: 3,  type: 'b', name: 'Leyla Zana',                 role: 'Turkish-Kurdish politician',        years: 'b. 1961',   bio: 'First Kurdish woman elected to the Turkish parliament; sentenced for speaking Kurdish at her swearing-in.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Zana' },
+    { m: 5,  d: 9,  type: 'd', name: 'Ferzad Kemanger',            role: 'Kurdish teacher and activist',      years: '1975—2010', bio: 'Iranian-Kurdish teacher and human-rights activist; executed by Iran on charges he denied.', wiki: 'https://en.wikipedia.org/wiki/Farzad_Kamangar' },
+    { m: 5,  d: 12, type: 'd', name: 'Leyla Qasim',                role: 'Kurdish activist',                  years: '1952—1974', bio: 'First Kurdish woman to be executed for political activism in modern Iraq. Member of the KDP.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Qasim' },
+    { m: 5,  d: 15, type: 'b', name: 'Salim Barakat',              role: 'Syrian-Kurdish poet and novelist',  years: 'b. 1951',   bio: 'Major contemporary Arabic-language poet and novelist of Kurdish origin from Qamishli.', wiki: 'https://en.wikipedia.org/wiki/Salim_Barakat' },
 
     // June
-    { m: 6, d: 11, type: 'd', name: 'Piremerd', role: 'Sorani poet, journalist', years: '1867—1950', bio: 'Pen name of Hac Tofiq. Influential Sorani poet, journalist, and educator from Sulaymaniyah.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
+    { m: 6,  d: 11, type: 'd', name: 'Piremerd',                   role: 'Sorani poet, journalist',           years: '1867—1950', bio: 'Pen name of Hac Tofiq. Influential Sorani poet, journalist, and educator from Sulaymaniyah.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
+    { m: 6,  d: 29, type: 'd', name: 'Sheikh Said',                role: 'Religious leader, rebellion of 1925',years: '1865—1925', bio: 'Naqshbandi sheikh who led the 1925 Kurdish uprising in Turkey; executed with 46 others in Diyarbakır.', wiki: 'https://en.wikipedia.org/wiki/Sheikh_Said' },
 
     // July
-    { m: 7, d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou', role: 'Leader of KDPI', years: '1930—1989', bio: 'Long-time leader of the Democratic Party of Iranian Kurdistan. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
+    { m: 7,  d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Long-time leader of KDPI. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
 
     // August
-    { m: 8, d: 4,  type: 'd', name: 'Şêrko Bêkes', role: 'Sorani poet', years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
+    { m: 8,  d: 4,  type: 'd', name: 'Şêrko Bêkes',                role: 'Sorani poet',                       years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
+    { m: 8,  d: 8,  type: 'd', name: 'Aram Tigran',                role: 'Kurdish-Armenian musician',         years: '1934—2009', bio: 'Death anniversary of the multilingual singer who carried Kurdish songs to the Armenian and Syriac diasporas.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran' },
+    { m: 8,  d: 16, type: 'b', name: 'Massoud Barzani',            role: 'KDP leader, former president of KRI',years: 'b. 1946',   bio: 'Son of Mustafa Barzani; led the KDP from 1979 and served as President of the Kurdistan Region (2005–2017).', wiki: 'https://en.wikipedia.org/wiki/Massoud_Barzani' },
 
     // September
-    { m: 9, d: 17, type: 'd', name: 'Sadegh Sharafkandi', role: 'Successor of Ghassemlou', years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi' },
+    { m: 9,  d: 9,  type: 'd', name: 'Yılmaz Güney',               role: 'Kurdish-Turkish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (1982); won the Palme d\'Or while in exile in France.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney' },
+    { m: 9,  d: 17, type: 'd', name: 'Sadegh Sharafkandi',         role: 'Successor of Ghassemlou (KDPI)',     years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi' },
 
     // October
-    { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal', role: 'Kurdish-Turkish novelist', years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
-    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun', role: 'Kurdish novelist', years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurmanji literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
-    { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef', role: 'Syrian-Kurdish politician', years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf' },
-    { m: 10, d: 22, type: 'd', name: 'Cegerxwîn', role: 'Kurdish poet', years: '1903—1984', bio: 'One of the most influential Kurmanji poets; pen name of Şêx Mûs Hesen. His verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn' },
+    { m: 10, d: 3,  type: 'd', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK and President of Iraq (2005–2014); the first non-Arab president of an Arab-majority state in modern history.', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani' },
+    { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal',                role: 'Kurdish-Turkish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
+    { m: 10, d: 9,  type: 'd', name: 'Sheikh Mahmud Barzanji',     role: 'King of Kurdistan (1922—1924)',     years: '1878—1956', bio: 'Led several uprisings against British control of southern Kurdistan; briefly proclaimed himself King of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mahmud_Barzanji' },
+    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurmanji literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
+    { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef',               role: 'Syrian-Kurdish politician',         years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf' },
+    { m: 10, d: 22, type: 'd', name: 'Cegerxwîn',                  role: 'Kurmanji poet',                     years: '1903—1984', bio: 'Pen name of Şêx Mûs Hesen. One of the most influential Kurmanji poets; his verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn' },
 
     // November
-    { m: 11, d: 9,  type: 'b', name: 'Piremerd', role: 'Sorani poet, journalist', years: '1867—1950', bio: 'Pen name of Hac Tofiq. Sulaymaniyah-born poet whose journalism shaped early modern Sorani prose.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
-    { m: 11, d: 18, type: 'b', name: 'Ehmedê Xanî', role: 'Classical poet', years: '~1651—1707', bio: 'Author of the Kurdish national epic Mem û Zîn (1692); pioneer of literary Kurmanji. Birth date is approximate.', wiki: 'https://en.wikipedia.org/wiki/Ahmad_Khani' },
+    { m: 11, d: 9,  type: 'b', name: 'Piremerd',                   role: 'Sorani poet, journalist',           years: '1867—1950', bio: 'Sulaymaniyah-born poet whose journalism shaped early modern Sorani prose.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
+    { m: 11, d: 9,  type: 'b', name: 'Abdulla Pashew',             role: 'Sorani poet',                       years: 'b. 1946',   bio: 'One of the most widely read living Kurdish poets; lives in exile in Norway.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Pashew' },
+    { m: 11, d: 12, type: 'b', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK; later President of Iraq (2005–2014).', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani' },
+    { m: 11, d: 18, type: 'b', name: 'Ehmedê Xanî',                role: 'Classical poet',                    years: '~1651—1707',bio: 'Author of the Kurdish national epic Mem û Zîn (1692); pioneer of literary Kurmanji. Birth date approximate.', wiki: 'https://en.wikipedia.org/wiki/Ahmad_Khani' },
+    { m: 11, d: 18, type: 'd', name: 'Goran',                      role: 'Sorani modernist poet',             years: '1904—1962', bio: 'Pen name of Abdulla Sulaiman. Pioneer of modern Sorani free-verse and a touchstone of 20th-century Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Goran' },
 
     // December
-    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou', role: 'Leader of KDPI', years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
-    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer', role: 'Kurdish singer', years: 'b. 1955', bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurmanji popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' },
+    { m: 12, d: 16, type: 'd', name: 'Mihemed Mamlê',              role: 'Kurdish singer',                    years: '1925—1999', bio: 'Iconic singer of Kurdish folk and patriotic songs from Mukriyan; long held a near-monopoly on Iran-state Kurdish broadcasting.', wiki: 'https://en.wikipedia.org/wiki/Mohammad_Mamle' },
+    { m: 12, d: 18, type: 'd', name: 'Eyşe Şan',                   role: 'Kurdish singer',                    years: '1938—1996', bio: 'Pioneering Kurdish woman singer from Diyarbakır; defied bans on Kurdish-language song.', wiki: 'https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan' },
+    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
+    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',               role: 'Kurdish singer',                    years: 'b. 1955',   bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurmanji popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' },
   ];
 
   // ---------- helpers ----------
@@ -193,7 +218,12 @@
 
   // ---------- converter ----------
 
-  let convDir = 'g2k';
+  let convDir = (function () {
+    try {
+      const v = localStorage.getItem('cal-conv-dir');
+      return (v === 'g2k' || v === 'k2g') ? v : 'g2k';
+    } catch { return 'g2k'; }
+  })();
 
   function renderConverterG2K(dateStr) {
     const sc = script();
@@ -238,6 +268,7 @@
   const POEM_BASE = 'https://raw.githubusercontent.com/allekok/allekok-poems/master/شیعرەکان/';
   const POEM_VIEW = 'https://github.com/allekok/allekok-poems/blob/master/شیعرەکان/';
   const POEM_INDEX = [
+    // Şêrko Bêkes — Trifey Helbest
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ',
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٥. چەپکە هەڵبەست',
@@ -248,6 +279,17 @@
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٣. نەوەی نوێ',
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٩. کەی بێ؟',
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٦. بڕوام',
+    // Hêjar Mukrîyanî — Bo Kurdistan
+    'هەژار موکریانی/بۆ کوردستان/١٧. نامرادێک',
+    'هەژار موکریانی/بۆ کوردستان/٢٧. هەر کوردم',
+    'هەژار موکریانی/بۆ کوردستان/٢٠. وەرام بۆ کچێکی سۆڤیەتی',
+    'هەژار موکریانی/بۆ کوردستان/٣٣. کوردم',
+    // Goran — Beheşt û Yadigar
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٦. هەرچەن',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٥. بۆ خانمێک',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٢. لە لادێ',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٢. هەڵبەستی ڕەنجاو',
+    'عەبدوڵڵا گۆران/بەهەشت و یادگار/٦. سکاڵا',
   ];
 
   function parseAllekok(text) {
@@ -484,35 +526,56 @@
     return f.m + '-' + f.d + '-' + f.type + '-' + (f.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
 
+  let daysShowAll = false;
+  let daysQuery = '';
+
   function renderEvents() {
     const list = document.getElementById('days-list');
     list.innerHTML = '';
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    // sort by upcoming
-    const upcoming = EVENTS.map(e => {
-      const d = daysUntil(e.m, e.d);
-      return { ...e, daysAway: d };
-    }).sort((a, b) => a.daysAway - b.daysAway);
+    const curMonth = today.getMonth() + 1;
+    const q = daysQuery.trim().toLowerCase();
 
-    upcoming.forEach(e => {
+    let items = EVENTS.map(e => ({ ...e, daysAway: daysUntil(e.m, e.d) }));
+    if (q) {
+      items = items.filter(e =>
+        e.name.toLowerCase().includes(q) ||
+        e.sub.toLowerCase().includes(q));
+    } else if (!daysShowAll) {
+      items = items.filter(e => e.m === curMonth);
+    }
+    items.sort((a, b) => (q || daysShowAll) ? (a.m - b.m || a.d - b.d) : a.daysAway - b.daysAway);
+
+    if (!items.length) {
+      const li = document.createElement('li');
+      li.style.opacity = '0.7';
+      li.style.fontSize = '0.9em';
+      li.textContent = q ? 'No matches.' : 'No important days this month. Tap "Show all" for the full year.';
+      list.appendChild(li);
+    }
+
+    items.forEach(e => {
       const li = document.createElement('li');
       const when = document.createElement('span');
       when.className = 'cal-day-when';
       if (e.daysAway === 0) { when.textContent = 'today'; when.classList.add('upcoming'); }
       else if (e.daysAway === 1) { when.textContent = 'tomorrow'; when.classList.add('upcoming'); }
-      else if (e.daysAway <= 30) { when.textContent = 'in ' + e.daysAway + ' days'; when.classList.add('upcoming'); }
+      else if (e.daysAway <= 30 && !daysShowAll && !q) { when.textContent = 'in ' + e.daysAway + ' days'; when.classList.add('upcoming'); }
       else when.textContent = G_MONTHS[e.m - 1].slice(0, 3) + ' ' + e.d;
 
       const name = document.createElement(e.slug ? 'a' : 'span');
       name.className = 'cal-day-name';
       if (e.slug) name.href = './days/' + e.slug + '.html';
-      name.innerHTML = e.name + '<span class="cal-day-sub">' + e.sub + '</span>';
+      name.innerHTML = escapeHtml(e.name) + '<span class="cal-day-sub">' + escapeHtml(e.sub) + '</span>';
 
       li.appendChild(when);
       li.appendChild(name);
       list.appendChild(li);
     });
+
+    const btn = document.getElementById('days-toggle');
+    if (btn) btn.textContent = (daysShowAll || q) ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
   }
 
   function renderAll() {
@@ -528,22 +591,33 @@
   // ---------- Figures section ----------
 
   let figuresShowAll = false;
+  let figuresQuery = '';
 
   function renderFigures() {
     const list = document.getElementById('figures-list');
     if (!list) return;
     list.innerHTML = '';
-    const today = new Date();
-    const curMonth = today.getMonth() + 1;
-    const items = figuresShowAll
-      ? FIGURES.slice().sort((a, b) => a.m - b.m || a.d - b.d)
-      : FIGURES.filter(f => f.m === curMonth).sort((a, b) => a.d - b.d);
+    const now = new Date();
+    const curMonth = now.getMonth() + 1;
+    const curDay = now.getDate();
+    const q = figuresQuery.trim().toLowerCase();
+
+    let items = FIGURES.slice();
+    if (q) {
+      items = items.filter(f =>
+        (f.name || '').toLowerCase().includes(q) ||
+        (f.role || '').toLowerCase().includes(q) ||
+        (f.bio || '').toLowerCase().includes(q));
+    } else if (!figuresShowAll) {
+      items = items.filter(f => f.m === curMonth);
+    }
+    items.sort((a, b) => a.m - b.m || a.d - b.d);
 
     if (!items.length) {
       const li = document.createElement('li');
       li.style.opacity = '0.7';
       li.style.fontSize = '0.9em';
-      li.textContent = 'No figures recorded for this month. Tap "Show all" for the full list.';
+      li.textContent = q ? 'No matches.' : 'No figures recorded for this month. Tap "Show all" for the full list.';
       list.appendChild(li);
     }
 
@@ -552,6 +626,7 @@
       const li = document.createElement('li');
       li.id = 'fig-' + slug;
       li.className = 'fig-item';
+      if (f.m === curMonth && f.d === curDay) li.classList.add('today');
       const date = G_MONTHS[f.m - 1].slice(0, 3) + ' ' + f.d;
       const star = f.type === 'b' ? '★' : '✦';
       const summary = document.createElement('button');
@@ -559,14 +634,14 @@
       summary.className = 'fig-summary';
       summary.innerHTML =
         '<span class="fig-when">' + date + '</span>' +
-        '<span class="fig-name"><span class="fig-mark">' + star + '</span>' + f.name + '</span>' +
-        '<span class="fig-role">' + f.role + ' · ' + f.years + '</span>';
+        '<span class="fig-name"><span class="fig-mark">' + star + '</span>' + escapeHtml(f.name) + '</span>' +
+        '<span class="fig-role">' + escapeHtml(f.role) + ' · ' + escapeHtml(f.years) + '</span>';
       summary.addEventListener('click', () => li.classList.toggle('expanded'));
 
       const detail = document.createElement('div');
       detail.className = 'fig-detail';
       detail.innerHTML =
-        '<p>' + f.bio + '</p>' +
+        '<p>' + escapeHtml(f.bio || '') + '</p>' +
         (f.wiki ? '<p><a href="' + f.wiki + '" target="_blank" rel="noopener">Wikipedia &rarr;</a></p>' : '');
 
       li.appendChild(summary);
@@ -575,7 +650,7 @@
     });
 
     const btn = document.getElementById('figures-toggle');
-    if (btn) btn.textContent = figuresShowAll ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
+    if (btn) btn.textContent = (figuresShowAll || q) ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
   }
 
   // ---------- nav ----------
@@ -618,6 +693,21 @@
   // ICS export
   document.getElementById('export-ics').addEventListener('click', exportIcs);
 
+  // Days show-all toggle + search
+  const daysToggle = document.getElementById('days-toggle');
+  if (daysToggle) daysToggle.addEventListener('click', () => {
+    daysShowAll = !daysShowAll;
+    daysQuery = '';
+    const s = document.getElementById('days-search');
+    if (s) s.value = '';
+    renderEvents();
+  });
+  const daysSearch = document.getElementById('days-search');
+  if (daysSearch) daysSearch.addEventListener('input', () => {
+    daysQuery = daysSearch.value;
+    renderEvents();
+  });
+
   // Converter direction toggle + Jalali pickers
   function populateJalaliPickers() {
     const today = gregToJalali(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
@@ -649,15 +739,19 @@
   }
   populateJalaliPickers();
 
+  function applyConvDir(dir) {
+    convDir = dir;
+    try { localStorage.setItem('cal-conv-dir', dir); } catch (e) {}
+    document.querySelectorAll('.seg[data-control="conv-dir"] button').forEach(x =>
+      x.classList.toggle('active', x.dataset.value === convDir));
+    document.getElementById('conv-mode-g2k').hidden = convDir !== 'g2k';
+    document.getElementById('conv-mode-k2g').hidden = convDir !== 'k2g';
+    renderConverter();
+  }
+  // initial state
+  applyConvDir(convDir);
   document.querySelectorAll('.seg[data-control="conv-dir"] button').forEach(b => {
-    b.addEventListener('click', () => {
-      convDir = b.dataset.value;
-      document.querySelectorAll('.seg[data-control="conv-dir"] button').forEach(x =>
-        x.classList.toggle('active', x.dataset.value === convDir));
-      document.getElementById('conv-mode-g2k').hidden = convDir !== 'g2k';
-      document.getElementById('conv-mode-k2g').hidden = convDir !== 'k2g';
-      renderConverter();
-    });
+    b.addEventListener('click', () => applyConvDir(b.dataset.value));
   });
 
   // Poem
@@ -667,6 +761,15 @@
   const figToggle = document.getElementById('figures-toggle');
   if (figToggle) figToggle.addEventListener('click', () => {
     figuresShowAll = !figuresShowAll;
+    figuresQuery = '';
+    const s = document.getElementById('figures-search');
+    if (s) s.value = '';
+    renderFigures();
+  });
+  // Figures search
+  const figSearch = document.getElementById('figures-search');
+  if (figSearch) figSearch.addEventListener('input', () => {
+    figuresQuery = figSearch.value;
     renderFigures();
   });
 

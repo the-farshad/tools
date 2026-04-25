@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-04-24",
-  "days_until_newroz": 331,
+  "generated_at": "2026-04-25",
+  "days_until_newroz": 330,
   "today": {
     "gregorian": {
       "year": 2026,
       "month": 4,
-      "day": 24,
-      "weekday": 5,
-      "iso": "2026-04-24"
+      "day": 25,
+      "weekday": 6,
+      "iso": "2026-04-25"
     },
     "central": {
       "jalali_year": 1405,
       "kurdish_year": 2726,
       "month": 2,
-      "day": 4,
+      "day": 5,
       "month_name_kurdi": "Gulan",
       "month_name_arabic": "گوڵان",
-      "day_name_kurdi": "Heyni",
-      "day_name_arabic": "هەینی",
-      "formatted_kurdi": "4 Gulan 2726",
-      "formatted_arabic": "٤ گوڵان ٢٧٢٦"
+      "day_name_kurdi": "Şemme",
+      "day_name_arabic": "شەممە",
+      "formatted_kurdi": "5 Gulan 2726",
+      "formatted_arabic": "٥ گوڵان ٢٧٢٦"
     },
     "northern": {
       "year": 2026,
       "month": 4,
-      "day": 24,
+      "day": 25,
       "month_name": "Nîsan",
-      "day_name": "În",
-      "formatted": "24î Nîsana 2026ê"
+      "day_name": "Şemî",
+      "formatted": "25î Nîsana 2026ê"
     },
     "events": [],
     "figures": []

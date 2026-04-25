@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": "https://github.com/allekok/allekok-poems",
+  "license": "Public domain (per allekok-poems license)",
+  "raw_base": "https://raw.githubusercontent.com/allekok/allekok-poems/master/شیعرەکان/",
+  "view_base": "https://github.com/allekok/allekok-poems/blob/master/شیعرەکان/",
+  "format": "Each path resolves to a UTF-8 text file with three header lines (شاعیر, کتێب, سەرناو), a blank line, then the poem body. Concatenate raw_base + URI-encoded path to fetch.",
+  "poems": [
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Tenya",        "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Bê tô",        "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Çepke Helbest","path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٥. چەپکە هەڵبەست" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Helbest",      "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٣٤. هەڵبەست" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Legel Naliday","path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/١٩. لەگەڵ نالیدا" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Wênekey",      "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٤٢. وێنەکەی" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Katê",         "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٦. کاتێ" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Newey nwê",    "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٣. نەوەی نوێ" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Key bê?",      "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٢٩. کەی بێ؟" },
+    { "poet": "Şêrko Bêkes",       "book": "Trifey Helbest", "title": "Birwam",       "path": "شێرکۆ بێکەس/تریفەی ھەڵبەست/٦. بڕوام" },
+    { "poet": "Hêjar Mukrîyanî",   "book": "Bo Kurdistan",   "title": "Namradêk",     "path": "هەژار موکریانی/بۆ کوردستان/١٧. نامرادێک" },
+    { "poet": "Hêjar Mukrîyanî",   "book": "Bo Kurdistan",   "title": "Her kurdim",   "path": "هەژار موکریانی/بۆ کوردستان/٢٧. هەر کوردم" },
+    { "poet": "Hêjar Mukrîyanî",   "book": "Bo Kurdistan",   "title": "Weram bo kicêkî sovîyetî", "path": "هەژار موکریانی/بۆ کوردستان/٢٠. وەرام بۆ کچێکی سۆڤیەتی" },
+    { "poet": "Hêjar Mukrîyanî",   "book": "Bo Kurdistan",   "title": "Kurdim",       "path": "هەژار موکریانی/بۆ کوردستان/٣٣. کوردم" },
+    { "poet": "Goran",             "book": "Beheşt û Yadigar","title": "Herçen",      "path": "عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٦. هەرچەن" },
+    { "poet": "Goran",             "book": "Beheşt û Yadigar","title": "Bo xanmêk",   "path": "عەبدوڵڵا گۆران/بەهەشت و یادگار/١٥. بۆ خانمێک" },
+    { "poet": "Goran",             "book": "Beheşt û Yadigar","title": "Le ladê",     "path": "عەبدوڵڵا گۆران/بەهەشت و یادگار/٢٢. لە لادێ" },
+    { "poet": "Goran",             "book": "Beheşt û Yadigar","title": "Helbestî renjaw","path": "عەبدوڵڵا گۆران/بەهەشت و یادگار/١٢. هەڵبەستی ڕەنجاو" },
+    { "poet": "Goran",             "book": "Beheşt û Yadigar","title": "Sikalla",     "path": "عەبدوڵڵا گۆران/بەهەشت و یادگار/٦. سکاڵا" }
+  ]
+}

@@ -11,6 +11,11 @@
  *     //      events: [{...}], figures: [{...}] }
  *     //  (`central` = Kurdish Calendar; `northern` = Official Calendar.
  *     //   JSON keys kept stable for backward compatibility.)
+ *
+ *     // Sorani text conversion (Arabic-script → Hawar/Bedirxan Latin):
+ *     KurdishCalendar.arToLatin('ئاگر');              // → 'agir'
+ *     KurdishCalendar.arToLatin('کوردستان');          // → 'kurdistan'
+ *     KurdishCalendar.titleCaseLatin('hejar');        // → 'Hejar'
  *   </script>
  *
  * Usage with ES modules:
@@ -242,8 +247,104 @@
     return Math.round((target - today) / 86400000);
   }
 
+  // ---------- Sorani Arabic-script → Latin transliteration ----------
+  // Hawar/Bedirxan-style mapping with contextual و/ی and schwa epenthesis to
+  // break impermissible consonant clusters (ئاگر → Agir, کتێب → Kitêb,
+  // کوردستان → Kurdistan).
+  var CK_AR_TO_LAT = {
+    'ا':'a','آ':'a','ب':'b','پ':'p','ت':'t','ج':'c','چ':'ç',
+    'ح':'h','خ':'x','د':'d','ر':'r','ڕ':'rr','ز':'z','ژ':'j',
+    'س':'s','ش':'ş','ع':'','غ':'gh','ف':'f','ڤ':'v','ق':'q',
+    'ک':'k','ك':'k','گ':'g','ل':'l','ڵ':'l','م':'m','ن':'n',
+    'ھ':'h','ه':'h','ە':'e','ۆ':'o','ێ':'ê',
+    'ئ':'','ؤ':'','ء':'','ـ':'',
+    '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
+    '،':',','؛':';','؟':'?','«':'"','»':'"'
+  };
+  var CK_CONS = {};
+  'بپتجچحخدرڕزژسشعغفڤقکكگلڵمنھه'.split('').forEach(function (c) { CK_CONS[c] = 1; });
+  var CK_VOW_LET = {};
+  'اآەێۆ'.split('').forEach(function (c) { CK_VOW_LET[c] = 1; });
+  function CK_AMB(c) { return c === 'و' || c === 'ی'; }
+  function CK_LETTER(c) { return CK_CONS[c] || CK_VOW_LET[c] || CK_AMB(c); }
+  var CK_PERM_FIN = {};
+  ('rd rt rk rg rp rb rs rş rz rj rç rm rn rl rv rf rx ' +
+   'ld lt lk lp ls lm lf ' +
+   'nd nt nk ng ns nş nc nj nz ' +
+   'mp mb ms mr mn ' +
+   'st sk sp sm sn sl sr ' +
+   'ft xt kt şt çt pt ' +
+   'ks ps ts xs vs fs ' +
+   'şm şn şk şr').split(' ').forEach(function (c) { CK_PERM_FIN[c] = 1; });
+  var CK_VOWELS_LAT = 'aeêioîuûAEÊIOÎUÛ';
+  function isLatVow(c)  { return c && CK_VOWELS_LAT.indexOf(c) >= 0; }
+  function isLatCons(c) { return c && /[A-ɏÀ-ÿ]/.test(c) && !isLatVow(c); }
+
+  function ckEpenthesize(latin) {
+    return latin.replace(/[A-Za-zÀ-ÿĀ-ſ']+/g, function (word) {
+      var N = word.length, out = '', i = 0;
+      while (i < N) {
+        if (!isLatCons(word.charAt(i))) { out += word.charAt(i); i++; continue; }
+        var j = i;
+        while (j < N && isLatCons(word.charAt(j))) j++;
+        var run = word.slice(i, j), len = run.length;
+        var atStart = (i === 0), atEnd = (j === N);
+        if (len === 1) out += run;
+        else if (len === 2) {
+          var cluster = run.toLowerCase();
+          if (atStart) out += run.charAt(0) + 'i' + run.charAt(1);
+          else if (atEnd) out += CK_PERM_FIN[cluster] ? run : (run.charAt(0) + 'i' + run.charAt(1));
+          else out += run;
+        } else {
+          var chunks = [], p = 0;
+          while (p < len) { chunks.push(run.slice(p, Math.min(p + 2, len))); p += 2; }
+          if (atStart && chunks[0].length === 2) chunks[0] = chunks[0].charAt(0) + 'i' + chunks[0].charAt(1);
+          if (atEnd) {
+            var last = chunks[chunks.length - 1];
+            if (last.length === 2 && !CK_PERM_FIN[last.toLowerCase()]) {
+              chunks[chunks.length - 1] = last.charAt(0) + 'i' + last.charAt(1);
+            }
+          }
+          out += chunks.join('i');
+        }
+        i = j;
+      }
+      return out;
+    });
+  }
+
+  function arToLatin(s) {
+    if (!s) return '';
+    s = String(s).replace(/وو/g, '');
+    var chars = s.split('');
+    var out = '';
+    for (var i = 0; i < chars.length; i++) {
+      var c = chars[i];
+      if (c === '') { out += 'û'; continue; }
+      if (CK_AMB(c)) {
+        var prev = chars[i - 1] || '';
+        var next = chars[i + 1] || '';
+        var prevIsCons = !!CK_CONS[prev];
+        var nextIsCons = !!CK_CONS[next];
+        var nextIsLetter = CK_LETTER(next);
+        var asVowel = prevIsCons && (nextIsCons || !nextIsLetter);
+        if (c === 'و') out += asVowel ? 'u' : 'w';
+        else out += asVowel ? 'î' : 'y';
+        continue;
+      }
+      out += (c in CK_AR_TO_LAT) ? CK_AR_TO_LAT[c] : c;
+    }
+    return ckEpenthesize(out);
+  }
+
+  function titleCaseLatin(s) {
+    return String(s || '').replace(/(^|[\s\-])([A-Za-zÀ-ÿĀ-ſ])/g, function (m, sep, ch) {
+      return sep + ch.toUpperCase();
+    });
+  }
+
   return {
-    version: '3.5.0',
+    version: '3.6.0',
     KURD_YEAR_OFFSET: KURD_YEAR_OFFSET,
     today: today,
     describe: describe,
@@ -255,6 +356,10 @@
     figuresOn: figuresOn,
     daysUntilNewroz: daysUntilNewroz,
     months: { centralKurdi: CK_KURDI, centralArabic: CK_ARABIC, northern: NK_MONTHS },
-    arDigits: arDigits
+    arDigits: arDigits,
+    // Sorani text conversion: Arabic-script → Latin (Hawar/Bedirxan with
+    // schwa epenthesis) and a title-case helper for names.
+    arToLatin: arToLatin,
+    titleCaseLatin: titleCaseLatin
   };
 });

@@ -113,9 +113,14 @@
       <code>describe(date)</code>, <code>gregToJalali()</code>,
       <code>jalaliToGreg()</code>, <code>events()</code>,
       <code>eventOn(month, day)</code>, <code>figures()</code>,
-      <code>figuresOn(month, day)</code>, <code>daysUntilNewroz()</code>.
+      <code>figuresOn(month, day)</code>, <code>daysUntilNewroz()</code>,
+      <code>arToLatin(str)</code>, and <code>titleCaseLatin(str)</code>.
       <code>describe()</code> returns both <code>events</code> and
-      <code>figures</code> arrays for the date.
+      <code>figures</code> arrays for the date. <code>arToLatin()</code>
+      transliterates Sorani Arabic-script Kurdish to Latin (Hawar/Bedirxan
+      conventions with contextual و/ی and schwa epenthesis &mdash;
+      e.g. <code>ئاگر</code> &rarr; <code>agir</code>,
+      <code>کوردستان</code> &rarr; <code>kurdistan</code>).
     </p>
 
     <h2 style="font-weight:normal">Quick start</h2>
@@ -124,9 +129,15 @@
     <pre class="api-code">&lt;script src="https://tools.thefarshad.com/calendar/api/kurdish-calendar.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   const t = KurdishCalendar.today();
-  console.log(t.central.formatted_arabic);   // ٤ گوڵان ٢٧٢٦
-  console.log(t.northern.month_name);        // Nîsan
-  console.log(t.events);                     // [] today, or matched events
+  console.log(t.central.formatted_arabic);                       // ٤ گوڵان ٢٧٢٦
+  console.log(t.northern.month_name);                            // Nîsan
+  console.log(t.events);                                         // [] today, or matched events
+
+  // Transliterate Sorani Arabic-script Kurdish to Latin (Hawar conventions)
+  const lat = KurdishCalendar.arToLatin('هەژار موکریانی');       // 'hejar mukriyanî'
+  console.log(KurdishCalendar.titleCaseLatin(lat));              // 'Hejar Mukriyanî'
+  console.log(KurdishCalendar.arToLatin('ئاگر'));                // 'agir'
+  console.log(KurdishCalendar.arToLatin('کوردستان'));            // 'kurdistan'
 &lt;/script&gt;</pre>
 
     <h3 style="font-weight:normal;font-size:1em;opacity:0.85">From the command line</h3>

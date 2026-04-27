@@ -59,6 +59,16 @@
   const G_DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const G_DOW_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const G_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  // Kurdish (Arabic-script) names for the Gregorian calendar — Levantine names
+  // commonly used in Sorani Kurdish media.
+  const G_MONTHS_AR = ['کانوونی دووەم','شوبات','ئازار','نیسان','ئایار','حوزەیران','تەمموز','ئاب','ئەیلوول','تشرینی یەکەم','تشرینی دووەم','کانوونی یەکەم'];
+  const G_DOW_LONG_AR = ['یەکشەممە','دووشەممە','سێشەممە','چوارشەممە','پێنجشەممە','هەینی','شەممە'];
+  const G_DOW_AR = ['یەک','دوو','سێ','چوار','پێنج','هەی','شەم'];
+
+  function gMonth(idx)    { return script() === 'two' ? G_MONTHS_AR[idx]    : G_MONTHS[idx]; }
+  function gMonthShort(idx){ return script() === 'two' ? G_MONTHS_AR[idx]   : G_MONTHS[idx].slice(0, 3); }
+  function gDowLong(idx)  { return script() === 'two' ? G_DOW_LONG_AR[idx]  : G_DOW_LONG[idx]; }
+  function gDow(idx)      { return script() === 'two' ? G_DOW_AR[idx]       : G_DOW[idx]; }
 
   // ---------- Important days (civic / national / memorial) ----------
   const EVENTS = [
@@ -293,6 +303,8 @@
     newrozDays:     { en: 'days',                                     ar: 'ڕۆژدا' },
     newrozPiroz:    { en: 'Newroz piroz be!',                         ar: 'نەورۆز پیرۆز بێ!' },
     newrozToday:    { en: 'Today is the Kurdish New Year.',           ar: 'ئەمڕۆ سەری ساڵی کوردییە.' },
+    showAll:        { en: 'Show all',                                 ar: 'هەموو پیشان بدە' },
+    showOnly:       { en: 'Show only',                                ar: 'تەنیا پیشان بدە' },
   };
   function t(key) {
     const e = I18N[key];
@@ -330,8 +342,8 @@
     const g = new Date();
     const sc = script();
     document.getElementById('g-date').textContent =
-      G_MONTHS[g.getMonth()] + ' ' + g.getDate() + ', ' + g.getFullYear();
-    document.getElementById('g-day').textContent = G_DOW_LONG[g.getDay()];
+      gMonth(g.getMonth()) + ' ' + g.getDate() + ', ' + g.getFullYear();
+    document.getElementById('g-day').textContent = gDowLong(g.getDay());
 
     const p = gregToJalali(g.getFullYear(), g.getMonth() + 1, g.getDate());
     document.getElementById('ck-date').textContent = fmtCK(p, sc);
@@ -360,7 +372,7 @@
     if (!y || !m || !d) { gEl.textContent = nkEl.textContent = '—'; ckEl.textContent = '—'; return; }
     const g = new Date(y, m - 1, d);
     const p = gregToJalali(y, m, d);
-    gEl.textContent = G_MONTHS[m - 1] + ' ' + d + ', ' + y + '  ·  ' + G_DOW_LONG[g.getDay()];
+    gEl.textContent = gMonth(m - 1) + ' ' + d + ', ' + y + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK(p, sc) + '  ·  ' + fmtCKDay(g, sc);
     nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
   }
@@ -375,7 +387,7 @@
     const nkEl = document.getElementById('conv-nk');
     if (!jy || !jm || !jd) { gEl.textContent = nkEl.textContent = '—'; ckEl.textContent = '—'; return; }
     const g = jalaliToGreg(jy, jm, jd);
-    gEl.textContent = G_MONTHS[g.getMonth()] + ' ' + g.getDate() + ', ' + g.getFullYear() + '  ·  ' + G_DOW_LONG[g.getDay()];
+    gEl.textContent = gMonth(g.getMonth()) + ' ' + g.getDate() + ', ' + g.getFullYear() + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK({ y: jy, m: jm, d: jd }, sc) + '  ·  ' + fmtCKDay(g, sc);
     nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
   }
@@ -914,7 +926,7 @@
     if (target < new Date()) target.setFullYear(target.getFullYear() + 1);
     document.getElementById('newroz-days').textContent = days;
     document.getElementById('newroz-date').textContent =
-      '(' + G_MONTHS[2] + ' 21, ' + target.getFullYear() + ')';
+      '(' + gMonth(2) + ' 21, ' + target.getFullYear() + ')';
   }
 
   // ---------- month grid ----------
@@ -929,18 +941,18 @@
     const y = cursor.getFullYear();
     const m = cursor.getMonth(); // 0-indexed
     document.getElementById('month-title').textContent =
-      G_MONTHS[m] + ' ' + y +
+      gMonth(m) + ' ' + y +
       '  ·  ' + NK_MONTHS[m] +
       '  ·  ~' + (CK_MONTHS_KURDI[Math.max(0, m - 2)] || CK_MONTHS_KURDI[0]);
 
     const grid = document.getElementById('month-grid');
     grid.innerHTML = '';
-    G_DOW.forEach(d => {
+    for (let dIdx = 0; dIdx < 7; dIdx++) {
       const el = document.createElement('div');
       el.className = 'cal-dow';
-      el.textContent = d;
+      el.textContent = gDow(dIdx);
       grid.appendChild(el);
-    });
+    }
 
     const firstDow = new Date(y, m, 1).getDay();
     const daysInMonth = new Date(y, m + 1, 0).getDate();
@@ -1058,7 +1070,7 @@
       if (e.daysAway === 0) { when.textContent = 'today'; when.classList.add('upcoming'); }
       else if (e.daysAway === 1) { when.textContent = 'tomorrow'; when.classList.add('upcoming'); }
       else if (e.daysAway <= 30 && !daysShowAll && !q) { when.textContent = 'in ' + e.daysAway + ' days'; when.classList.add('upcoming'); }
-      else when.textContent = G_MONTHS[e.m - 1].slice(0, 3) + ' ' + e.d;
+      else when.textContent = gMonthShort(e.m - 1) + ' ' + e.d;
 
       const name = document.createElement(e.slug ? 'a' : 'span');
       name.className = 'cal-day-name';
@@ -1071,7 +1083,7 @@
     });
 
     const btn = document.getElementById('days-toggle');
-    if (btn) btn.textContent = (daysShowAll || q) ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
+    if (btn) btn.textContent = (daysShowAll || q) ? (t('showOnly') + ' ' + gMonth(curMonth - 1)) : t('showAll');
   }
 
   function renderAll() {
@@ -1123,7 +1135,7 @@
       li.id = 'fig-' + slug;
       li.className = 'fig-item';
       if (f.m === curMonth && f.d === curDay) li.classList.add('today');
-      const date = G_MONTHS[f.m - 1].slice(0, 3) + ' ' + f.d;
+      const date = gMonthShort(f.m - 1) + ' ' + f.d;
       const star = f.type === 'b' ? '★' : '✦';
       const summary = document.createElement('button');
       summary.type = 'button';
@@ -1146,7 +1158,7 @@
     });
 
     const btn = document.getElementById('figures-toggle');
-    if (btn) btn.textContent = (figuresShowAll || q) ? 'Show only ' + G_MONTHS[curMonth - 1] : 'Show all';
+    if (btn) btn.textContent = (figuresShowAll || q) ? (t('showOnly') + ' ' + gMonth(curMonth - 1)) : t('showAll');
   }
 
   // ---------- nav ----------
@@ -1177,6 +1189,11 @@
         x.classList.toggle('active', x.dataset.value === v));
       renderToday();
       renderConverter(document.getElementById('conv-input').value);
+      renderMonth();
+      renderEvents();
+      renderFigures();
+      populateJalaliPickers();
+      renderNewroz();
       renderPoemBody();
       renderPoemActions();
       renderSavedList();
@@ -1214,24 +1231,27 @@
     const yEl = document.getElementById('conv-jy');
     const mEl = document.getElementById('conv-jm');
     const dEl = document.getElementById('conv-jd');
+    const sc = script();
     yEl.innerHTML = '';
     for (let y = today.y - 5; y <= today.y + 5; y++) {
       const o = document.createElement('option');
-      o.value = y; o.textContent = y + ' (Kurdî ' + (y + KURD_YEAR_OFFSET) + ')';
+      // Just the Kurdish year (Jalali + 1321) — no separate Jalali number.
+      o.value = y; o.textContent = digits(y + KURD_YEAR_OFFSET, sc);
       if (y === today.y) o.selected = true;
       yEl.appendChild(o);
     }
     mEl.innerHTML = '';
+    const ckMonths = sc === 'two' ? CK_MONTHS_AR : CK_MONTHS_KURDI;
     for (let m = 1; m <= 12; m++) {
       const o = document.createElement('option');
-      o.value = m; o.textContent = m + ' — ' + CK_MONTHS_KURDI[m - 1];
+      o.value = m; o.textContent = ckMonths[m - 1];
       if (m === today.m) o.selected = true;
       mEl.appendChild(o);
     }
     dEl.innerHTML = '';
     for (let d = 1; d <= 31; d++) {
       const o = document.createElement('option');
-      o.value = d; o.textContent = d;
+      o.value = d; o.textContent = digits(d, sc);
       if (d === today.d) o.selected = true;
       dEl.appendChild(o);
     }

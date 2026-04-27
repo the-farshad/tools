@@ -644,15 +644,30 @@
     const saved = isBookmarked(currentPoem.path);
     const star = saved ? '★' : '☆';
     const expandLabel = poemExpanded ? t('showLess') : t('viewFull');
-    const isArabic = script() === 'two';
-    const poet = isArabic ? (currentPoem.poet || '') : titleCaseLat(ckArToLat(currentPoem.poet || ''));
-    const book = isArabic ? (currentPoem.book || '') : titleCaseLat(ckArToLat(currentPoem.book || ''));
-    const attrDir = isArabic ? 'rtl' : 'ltr';
+    const poetAr = currentPoem.poet || '';
+    const bookAr = currentPoem.book || '';
+    const poetLat = titleCaseLat(ckArToLat(poetAr));
+    const bookLat = titleCaseLat(ckArToLat(bookAr));
+    const arFont = "'Vazirmatn','Tahoma',sans-serif";
 
-    attr.style.fontFamily = isArabic ? "'Vazirmatn','Tahoma',sans-serif" : '';
+    // Show the poet/book in BOTH scripts so they're always visible regardless
+    // of the active toggle. Arabic line first (if a real poet name exists),
+    // then the Latin transliteration on a second line.
+    const arBlock = poetAr
+      ? '<span dir="rtl" style="display:block;font-family:' + arFont + '">— ' + escapeHtml(poetAr) +
+        (bookAr ? '  ·  <span style="opacity:.75">' + escapeHtml(bookAr) + '</span>' : '') +
+        '</span>'
+      : '';
+    const latBlock = poetLat
+      ? '<span dir="ltr" style="display:block;opacity:.85">— ' + escapeHtml(poetLat) +
+        (bookLat ? '  ·  <span style="opacity:.75">' + escapeHtml(bookLat) + '</span>' : '') +
+        '</span>'
+      : '';
+
+    attr.style.fontFamily = '';
     attr.innerHTML =
-      '<span dir="' + attrDir + '">— ' + escapeHtml(poet) +
-      (book ? '  ·  <span style="opacity:.75">' + escapeHtml(book) + '</span>' : '') +
+      '<span class="poem-attr-names" style="display:flex;flex-direction:column;gap:2px;flex:1 1 auto;min-width:0">' +
+        arBlock + latBlock +
       '</span>' +
       '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline;flex-wrap:wrap">' +
         '<button type="button" class="poem-bookmark" title="' + (saved ? t('removeBookmark') : t('bookmark')) + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
@@ -727,12 +742,32 @@
   function renderPoemBody() {
     if (!currentPoem) return;
     const p = currentPoem;
+    const titleAr = document.getElementById('poem-title');
+    const titleLat = document.getElementById('poem-title-lat');
     const orig = document.getElementById('poem-orig');
     const latin = document.getElementById('poem-latin');
     const trans = document.getElementById('poem-trans');
     const sourceDir = p.dir || 'rtl';
     const isArabicSource = sourceDir === 'rtl';
     const rawBody = poemExpanded && p.fullBody ? p.fullBody : p.body;
+
+    // Title (poem name): shown both in Arabic script and Latin transliteration.
+    if (titleAr) {
+      if (isArabicSource && p.title) {
+        titleAr.textContent = p.title;
+        titleAr.style.display = '';
+      } else {
+        titleAr.style.display = 'none';
+      }
+    }
+    if (titleLat) {
+      if (isArabicSource && p.title) {
+        titleLat.textContent = titleCaseLat(ckArToLat(p.title));
+        titleLat.style.display = '';
+      } else {
+        titleLat.style.display = 'none';
+      }
+    }
 
     // Original (Arabic-script) — always shown if source is rtl.
     orig.textContent = rawBody;
@@ -759,25 +794,13 @@
       }
     }
 
-    // Translation (English) — shown if available; falls back to title.
+    // Translation (English) — shown if available. Title is now rendered separately
+    // above the body in both Arabic and Latin, so we don't fall back to it here.
     if (p.translation) {
       trans.textContent = p.translation;
       trans.setAttribute('dir', 'ltr');
       trans.style.fontFamily = '';
       trans.style.textAlign = 'left';
-      trans.style.display = '';
-    } else if (p.title) {
-      const isArabicMode = script() === 'two';
-      trans.textContent = isArabicMode ? p.title : titleCaseLat(ckArToLat(p.title));
-      if (isArabicMode) {
-        trans.setAttribute('dir', 'rtl');
-        trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
-        trans.style.textAlign = 'right';
-      } else {
-        trans.setAttribute('dir', 'ltr');
-        trans.style.fontFamily = '';
-        trans.style.textAlign = 'left';
-      }
       trans.style.display = '';
     } else {
       trans.style.display = 'none';

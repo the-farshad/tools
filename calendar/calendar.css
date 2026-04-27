@@ -357,6 +357,23 @@
 
 /* .cal-poem-section + .cal-poem sizing come from the shared rule above */
 
+.poem-title {
+  font-weight: 600;
+  font-size: 1.05em;
+  margin-bottom: 2px;
+  font-family: 'Vazirmatn','Tahoma',sans-serif;
+  text-align: right;
+  direction: rtl;
+}
+.poem-title-lat {
+  font-weight: 600;
+  font-size: 0.95em;
+  margin-bottom: 8px;
+  opacity: 0.85;
+  direction: ltr;
+  text-align: left;
+}
+
 .poem-orig {
   white-space: pre-line;
   font-size: 1.05em;

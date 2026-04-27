@@ -493,31 +493,88 @@
     requestAnimationFrame(tick);
   }
 
-  // ---------- effect: anfalBoots (gray wind, narcissus crushed by boots) ----------
+  // ---------- effect: anfalBoots (gray sandstorm, marching column, crushed narcissus, smoke columns) ----------
   function anfalBoots() {
-    document.body.style.filter = 'grayscale(0.55) brightness(0.94)';
+    document.body.style.transition = 'filter 8s ease-in';
+    requestAnimationFrame(() => {
+      document.body.style.filter = 'grayscale(0.62) brightness(0.92) contrast(1.05)';
+    });
 
-    const dust = [];
-    for (let i = 0; i < 70; i++) dust.push(makeDust(true));
-    function makeDust(initial) {
-      return {
-        x: initial ? Math.random() * W() : -20,
-        y: Math.random() * H(),
-        vx: 1.4 + Math.random() * 2.6,
-        vy: -0.25 + Math.random() * 0.5,
-        size: 0.7 + Math.random() * 1.3,
-        opacity: 0.14 + Math.random() * 0.22,
-      };
+    // ---- distant smoke columns from burning villages on the horizon ----
+    const smokes = [];
+    function initSmokes() {
+      smokes.length = 0;
+      const n = 4 + ((Math.random() * 2) | 0);
+      for (let i = 0; i < n; i++) {
+        smokes.push({
+          x: W() * (0.08 + i * 0.21 + Math.random() * 0.06),
+          baseY: H() * 0.62,
+          width: 24 + Math.random() * 22,
+          height: 90 + Math.random() * 60,
+          drift: (Math.random() - 0.5) * 0.4,
+          seed: Math.random() * 100,
+        });
+      }
+    }
+    initSmokes();
+    window.addEventListener('resize', initSmokes);
+
+    function drawSmoke(s, t) {
+      const px = s.x + s.drift * (t * 0.05);
+      ctx.save();
+      ctx.translate(px, s.baseY);
+      const layers = 9;
+      for (let i = layers - 1; i >= 0; i--) {
+        const ratio = i / layers;
+        const y = -s.height * ratio - 4;
+        const w = s.width * (1 + ratio * 1.1) + Math.sin(t * 0.018 + s.seed + ratio * 3) * 5;
+        const op = (1 - ratio) * 0.14;
+        ctx.fillStyle = 'rgba(35, 30, 25, ' + op + ')';
+        ctx.beginPath();
+        ctx.ellipse(Math.sin(t * 0.012 + s.seed + ratio) * 6, y, w / 2, s.height / layers + 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // base ember glow
+      const g = ctx.createRadialGradient(0, 4, 0, 0, 4, s.width * 0.6);
+      g.addColorStop(0, 'rgba(170, 70, 30, 0.18)');
+      g.addColorStop(1, 'rgba(170, 70, 30, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, s.width * 0.6, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     }
 
+    // ---- layered sandstorm dust ----
+    const dust = [];
+    const DUST_PALETTE = ['#5a5040', '#7a7064', '#9b8e74'];
+    const DUST_SPEEDS = [0.5, 1.6, 3.6];
+    const DUST_SIZES  = [0.5, 1.2, 1.9];
+    const DUST_OP     = [0.10, 0.18, 0.24];
+    function makeDust(initial) {
+      const layer = (Math.random() * 3) | 0;
+      return {
+        x: initial ? Math.random() * W() : -10,
+        y: Math.random() * H(),
+        vx: DUST_SPEEDS[layer] * (0.7 + Math.random() * 0.7),
+        vy: -0.25 + Math.random() * 0.5,
+        size: DUST_SIZES[layer] * (0.7 + Math.random() * 0.7),
+        opacity: DUST_OP[layer] * (0.6 + Math.random() * 0.5),
+        layer: layer,
+        life: -1,
+      };
+    }
+    for (let i = 0; i < 220; i++) dust.push(makeDust(true));
+
+    // ---- field of narcissus ----
     const flowers = [];
-    function spawnFlower(grown) {
+    function spawnFlower(grown, x, y) {
       const f = {
-        x: Math.random() * (W() - 60) + 30,
-        y: H() * 0.84 + Math.random() * H() * 0.12,
+        x: x != null ? x : Math.random() * (W() - 40) + 20,
+        y: y != null ? y : H() * 0.84 + Math.random() * H() * 0.12,
         bloom: 0,
-        target: 7 + Math.random() * 3,
-        stemH: 26 + Math.random() * 20,
+        target: 6.5 + Math.random() * 3,
+        stemH: 22 + Math.random() * 18,
         crushed: false,
         crushAmt: 0,
         side: Math.random() < 0.5 ? -1 : 1,
@@ -525,39 +582,75 @@
       if (grown) f.bloom = f.target;
       flowers.push(f);
     }
-    for (let i = 0; i < 12; i++) spawnFlower(true);
+    for (let i = 0; i < 28; i++) spawnFlower(true);
 
+    // Footprints accumulate on the ground (fade slowly).
+    const prints = [];
+
+    // ---- marching column of boots ----
+    // We simulate a column moving from one side to the other; periodic stomps
+    // crush flowers and leave footprints.
     const boots = [];
-    let bootTimer = 80;
-    function spawnBoot() {
-      const live = flowers.filter(f => !f.crushed);
-      let tx, ty;
-      if (live.length) {
-        const t = live[(Math.random() * live.length) | 0];
-        tx = t.x; ty = t.y; t.crushed = true;
-      } else {
-        // all crushed: regrow some after a beat
-        if (flowers.length < 16 && Math.random() < 0.25) spawnFlower(false);
-        tx = Math.random() * W(); ty = H() * 0.9;
+    let waveTimer = 40;
+    let columnDir = Math.random() < 0.5 ? 1 : -1;
+    let columnX = columnDir > 0 ? -40 : W() + 40;
+
+    function spawnBoot(targetX, targetY) {
+      const b = {
+        x: targetX,
+        y: -110,
+        targetY: targetY,
+        vy: 6 + Math.random() * 3,
+        stomped: false,
+        stompTime: 0,
+        fadeOut: 0,
+      };
+      boots.push(b);
+      // Crush nearest still-standing flower
+      let nearest = null, ndist = Infinity;
+      for (const f of flowers) {
+        if (f.crushed) continue;
+        const d = Math.abs(f.x - targetX);
+        if (d < ndist && d < 38) { ndist = d; nearest = f; }
       }
-      boots.push({ x: tx, y: -90, targetY: ty, vy: 6 + Math.random() * 3, stomped: false, fadeOut: 0 });
+      if (nearest) nearest.crushed = true;
+    }
+
+    function dustBurst(x, y, n, intensity) {
+      for (let k = 0; k < n; k++) {
+        dust.push({
+          x: x + (Math.random() - 0.5) * 36,
+          y: y - Math.random() * 6,
+          vx: (Math.random() - 0.5) * 5 * intensity,
+          vy: -1 - Math.random() * 2.5 * intensity,
+          size: 1.0 + Math.random() * 1.6,
+          opacity: 0.32 + Math.random() * 0.22,
+          layer: 2,
+          life: 80,
+        });
+      }
     }
 
     function drawNarcissus(f) {
       ctx.save();
       ctx.translate(f.x, f.y);
-      if (f.crushed) ctx.rotate(f.side * Math.min(1.4, f.crushAmt * 1.6));
-      const stemH = f.stemH * (f.crushed ? Math.max(0.3, 1 - f.crushAmt * 0.4) : 1);
-      ctx.strokeStyle = 'rgba(80, 95, 60, ' + (f.crushed ? Math.max(0.2, 0.7 - f.crushAmt * 0.5) : 0.7) + ')';
+      if (f.crushed) ctx.rotate(f.side * Math.min(1.55, f.crushAmt * 1.85));
+      const stemH = f.stemH * (f.crushed ? Math.max(0.22, 1 - f.crushAmt * 0.55) : 1);
+      ctx.strokeStyle = 'rgba(70, 90, 50, ' + (f.crushed ? Math.max(0.15, 0.7 - f.crushAmt * 0.55) : 0.7) + ')';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(0, -stemH);
       ctx.stroke();
+      // leaf
+      ctx.beginPath();
+      ctx.moveTo(0, -stemH * 0.55);
+      ctx.quadraticCurveTo(8, -stemH * 0.7, 4, -stemH * 0.95);
+      ctx.stroke();
       const r = f.bloom * (f.crushed ? Math.max(0.4, 1 - f.crushAmt * 0.4) : 1);
-      const a = f.crushed ? Math.max(0.12, 1 - f.crushAmt) : 0.85;
+      const a = f.crushed ? Math.max(0.1, 1 - f.crushAmt) : 0.88;
       ctx.globalAlpha = a;
-      ctx.fillStyle = '#f3efe4';
+      ctx.fillStyle = '#f0ebd8';
       for (let p = 0; p < 6; p++) {
         const ang = (p / 6) * Math.PI * 2;
         const px = Math.cos(ang) * r * 0.7;
@@ -566,7 +659,7 @@
         ctx.ellipse(px, py, r * 0.55, r * 0.4, ang, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.fillStyle = f.crushed ? 'rgba(150, 130, 60, 0.55)' : '#e8a93c';
+      ctx.fillStyle = f.crushed ? 'rgba(140, 120, 50, 0.5)' : '#d99935';
       ctx.beginPath();
       ctx.arc(0, -stemH, r * 0.36, 0, Math.PI * 2);
       ctx.fill();
@@ -576,78 +669,174 @@
 
     function drawBoot(b) {
       ctx.save();
-      ctx.translate(b.x, b.y);
-      ctx.globalAlpha = (1 - b.fadeOut) * 0.88;
-      ctx.fillStyle = '#161616';
+      let dy = 0;
+      if (b.stomped) {
+        // recoil bounce just after impact
+        const pulse = Math.max(0, 1 - b.stompTime / 10);
+        dy = -pulse * 5;
+      }
+      ctx.translate(b.x, b.y + dy);
+      ctx.globalAlpha = (1 - b.fadeOut) * 0.95;
+      // ground shadow under boot
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.beginPath();
+      ctx.ellipse(2, 2, 32, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
       // sole
+      ctx.fillStyle = '#0c0c0c';
       ctx.beginPath();
-      ctx.moveTo(-26, 0);
-      ctx.lineTo(30, 0);
-      ctx.lineTo(30, -7);
-      ctx.lineTo(-23, -7);
+      ctx.moveTo(-28, 0);
+      ctx.lineTo(32, 0);
+      ctx.lineTo(32, -8);
+      ctx.lineTo(-25, -8);
       ctx.closePath();
       ctx.fill();
-      // upper
+      // upper boot — military style
+      ctx.fillStyle = '#1c1a17';
       ctx.beginPath();
-      ctx.moveTo(-23, -7);
-      ctx.lineTo(22, -7);
-      ctx.lineTo(20, -36);
-      ctx.lineTo(6, -42);
-      ctx.lineTo(-12, -34);
-      ctx.lineTo(-23, -26);
+      ctx.moveTo(-25, -8);
+      ctx.lineTo(24, -8);
+      ctx.lineTo(22, -42);
+      ctx.lineTo(8, -50);
+      ctx.lineTo(-12, -42);
+      ctx.lineTo(-25, -30);
       ctx.closePath();
       ctx.fill();
-      // tread
-      ctx.strokeStyle = 'rgba(0,0,0,0.6)';
-      ctx.lineWidth = 1;
+      // tread cleats
+      ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+      ctx.lineWidth = 1.2;
       for (let i = -22; i < 30; i += 4) {
         ctx.beginPath();
         ctx.moveTo(i, -1);
-        ctx.lineTo(i, -6);
+        ctx.lineTo(i, -7);
         ctx.stroke();
       }
-      // laces hint
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      for (let i = 0; i < 4; i++) {
-        const ly = -12 - i * 6;
+      // laces
+      ctx.strokeStyle = 'rgba(180,170,150,0.32)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        const ly = -14 - i * 6;
         ctx.beginPath();
-        ctx.moveTo(-8, ly);
-        ctx.lineTo(10, ly - 1);
+        ctx.moveTo(-9, ly);
+        ctx.lineTo(11, ly - 1);
         ctx.stroke();
+      }
+      // highlight on toe cap
+      ctx.fillStyle = 'rgba(60,55,48,0.35)';
+      ctx.beginPath();
+      ctx.ellipse(18, -12, 6, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+
+    function drawPrint(p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = '#1a1610';
+      // heel oval
+      ctx.beginPath();
+      ctx.ellipse(-7, 0, 7, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // sole
+      ctx.beginPath();
+      ctx.ellipse(6, -1, 13, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // tread marks
+      ctx.fillStyle = 'rgba(40,40,40,' + (p.opacity * 0.8) + ')';
+      for (let i = -6; i < 16; i += 4) {
+        ctx.fillRect(i, -3, 1.5, 3);
       }
       ctx.globalAlpha = 1;
       ctx.restore();
     }
 
+    let frame = 0;
     function tick() {
+      frame++;
       ctx.clearRect(0, 0, overlay.width, overlay.height);
 
-      // Wind dust
-      ctx.fillStyle = '#7a7064';
-      for (let i = 0; i < dust.length; i++) {
-        const d = dust[i];
-        d.x += d.vx;
-        d.y += d.vy;
-        if (d.x > W() + 15) { dust[i] = makeDust(false); continue; }
-        ctx.globalAlpha = d.opacity;
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
-        ctx.fill();
+      // Sky gradient — dusty haze
+      const sky = ctx.createLinearGradient(0, 0, 0, H() * 0.7);
+      sky.addColorStop(0, 'rgba(110, 105, 92, 0.10)');
+      sky.addColorStop(1, 'rgba(160, 140, 105, 0.22)');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W(), H() * 0.7);
+
+      // Distant horizon line
+      ctx.fillStyle = 'rgba(60, 50, 40, 0.18)';
+      ctx.fillRect(0, H() * 0.62, W(), 1);
+
+      // Smoke columns (behind dust)
+      for (const s of smokes) drawSmoke(s, frame);
+
+      // Dust — back to front
+      for (let layer = 0; layer < 3; layer++) {
+        ctx.fillStyle = DUST_PALETTE[layer];
+        for (let i = dust.length - 1; i >= 0; i--) {
+          const d = dust[i];
+          if (d.layer !== layer) continue;
+          d.x += d.vx;
+          d.y += d.vy;
+          if (d.life > 0) { d.life--; if (d.life === 0) { dust.splice(i, 1); continue; } }
+          if (d.x > W() + 20) {
+            if (d.life >= 0) { dust.splice(i, 1); continue; }
+            dust[i] = makeDust(false); continue;
+          }
+          ctx.globalAlpha = d.opacity;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
       ctx.globalAlpha = 1;
+
+      // Ground shadow (subtle dark band)
+      ctx.fillStyle = 'rgba(20, 15, 10, 0.10)';
+      ctx.fillRect(0, H() * 0.94, W(), H() * 0.06);
+
+      // Footprints
+      for (let i = prints.length - 1; i >= 0; i--) {
+        const p = prints[i];
+        p.opacity -= 0.0006;
+        if (p.opacity <= 0) { prints.splice(i, 1); continue; }
+        drawPrint(p);
+      }
 
       // Flowers
       for (const f of flowers) {
         if (f.bloom < f.target) f.bloom += 0.1;
-        if (f.crushed && f.crushAmt < 1.4) f.crushAmt += 0.025;
+        if (f.crushed && f.crushAmt < 1.5) f.crushAmt += 0.022;
         drawNarcissus(f);
       }
 
-      // Spawn boot
-      bootTimer--;
-      if (bootTimer <= 0) {
-        spawnBoot();
-        bootTimer = 90 + Math.random() * 140;
+      // March: advance the column position; periodically stomp
+      columnX += columnDir * 0.6;
+      // Wrap when column has crossed off-screen — flip direction and replant some flowers.
+      if (columnX < -60 || columnX > W() + 60) {
+        columnDir *= -1;
+        columnX = columnDir > 0 ? -40 : W() + 40;
+        // some flowers regrow over time
+        for (let i = 0; i < 4; i++) {
+          if (flowers.filter(f => f.crushed).length > 6) {
+            // find a crushed one and regrow it as a new flower
+            const idx = flowers.findIndex(f => f.crushed);
+            if (idx >= 0) flowers.splice(idx, 1);
+          }
+          spawnFlower(false);
+        }
+      }
+
+      // Stomp cadence: a boot lands roughly every 0.7s, near the column position
+      waveTimer--;
+      if (waveTimer <= 0) {
+        const jitter = (Math.random() - 0.5) * 70;
+        const tx = columnX + jitter;
+        if (tx > -10 && tx < W() + 10) {
+          spawnBoot(tx, H() * 0.92 + (Math.random() - 0.5) * 8);
+        }
+        waveTimer = 35 + Math.random() * 20;
       }
 
       // Boots
@@ -655,10 +844,16 @@
         const b = boots[i];
         if (!b.stomped) {
           b.y += b.vy;
-          b.vy += 0.3;
-          if (b.y >= b.targetY) { b.y = b.targetY; b.stomped = true; }
+          b.vy += 0.45;
+          if (b.y >= b.targetY) {
+            b.y = b.targetY;
+            b.stomped = true;
+            prints.push({ x: b.x, y: b.targetY + 5, opacity: 0.55 });
+            dustBurst(b.x, b.targetY, 26, 1);
+          }
         } else {
-          b.fadeOut += 0.012;
+          b.stompTime++;
+          b.fadeOut += 0.014;
           if (b.fadeOut >= 1) { boots.splice(i, 1); continue; }
         }
         drawBoot(b);
@@ -669,53 +864,114 @@
     requestAnimationFrame(tick);
   }
 
-  // ---------- effect: halabjaChemical (bombs, chemical cloud, flowers wilting) ----------
+  // ---------- effect: halabjaChemical (bombers, carpet bombs, drifting chemical fog, dying flowers, falling birds) ----------
   function halabjaChemical() {
-    document.body.style.filter = 'sepia(0.18) hue-rotate(-18deg) brightness(0.96)';
+    document.body.style.transition = 'filter 6s ease-in';
+    requestAnimationFrame(() => {
+      document.body.style.filter = 'sepia(0.22) hue-rotate(-22deg) brightness(0.93) contrast(1.05)';
+    });
 
-    const bombs = [];
-    let bombTimer = 60;
-    function spawnBomb() {
-      bombs.push({
-        x: Math.random() * W() * 0.9 + W() * 0.05,
-        y: -25,
-        vy: 3 + Math.random() * 2,
-        rot: Math.random() * 0.3 - 0.15,
-        exploded: false,
-        cloudR: 0,
-        cloudA: 0,
-        explodeAt: H() * 0.55 + Math.random() * H() * 0.25,
+    // ---- planes (silhouette) ----
+    const planes = [];
+    let planeTimer = 120;
+    function spawnPlane() {
+      const dir = Math.random() < 0.5 ? 1 : -1;
+      planes.push({
+        x: dir > 0 ? -100 : W() + 100,
+        y: H() * 0.10 + Math.random() * H() * 0.14,
+        vx: dir * (1.4 + Math.random() * 0.9),
+        dropped: false,
       });
     }
+    spawnPlane();
 
-    const flowers = [];
-    for (let i = 0; i < 14; i++) {
-      flowers.push({
-        x: 25 + (i / 14) * (W() - 50) + (Math.random() - 0.5) * 28,
-        y: H() * 0.86 + Math.random() * H() * 0.08,
-        bloom: 5 + Math.random() * 4,
-        stemH: 26 + Math.random() * 16,
-        color: ['#ff5e5e', '#ff8b3d', '#ffcc44', '#ff80aa', '#e63946'][i % 5],
-        wilted: 0,
-      });
+    function drawPlane(p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      if (p.vx < 0) ctx.scale(-1, 1);
+      ctx.fillStyle = 'rgba(20, 18, 22, 0.82)';
+      // fuselage
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 30, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // top wings (delta swept)
+      ctx.beginPath();
+      ctx.moveTo(-2, -2);
+      ctx.lineTo(8, -2);
+      ctx.lineTo(14, -16);
+      ctx.lineTo(-6, -16);
+      ctx.closePath();
+      ctx.fill();
+      // bottom wings
+      ctx.beginPath();
+      ctx.moveTo(-2, 2);
+      ctx.lineTo(8, 2);
+      ctx.lineTo(14, 16);
+      ctx.lineTo(-6, 16);
+      ctx.closePath();
+      ctx.fill();
+      // tail fin
+      ctx.beginPath();
+      ctx.moveTo(-26, -1);
+      ctx.lineTo(-21, -1);
+      ctx.lineTo(-19, -10);
+      ctx.lineTo(-26, -10);
+      ctx.closePath();
+      ctx.fill();
+      // engine glow trail
+      ctx.fillStyle = 'rgba(255, 200, 80, 0.18)';
+      ctx.beginPath();
+      ctx.ellipse(-30, 0, 20, 1.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ---- bombs ----
+    const bombs = [];
+    function dropCarpet(p) {
+      const count = 5 + ((Math.random() * 3) | 0);
+      const spacing = 32 + Math.random() * 8;
+      const sgn = Math.sign(p.vx);
+      for (let i = 0; i < count; i++) {
+        bombs.push({
+          x: p.x - sgn * (i * spacing + 10),
+          y: p.y + 12 + (Math.random() - 0.5) * 4,
+          vy: 1.5 + Math.random() * 1.4,
+          rot: (Math.random() - 0.5) * 0.45,
+          exploded: false,
+          explodeAt: H() * 0.58 + Math.random() * H() * 0.22,
+          smokeT: 0,
+          delay: i * 4,
+        });
+      }
     }
 
     function drawBomb(b) {
+      if (b.delay > 0) { b.delay--; return; }
       ctx.save();
       ctx.translate(b.x, b.y);
       ctx.rotate(b.rot);
-      // body
-      ctx.fillStyle = '#2a2a2a';
+      // smoke trail (drawn before bomb so trail is behind nose direction)
+      ctx.fillStyle = 'rgba(190, 200, 70, 0.22)';
       ctx.beginPath();
-      ctx.ellipse(0, 0, 4, 11, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, -20, 2.4, 16, 0, 0, Math.PI * 2);
       ctx.fill();
-      // nose tip
+      ctx.fillStyle = 'rgba(150, 165, 50, 0.13)';
+      ctx.beginPath();
+      ctx.ellipse(0, -38, 3.2, 24, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // body
       ctx.fillStyle = '#1a1a1a';
       ctx.beginPath();
-      ctx.ellipse(0, -8, 3, 4, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, 4, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // nose
+      ctx.fillStyle = '#0c0c0c';
+      ctx.beginPath();
+      ctx.ellipse(0, -10, 3, 4, 0, 0, Math.PI * 2);
       ctx.fill();
       // tail fins
-      ctx.fillStyle = '#1a1a1a';
+      ctx.fillStyle = '#2a2a2a';
       ctx.beginPath();
       ctx.moveTo(-4, 8);
       ctx.lineTo(-7, 14);
@@ -726,29 +982,101 @@
       ctx.lineTo(2, 12);
       ctx.closePath();
       ctx.fill();
-      // chemical streak (faint trail)
-      ctx.fillStyle = 'rgba(190, 200, 70, 0.18)';
-      ctx.beginPath();
-      ctx.ellipse(0, -20, 2, 14, 0, 0, Math.PI * 2);
-      ctx.fill();
       ctx.restore();
     }
+
+    // ---- chemical clouds ----
+    const clouds = [];
+    function drawCloud(c) {
+      const grad = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, c.r);
+      grad.addColorStop(0, 'rgba(210, 225, 65, ' + c.a * 0.55 + ')');
+      grad.addColorStop(0.4, 'rgba(180, 200, 60, ' + c.a * 0.45 + ')');
+      grad.addColorStop(0.75, 'rgba(140, 160, 50, ' + c.a * 0.25 + ')');
+      grad.addColorStop(1, 'rgba(120, 140, 40, 0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+      ctx.fill();
+      // wispy edge particles
+      for (let i = 0; i < 3; i++) {
+        const a = c.seed + c.age * 0.04 + i * 2.1;
+        const wx = c.x + Math.cos(a) * c.r * 0.85;
+        const wy = c.y + Math.sin(a) * c.r * 0.6;
+        ctx.fillStyle = 'rgba(190, 210, 70, ' + (c.a * 0.18) + ')';
+        ctx.beginPath();
+        ctx.arc(wx, wy, c.r * 0.18, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // ---- birds ----
+    const birds = [];
+
+    function drawBird(b) {
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      ctx.rotate(b.rotation);
+      ctx.globalAlpha = (1 - b.fadeOut) * 0.78;
+      ctx.fillStyle = '#141414';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 6, 2.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // wings — limp / drooping
+      ctx.beginPath();
+      ctx.moveTo(-5, 0);
+      ctx.lineTo(-13, b.onGround ? 1 : 4);
+      ctx.lineTo(-6, 1.5);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(5, 0);
+      ctx.lineTo(13, b.onGround ? -1 : -4);
+      ctx.lineTo(6, -1.5);
+      ctx.closePath();
+      ctx.fill();
+      // tail
+      ctx.fillRect(-7, -1, -3, 2);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
+
+    // ---- flowers (denser, two staggered rows) ----
+    const flowers = [];
+    const FLOWER_COLORS = ['#e63946','#ff8b3d','#ffcc44','#ff80aa','#d62828','#ff5e5e'];
+    function plantFlowers() {
+      flowers.length = 0;
+      for (let row = 0; row < 2; row++) {
+        const count = 18;
+        for (let i = 0; i < count; i++) {
+          flowers.push({
+            x: 18 + (i / count) * (W() - 36) + (Math.random() - 0.5) * 18,
+            y: H() * (0.84 + row * 0.05) + Math.random() * H() * 0.04,
+            bloom: 5 + Math.random() * 3,
+            stemH: 22 + Math.random() * 14,
+            color: FLOWER_COLORS[(i + row) % FLOWER_COLORS.length],
+            wilted: 0,
+            side: Math.random() < 0.5 ? -1 : 1,
+          });
+        }
+      }
+    }
+    plantFlowers();
+    window.addEventListener('resize', plantFlowers);
 
     function drawWiltingFlower(f) {
       ctx.save();
       ctx.translate(f.x, f.y);
-      const tilt = f.wilted * 0.95;
-      const sgn = (f.x % 2 === 0) ? -1 : 1;
-      ctx.rotate(sgn * tilt);
+      const tilt = f.side * f.wilted * 1.0;
+      ctx.rotate(tilt);
       const stemH = f.stemH * (1 - f.wilted * 0.45);
-      ctx.strokeStyle = f.wilted > 0.55 ? 'rgba(110, 100, 70, 0.6)' : 'rgba(60, 100, 60, 0.7)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = f.wilted > 0.55 ? 'rgba(110, 100, 70, 0.6)' : 'rgba(60, 100, 60, 0.78)';
+      ctx.lineWidth = 1.6;
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.lineTo(0, -stemH);
       ctx.stroke();
-      const r = f.bloom * (1 - f.wilted * 0.4);
-      ctx.globalAlpha = f.wilted > 0.8 ? 0.35 : 0.85;
+      const r = f.bloom * (1 - f.wilted * 0.45);
+      ctx.globalAlpha = f.wilted > 0.85 ? 0.32 : 0.92;
       ctx.fillStyle = f.wilted > 0.55 ? 'rgba(130, 120, 80, 0.85)' : f.color;
       for (let p = 0; p < 5; p++) {
         const ang = (p / 5) * Math.PI * 2 - Math.PI / 2;
@@ -766,50 +1094,135 @@
       ctx.restore();
     }
 
+    let frame = 0;
+    let groundFog = 0;
+
     function tick() {
+      frame++;
       ctx.clearRect(0, 0, overlay.width, overlay.height);
 
-      // ground haze
-      const haze = ctx.createLinearGradient(0, H() * 0.5, 0, H());
+      // Sky tint
+      const sky = ctx.createLinearGradient(0, 0, 0, H() * 0.45);
+      sky.addColorStop(0, 'rgba(180, 180, 100, 0.05)');
+      sky.addColorStop(1, 'rgba(195, 205, 80, 0.13)');
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, W(), H() * 0.45);
+
+      // Ground haze accumulating over time
+      groundFog = Math.min(0.32, groundFog + 0.00008);
+      const haze = ctx.createLinearGradient(0, H() * 0.45, 0, H());
       haze.addColorStop(0, 'rgba(180, 200, 80, 0)');
-      haze.addColorStop(1, 'rgba(180, 200, 80, 0.13)');
+      haze.addColorStop(0.5, 'rgba(180, 200, 80, ' + (groundFog * 0.4) + ')');
+      haze.addColorStop(1, 'rgba(190, 210, 60, ' + groundFog + ')');
       ctx.fillStyle = haze;
       ctx.fillRect(0, 0, W(), H());
 
-      bombTimer--;
-      if (bombTimer <= 0) { spawnBomb(); bombTimer = 70 + Math.random() * 110; }
+      // Planes
+      for (let i = planes.length - 1; i >= 0; i--) {
+        const p = planes[i];
+        p.x += p.vx;
+        drawPlane(p);
+        if (!p.dropped && Math.abs(p.x - W() / 2) < W() * 0.25) {
+          dropCarpet(p);
+          p.dropped = true;
+        }
+        if ((p.vx > 0 && p.x > W() + 120) || (p.vx < 0 && p.x < -120)) {
+          planes.splice(i, 1);
+        }
+      }
+      planeTimer--;
+      if (planeTimer <= 0 && planes.length === 0) {
+        spawnPlane();
+        planeTimer = 220 + Math.random() * 220;
+      }
 
+      // Bombs
       for (let i = bombs.length - 1; i >= 0; i--) {
         const b = bombs[i];
+        if (b.delay > 0) { b.delay--; continue; }
         if (!b.exploded) {
           b.y += b.vy;
-          b.vy += 0.05;
-          if (b.y >= b.explodeAt) { b.exploded = true; b.cloudA = 0.55; }
+          b.vy += 0.06;
           drawBomb(b);
-        } else {
-          b.cloudR += 1.6;
-          b.cloudA -= 0.0028;
-          if (b.cloudA <= 0) { bombs.splice(i, 1); continue; }
-          const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.cloudR);
-          grad.addColorStop(0, 'rgba(190, 210, 60, ' + (b.cloudA * 0.55) + ')');
-          grad.addColorStop(0.55, 'rgba(160, 180, 60, ' + (b.cloudA * 0.35) + ')');
-          grad.addColorStop(1, 'rgba(140, 160, 50, 0)');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, b.cloudR, 0, Math.PI * 2);
-          ctx.fill();
-          // wilt nearby flowers
-          for (const f of flowers) {
-            const dx = f.x - b.x;
-            const dy = f.y - b.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < b.cloudR + 40 && f.wilted < 1) {
-              f.wilted = Math.min(1, f.wilted + 0.005);
+          if (b.y >= b.explodeAt) {
+            b.exploded = true;
+            // spawn a persistent cloud
+            clouds.push({
+              x: b.x, y: b.y,
+              r: 8, maxR: 70 + Math.random() * 60,
+              a: 0.65, age: 0,
+              seed: Math.random() * 100,
+            });
+            // initial flash burst
+            for (let k = 0; k < 6; k++) {
+              clouds.push({
+                x: b.x + (Math.random() - 0.5) * 50,
+                y: b.y + (Math.random() - 0.5) * 30,
+                r: 4, maxR: 30 + Math.random() * 30,
+                a: 0.4, age: 0, seed: Math.random() * 100,
+              });
             }
           }
+        } else {
+          bombs.splice(i, 1);
         }
       }
 
+      // Clouds — grow, drift, and slowly fade
+      for (let i = clouds.length - 1; i >= 0; i--) {
+        const c = clouds[i];
+        c.age++;
+        if (c.r < c.maxR) c.r += 0.9;
+        c.y += 0.18; // sinks toward ground
+        c.x += Math.sin(c.seed + c.age * 0.01) * 0.3; // gentle drift
+        if (c.age > 240) c.a -= 0.0014;
+        if (c.a <= 0) { clouds.splice(i, 1); continue; }
+        drawCloud(c);
+        // wilt nearby flowers
+        for (const f of flowers) {
+          const dx = f.x - c.x;
+          const dy = f.y - c.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < c.r + 35 && f.wilted < 1) {
+            f.wilted = Math.min(1, f.wilted + 0.0055);
+          }
+        }
+        // chance to drop a bird from inside the cloud
+        if (c.age > 25 && c.age < 100 && Math.random() < 0.005 && birds.length < 8) {
+          birds.push({
+            x: c.x + (Math.random() - 0.5) * 50,
+            y: c.y - 20 - Math.random() * 50,
+            vx: (Math.random() - 0.5) * 1.6,
+            vy: 0.7,
+            rotation: 0,
+            vrot: (Math.random() - 0.5) * 0.16,
+            fadeOut: 0,
+            onGround: false,
+          });
+        }
+      }
+
+      // Birds
+      for (let i = birds.length - 1; i >= 0; i--) {
+        const b = birds[i];
+        if (!b.onGround) {
+          b.x += b.vx;
+          b.y += b.vy;
+          b.vy += 0.05;
+          b.rotation += b.vrot;
+          if (b.y >= H() * 0.92) {
+            b.y = H() * 0.92;
+            b.onGround = true;
+            b.rotation = Math.PI / 2 + (Math.random() - 0.5) * 0.5;
+          }
+        } else {
+          b.fadeOut += 0.0012;
+          if (b.fadeOut >= 1) { birds.splice(i, 1); continue; }
+        }
+        drawBird(b);
+      }
+
+      // Flowers
       for (const f of flowers) drawWiltingFlower(f);
 
       requestAnimationFrame(tick);

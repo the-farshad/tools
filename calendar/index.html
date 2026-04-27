@@ -29,8 +29,8 @@
 <body>
   <main class="page">
     <header class="page-header">
-      <a href="../index.html" class="back-link">&larr; tools</a>
-      <h1>Kurdish Calendar</h1>
+      <a href="../index.html" class="back-link" data-ar="&larr; ئامرازەکان">&larr; tools</a>
+      <h1 data-ar="ساڵنامەی کوردی">Kurdish Calendar</h1>
     </header>
 
     <div class="reader-controls">
@@ -76,7 +76,7 @@
     <section class="cal-newroz" id="newroz" hidden>
       <span class="cal-fire">&#127801;</span>
       <span class="cal-newroz-text">
-        <strong>Newroz</strong> in <span id="newroz-days">&mdash;</span> days
+        <strong data-ar="نەورۆز">Newroz</strong> <span data-ar="لە">in</span> <span id="newroz-days">&mdash;</span> <span data-ar="ڕۆژدا">days</span>
         <span class="cal-newroz-date" id="newroz-date"></span>
       </span>
     </section>
@@ -85,8 +85,8 @@
       <div class="cal-month-head" style="margin:0 0 12px">
         <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="گۆڕینی ڕۆژ">Convert a date</h2>
         <div class="seg" data-control="conv-dir" role="group" aria-label="Direction">
-          <button type="button" data-value="g2k" class="active" data-ar="زایینی &rarr; کوردی">Greg &rarr; Kurdî</button>
-          <button type="button" data-value="k2g" data-ar="کوردی &rarr; زایینی">Kurdî &rarr; Greg</button>
+          <button type="button" data-value="g2k" class="active" data-ar="زایینی &larr; کوردی">Greg &rarr; Kurdî</button>
+          <button type="button" data-value="k2g" data-ar="کوردی &larr; زایینی">Kurdî &rarr; Greg</button>
         </div>
       </div>
 
@@ -135,7 +135,7 @@
     <section class="cal-poem-section">
       <div class="cal-month-head" style="margin:0 0 8px">
         <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="هۆنراوە">Poem</h2>
-        <button type="button" class="btn" id="poem-saved-toggle" title="Saved poems">&#9734; <span id="poem-saved-count">0</span></button>
+        <button type="button" class="btn" id="poem-saved-toggle" title="Saved poems" data-ar-title="هۆنراوە پاشەکەوتکراوەکان">&#9734; <span id="poem-saved-count">0</span></button>
         <button type="button" class="btn" id="poem-shuffle" data-ar="یەکێکی تر &#x21bb;">Another &#x21bb;</button>
       </div>
       <ul class="cal-poem-saved" id="poem-saved" hidden></ul>

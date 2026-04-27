@@ -264,6 +264,40 @@
       el.placeholder = isAr ? el.getAttribute('data-ar-placeholder') : el.getAttribute('data-en-placeholder');
       el.style.fontFamily = isAr ? "'Vazirmatn','Tahoma',sans-serif" : '';
     });
+    document.querySelectorAll('[data-ar-title]').forEach(el => {
+      if (!el.hasAttribute('data-en-title')) el.setAttribute('data-en-title', el.title || '');
+      el.title = isAr ? el.getAttribute('data-ar-title') : el.getAttribute('data-en-title');
+    });
+  }
+
+  // Dynamic UI strings — translated by JS at render time. (Static strings live
+  // in the HTML as data-ar attributes, handled by applyScriptLabels above.)
+  const I18N = {
+    loading:        { en: 'Loading…',                                 ar: 'بارکردن…' },
+    poemErr:        { en: 'Could not load a poem',                    ar: 'هۆنراوە بار نەبوو' },
+    savedEmpty:     { en: 'No saved poems yet. Tap ☆ to save one.',  ar: 'هیچ هۆنراوەیەک پاشەکەوت نەکراوە. ☆ بکە بۆ پاشەکەوتکردن.' },
+    untitled:       { en: '(untitled)',                               ar: '(بێ ناونیشان)' },
+    share:          { en: 'share',                                    ar: 'هاوبەشی' },
+    viewFull:       { en: 'view full',                                ar: 'بینینی تەواو' },
+    showLess:       { en: 'show less',                                ar: 'کەمتر' },
+    onGitHub:       { en: 'on GitHub',                                ar: 'لە GitHub' },
+    translate:      { en: 'translate',                                ar: 'وەرگێڕان' },
+    bookmark:       { en: 'Bookmark',                                 ar: 'پاشەکەوت' },
+    removeBookmark: { en: 'Remove bookmark',                          ar: 'لابردنی پاشەکەوت' },
+    close:          { en: 'Close',                                    ar: 'داخستن' },
+    copyLink:       { en: 'Copy link',                                ar: 'کۆپیکردنی بەستەر' },
+    copied:         { en: 'Copied ✓',                                 ar: 'کۆپی کرا ✓' },
+    copyFailed:     { en: 'Copy failed',                              ar: 'کۆپی نەکرا' },
+    sharePoem:      { en: 'Share poem',                               ar: 'هاوبەشی هۆنراوە' },
+    newrozIn:       { en: 'in',                                       ar: 'لە' },
+    newrozDays:     { en: 'days',                                     ar: 'ڕۆژدا' },
+    newrozPiroz:    { en: 'Newroz piroz be!',                         ar: 'نەورۆز پیرۆز بێ!' },
+    newrozToday:    { en: 'Today is the Kurdish New Year.',           ar: 'ئەمڕۆ سەری ساڵی کوردییە.' },
+  };
+  function t(key) {
+    const e = I18N[key];
+    if (!e) return key;
+    return script() === 'two' ? e.ar : e.en;
   }
 
   // Render digits as Arabic-Indic when the second-script mode is active
@@ -430,7 +464,7 @@
 
   function ckArToLat(s) {
     if (!s) return '';
-    // وو digraph → û (placeholder so we don't reprocess)
+    // Step 1 — letter-by-letter map. وو digraph → û. و and ی are contextual.
     s = String(s).replace(/وو/g, '');
     const chars = [...s];
     let out = '';
@@ -443,8 +477,6 @@
         const prevIsCons = CK_CONS.has(prev);
         const nextIsCons = CK_CONS.has(next);
         const nextIsLetter = CK_LETTER(next);
-        // vowel when after a consonant AND (followed by another consonant OR
-        // at the end of a token, i.e. next is non-letter)
         const asVowel = prevIsCons && (nextIsCons || !nextIsLetter);
         if (c === 'و') out += asVowel ? 'u' : 'w';
         else out += asVowel ? 'î' : 'y';
@@ -452,7 +484,77 @@
       }
       out += (c in CK_AR_TO_LAT) ? CK_AR_TO_LAT[c] : c;
     }
-    return out;
+    // Step 2 — schwa epenthesis: Sorani inserts "i" to break impermissible
+    // consonant clusters that aren't written in the Arabic script
+    // (ئاگر → agir, کتێب → kitêb, کوردستان → kurdistan).
+    return ckEpenthesize(out);
+  }
+
+  // Permissible word-final 2-consonant clusters in Sorani Latin. If a word
+  // ends in CC and the cluster is in this set, no "i" is inserted (e.g. -rd
+  // in "kurd"); otherwise an "i" is inserted before the last C (e.g. -gr in
+  // "agr" → "agir"). Mid-word V-CC-V keeps the cluster (e.g. "kurdî"); a
+  // 3+ consonant run is split with "i" between the first 2 and the rest.
+  const CK_PERM_FIN = new Set([
+    'rd','rt','rk','rg','rp','rb','rs','rş','rz','rj','rç','rm','rn','rl','rv','rf','rx',
+    'ld','lt','lk','lp','ls','lm','lf',
+    'nd','nt','nk','ng','ns','nş','nc','nj','nz',
+    'mp','mb','ms','mr','mn',
+    'st','sk','sp','sm','sn','sl','sr',
+    'ft','xt','kt','şt','çt','pt',
+    'ks','ps','ts','xs','vs','fs',
+    'şm','şn','şk','şr',
+  ]);
+  const CK_VOWELS_LAT = 'aeêioîuûAEÊIOÎUÛ';
+  function isLatVow(c) { return c && CK_VOWELS_LAT.includes(c); }
+  function isLatCons(c) { return c && /\p{L}/u.test(c) && !isLatVow(c); }
+
+  function ckEpenthesize(latin) {
+    return latin.replace(/[\p{L}']+/gu, word => {
+      const N = word.length;
+      let out = '';
+      let i = 0;
+      while (i < N) {
+        if (!isLatCons(word[i])) { out += word[i]; i++; continue; }
+        let j = i;
+        while (j < N && isLatCons(word[j])) j++;
+        const run = word.slice(i, j);
+        const len = run.length;
+        const atStart = (i === 0);
+        const atEnd = (j === N);
+        if (len === 1) {
+          out += run;
+        } else if (len === 2) {
+          const cluster = run.toLowerCase();
+          if (atStart) {
+            out += run[0] + 'i' + run[1];
+          } else if (atEnd) {
+            out += CK_PERM_FIN.has(cluster) ? run : (run[0] + 'i' + run[1]);
+          } else {
+            out += run;
+          }
+        } else {
+          const chunks = [];
+          let p = 0;
+          while (p < len) {
+            chunks.push(run.slice(p, Math.min(p + 2, len)));
+            p += 2;
+          }
+          if (atStart && chunks[0].length === 2) {
+            chunks[0] = chunks[0][0] + 'i' + chunks[0][1];
+          }
+          if (atEnd) {
+            const last = chunks[chunks.length - 1];
+            if (last.length === 2 && !CK_PERM_FIN.has(last.toLowerCase())) {
+              chunks[chunks.length - 1] = last[0] + 'i' + last[1];
+            }
+          }
+          out += chunks.join('i');
+        }
+        i = j;
+      }
+      return out;
+    });
   }
 
   // Title case for transliterated names (e.g. "hejar mukrîyanî" → "Hejar Mukrîyanî").
@@ -515,7 +617,7 @@
     if (arr.length === 0) {
       const li = document.createElement('li');
       li.className = 'poem-saved-empty';
-      li.textContent = 'No saved poems yet. Tap ☆ to save one.';
+      li.textContent = t('savedEmpty');
       ul.appendChild(li);
       return;
     }
@@ -526,7 +628,7 @@
       li.className = 'poem-saved-item';
       li.innerHTML =
         '<button type="button" class="poem-saved-load" data-path="' + escapeHtml(b.path) + '">' +
-          '<span class="poem-saved-title">' + escapeHtml(tx(b.title) || '(untitled)') + '</span>' +
+          '<span class="poem-saved-title">' + escapeHtml(tx(b.title) || t('untitled')) + '</span>' +
           '<span class="poem-saved-meta">' + escapeHtml(tx(b.poet)) + (b.book ? ' · ' + escapeHtml(tx(b.book)) : '') + '</span>' +
         '</button>' +
         '<button type="button" class="poem-saved-remove" data-path="' + escapeHtml(b.path) + '" title="Remove">&times;</button>';
@@ -541,7 +643,7 @@
     const translateUrl = 'https://translate.google.com/?sl=ckb&tl=en&text=' + encodeURIComponent(currentPoem.fullBody || currentPoem.body || '');
     const saved = isBookmarked(currentPoem.path);
     const star = saved ? '★' : '☆';
-    const expandLabel = poemExpanded ? 'show less' : 'view full';
+    const expandLabel = poemExpanded ? t('showLess') : t('viewFull');
     const isArabic = script() === 'two';
     const poet = isArabic ? (currentPoem.poet || '') : titleCaseLat(ckArToLat(currentPoem.poet || ''));
     const book = isArabic ? (currentPoem.book || '') : titleCaseLat(ckArToLat(currentPoem.book || ''));
@@ -553,12 +655,12 @@
       (book ? '  ·  <span style="opacity:.75">' + escapeHtml(book) + '</span>' : '') +
       '</span>' +
       '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline;flex-wrap:wrap">' +
-        '<button type="button" class="poem-bookmark" title="' + (saved ? 'Remove bookmark' : 'Bookmark') + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
-        '<button type="button" class="poem-share" title="Share" style="' + linkStyle + '">share &#x2197;</button>' +
+        '<button type="button" class="poem-bookmark" title="' + (saved ? t('removeBookmark') : t('bookmark')) + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
+        '<button type="button" class="poem-share" title="' + t('share') + '" style="' + linkStyle + '">' + t('share') + ' &#x2197;</button>' +
         (currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body && !poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + expandLabel + '</button>' : '') +
-        (poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">show less</button>' : '') +
-        (currentPoem.viewUrl ? '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">on GitHub &#x2197;</a>' : '') +
-        ((currentPoem.fullBody || currentPoem.body) ? '<a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">translate &#x2197;</a>' : '') +
+        (poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + t('showLess') + '</button>' : '') +
+        (currentPoem.viewUrl ? '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">' + t('onGitHub') + ' &#x2197;</a>' : '') +
+        ((currentPoem.fullBody || currentPoem.body) ? '<a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">' + t('translate') + ' &#x2197;</a>' : '') +
       '</span>';
   }
 
@@ -585,7 +687,7 @@
       { name: 'Telegram',    href: 'https://t.me/share/url?url=' + enc(d.url) + '&text=' + enc(d.text) },
       { name: 'Facebook',    href: 'https://www.facebook.com/sharer/sharer.php?u=' + enc(d.url) },
       { name: 'Email',       href: 'mailto:?subject=' + enc(d.title) + '&body=' + enc(d.text + '\n\n' + d.url) },
-      { name: 'Copy link',   action: 'copy' },
+      { name: t('copyLink'), action: 'copy' },
     ];
     const overlay = document.createElement('div');
     overlay.className = 'poem-share-overlay';
@@ -593,9 +695,9 @@
       ? '<a href="' + l.href + '" target="_blank" rel="noopener" class="poem-share-link">' + l.name + '</a>'
       : '<button type="button" data-i="' + i + '" class="poem-share-link">' + l.name + '</button>'
     ).join('');
-    overlay.innerHTML = '<div class="poem-share-menu" role="dialog" aria-label="Share poem">' +
+    overlay.innerHTML = '<div class="poem-share-menu" role="dialog" aria-label="' + t('sharePoem') + '">' +
       items +
-      '<button type="button" class="poem-share-close">Close</button>' +
+      '<button type="button" class="poem-share-close">' + t('close') + '</button>' +
       '</div>';
     overlay.addEventListener('click', e => {
       if (e.target === overlay || e.target.classList.contains('poem-share-close')) {
@@ -607,8 +709,8 @@
         const link = links[+idx];
         if (link.action === 'copy') {
           (navigator.clipboard ? navigator.clipboard.writeText(d.url) : Promise.reject())
-            .then(() => { e.target.textContent = 'Copied ✓'; setTimeout(() => overlay.remove(), 700); })
-            .catch(() => { e.target.textContent = 'Copy failed'; });
+            .then(() => { e.target.textContent = t('copied'); setTimeout(() => overlay.remove(), 700); })
+            .catch(() => { e.target.textContent = t('copyFailed'); });
         }
       }
     });
@@ -696,7 +798,7 @@
   }
 
   function loadPoem(path) {
-    setPoemUI({ path: path, body: 'Loading…', fullBody: '', poet: '', dir: 'ltr' });
+    setPoemUI({ path: path, body: t('loading'), fullBody: '', poet: '', dir: 'ltr' });
     const url = POEM_BASE + encodeURI(path);
     const enUrl = POEM_BASE + encodeURI(path + '.en');
     const view = POEM_VIEW + encodeURI(path);
@@ -728,7 +830,7 @@
       .catch(err => {
         setPoemUI({
           path: path,
-          body: 'Could not load a poem (' + err.message + ').\nSee https://github.com/the-farshad/poems',
+          body: t('poemErr') + ' (' + err.message + ').\nSee https://github.com/the-farshad/poems',
           fullBody: '',
           poet: '', dir: 'ltr',
         });
@@ -781,7 +883,7 @@
     banner.hidden = false;
     if (days === 0) {
       banner.querySelector('.cal-newroz-text').innerHTML =
-        '<strong>Newroz piroz be!</strong> Today is the Kurdish New Year.';
+        '<strong>' + t('newrozPiroz') + '</strong> ' + t('newrozToday');
       return;
     }
     const target = new Date();

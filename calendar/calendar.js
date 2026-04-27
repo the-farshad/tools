@@ -924,9 +924,11 @@
     const target = new Date();
     target.setMonth(2, 21);
     if (target < new Date()) target.setFullYear(target.getFullYear() + 1);
-    document.getElementById('newroz-days').textContent = days;
-    document.getElementById('newroz-date').textContent =
-      '(' + gMonth(2) + ' 21, ' + target.getFullYear() + ')';
+    const sc = script();
+    document.getElementById('newroz-days').textContent = digits(days, sc);
+    document.getElementById('newroz-date').textContent = sc === 'two'
+      ? '(' + digits(21, sc) + 'ی ' + gMonth(2) + '، ' + digits(target.getFullYear(), sc) + ')'
+      : '(' + gMonth(2) + ' 21, ' + target.getFullYear() + ')';
   }
 
   // ---------- month grid ----------

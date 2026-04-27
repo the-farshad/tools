@@ -75,10 +75,15 @@
    calendar grid, form pickers) keep the user's chosen Latin font.
    ========================================================================== */
 
-/* (1) Vazirmatn + RTL applied to every container of Kurdish content. */
+/* (1) Vazirmatn + RTL applied to every container of Kurdish content.
+       !important guards against page-cached older overrides and any inline
+       font-family that might have been set in earlier turns. */
 [data-kurd-script="two"] .kurd,
+[data-kurd-script="two"] .kurd *,
 [data-kurd-script="two"] [data-ar],
+[data-kurd-script="two"] [data-ar] *,
 [data-kurd-script="two"] .cal-newroz,
+[data-kurd-script="two"] .cal-newroz *,
 [data-kurd-script="two"] .cal-newroz-text,
 [data-kurd-script="two"] .cal-newroz-text *,
 [data-kurd-script="two"] .cal-newroz-date,
@@ -87,8 +92,14 @@
 [data-kurd-script="two"] .fig-name[dir="rtl"],
 [data-kurd-script="two"] .fig-name[dir="rtl"] *,
 [data-kurd-script="two"] .fig-role[dir="rtl"],
-[data-kurd-script="two"] .fig-detail p[dir="rtl"] {
-  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+[data-kurd-script="two"] .fig-role[dir="rtl"] *,
+[data-kurd-script="two"] .fig-detail p[dir="rtl"],
+[data-kurd-script="two"] .fig-detail p[dir="rtl"] *,
+[data-kurd-script="two"] h1[data-ar],
+[data-kurd-script="two"] h2[data-ar],
+[data-kurd-script="two"] .back-link[data-ar],
+[data-kurd-script="two"] [data-ar-placeholder]::placeholder {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
 }
 [data-kurd-script="two"] .kurd,
 [data-kurd-script="two"] .cal-newroz,
@@ -123,7 +134,7 @@
 [data-kurd-script="two"] button[data-ar],
 [data-kurd-script="two"] .back-link[data-ar],
 [data-kurd-script="two"] input[data-ar-placeholder] {
-  font-size: 0.95em;
+  font-size: 0.88em;
 }
 /* Reset on nested elements so the 0.95em doesn't compound into children. */
 [data-kurd-script="two"] .cal-newroz-text [data-ar],
@@ -223,6 +234,7 @@
   .cal-num-ku { display: none; }
   .cal-today-date { font-size: 1.1em; }
   .cal-month-title { font-size: 0.88em; }
+  /* (note: above was unrelated tiny-screen tweak, leaving at 0.88) */
 }
 
 [hidden] { display: none !important; }
@@ -231,7 +243,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.95em;
+  font-size: 0.88em;
 }
 
 .cal-fire { font-size: 1.4em; }
@@ -387,7 +399,7 @@
    font-size, so we ship a small downscale to keep visual sizes matched. */
 .kurd-ar {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-  font-size: 0.95em;
+  font-size: 0.88em;
   direction: rtl;
   text-align: right;
 }
@@ -492,7 +504,7 @@
   white-space: pre-line;
   font-style: italic;
   opacity: 0.85;
-  font-size: 0.95em;
+  font-size: 0.88em;
   line-height: 1.5;
   padding-top: 8px;
   border-top: 1px dotted var(--rule);
@@ -798,7 +810,7 @@ button.cal-cell-btn:hover {
 }
 
 .cal-day-name {
-  font-size: 0.95em;
+  font-size: 0.88em;
 }
 
 .cal-day-name .cal-day-sub {

@@ -312,7 +312,11 @@
 
   function arToLatin(s) {
     if (!s) return '';
-    s = String(s).replace(/وو/g, '');
+    // Normalize Arabic-only character variants to Kurdish/Persian forms first.
+    s = String(s)
+      .replace(/[يى]/g, 'ی')
+      .replace(/ك/g, 'ک');
+    s = s.replace(/وو/g, '');
     var chars = s.split('');
     var out = '';
     for (var i = 0; i < chars.length; i++) {

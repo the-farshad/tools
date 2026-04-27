@@ -507,8 +507,15 @@
 
   function ckArToLat(s) {
     if (!s) return '';
+    // Step 0 — normalize Arabic-only character variants to the Kurdish/Persian
+    // forms used by the rest of this code. Poems sometimes mix ي (U+064A
+    // Arabic Yeh) with ی (U+06CC Kurdish/Persian Yeh); without this step
+    // those characters leak through (e.g. "Dengî يar meيo").
+    s = String(s)
+      .replace(/[يى]/g, 'ی')   // ي / ى  → ی
+      .replace(/ك/g, 'ک');           // ك      → ک
     // Step 1 — letter-by-letter map. وو digraph → û. و and ی are contextual.
-    s = String(s).replace(/وو/g, '');
+    s = s.replace(/وو/g, '');
     const chars = [...s];
     let out = '';
     for (let i = 0; i < chars.length; i++) {

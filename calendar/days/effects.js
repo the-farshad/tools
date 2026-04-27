@@ -321,9 +321,9 @@
         ctx.save();
         ctx.rotate(a);
         ctx.beginPath();
-        ctx.moveTo(0, -sunR * 0.55);
-        ctx.lineTo(-sunR * 0.07, -sunR * 1.45);
-        ctx.lineTo(sunR * 0.07, -sunR * 1.45);
+        ctx.moveTo(-sunR * 0.18, -sunR * 0.55);
+        ctx.lineTo(sunR * 0.18, -sunR * 0.55);
+        ctx.lineTo(0, -sunR * 1.55);
         ctx.closePath();
         ctx.fill();
         ctx.restore();

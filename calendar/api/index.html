@@ -87,10 +87,11 @@
       <code><a href="./today.json">today.json</a></code>
     </div>
     <p style="margin:0 0 14px;opacity:0.85;font-size:0.9em">
-      Snapshot of today in all three formats &mdash; Gregorian, Central
-      Kurdish (with Kurdish-script formatted variant), Northern Kurdish
+      Snapshot of today in all three formats &mdash; Gregorian, Kurdish
+      Calendar (with Kurdish-script formatted variant), Official Calendar
       &mdash; plus any matching event. Re-generated on each deploy of
-      this site.
+      this site. (JSON keys <code>central</code> / <code>northern</code>
+      are kept for backward compatibility.)
     </p>
 
     <div class="api-endpoint">
@@ -142,7 +143,7 @@ curl https://tools.thefarshad.com/calendar/api/events.json</pre>
     <ul>
       <li>Months are <strong>1-indexed</strong> (1 = January or Xakelêwe).</li>
       <li>Kurdish year = Jalali year + 1321.</li>
-      <li>Week starts <strong>Saturday</strong> (index 0) for Central Kurdish day-of-week names.</li>
+      <li>Week starts <strong>Saturday</strong> (index 0) for Kurdish Calendar day-of-week names.</li>
       <li>Conversion uses the browser's built-in ICU Jalali calendar, so it&rsquo;s accurate.</li>
       <li>License: <strong>CC0-1.0</strong>. Use, fork, embed freely.</li>
     </ul>

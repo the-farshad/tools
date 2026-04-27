@@ -258,21 +258,18 @@
   // Source elements declare alternates via data-ar / data-ar-placeholder.
   function applyScriptLabels() {
     const isAr = script() === 'two';
+    // CSS now handles Vazirmatn font-family + size compensation via the
+    // [data-kurd-script="two"] [data-ar] selector, so JS only needs to swap
+    // textContent and toggle the dir attribute.
     document.querySelectorAll('[data-ar]').forEach(el => {
       if (!el.hasAttribute('data-en')) el.setAttribute('data-en', el.textContent);
       el.textContent = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
-      if (isAr) {
-        el.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
-        el.setAttribute('dir', 'rtl');
-      } else {
-        el.style.fontFamily = '';
-        el.removeAttribute('dir');
-      }
+      if (isAr) el.setAttribute('dir', 'rtl');
+      else      el.removeAttribute('dir');
     });
     document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
       if (!el.hasAttribute('data-en-placeholder')) el.setAttribute('data-en-placeholder', el.placeholder || '');
       el.placeholder = isAr ? el.getAttribute('data-ar-placeholder') : el.getAttribute('data-en-placeholder');
-      el.style.fontFamily = isAr ? "'Vazirmatn','Tahoma',sans-serif" : '';
     });
     document.querySelectorAll('[data-ar-title]').forEach(el => {
       if (!el.hasAttribute('data-en-title')) el.setAttribute('data-en-title', el.title || '');
@@ -334,8 +331,16 @@
     return dow[dowIdx];
   }
 
-  function fmtNK(g) {
+  function fmtNK(g, scrip) {
+    if (scrip === 'two') {
+      // In کوردی mode the Gregorian-based Official Calendar renders in
+      // Sorani Arabic-script month names with Arabic-Indic digits.
+      return digits(g.getDate(), 'two') + 'ی ' + G_MONTHS_AR[g.getMonth()] + ' ' + digits(g.getFullYear(), 'two');
+    }
     return g.getDate() + 'î ' + NK_MONTHS[g.getMonth()] + 'a ' + g.getFullYear() + 'ê';
+  }
+  function fmtNKDay(g, scrip) {
+    return scrip === 'two' ? G_DOW_LONG_AR[g.getDay()] : NK_DOW[g.getDay()];
   }
 
   function renderToday() {
@@ -349,8 +354,8 @@
     document.getElementById('ck-date').textContent = fmtCK(p, sc);
     document.getElementById('ck-day').textContent = fmtCKDay(g, sc);
 
-    document.getElementById('nk-date').textContent = fmtNK(g);
-    document.getElementById('nk-day').textContent = NK_DOW[g.getDay()];
+    document.getElementById('nk-date').textContent = fmtNK(g, sc);
+    document.getElementById('nk-day').textContent = fmtNKDay(g, sc);
   }
 
   // ---------- converter ----------
@@ -374,7 +379,7 @@
     const p = gregToJalali(y, m, d);
     gEl.textContent = gMonth(m - 1) + ' ' + d + ', ' + y + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK(p, sc) + '  ·  ' + fmtCKDay(g, sc);
-    nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
+    nkEl.textContent = fmtNK(g, sc) + '  ·  ' + fmtNKDay(g, sc);
   }
 
   function renderConverterK2G() {
@@ -389,7 +394,7 @@
     const g = jalaliToGreg(jy, jm, jd);
     gEl.textContent = gMonth(g.getMonth()) + ' ' + g.getDate() + ', ' + g.getFullYear() + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK({ y: jy, m: jm, d: jd }, sc) + '  ·  ' + fmtCKDay(g, sc);
-    nkEl.textContent = fmtNK(g) + '  ·  ' + NK_DOW[g.getDay()];
+    nkEl.textContent = fmtNK(g, sc) + '  ·  ' + fmtNKDay(g, sc);
   }
 
   function renderConverter() {

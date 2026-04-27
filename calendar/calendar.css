@@ -65,10 +65,72 @@
   margin-top: 4px;
 }
 
-[data-kurd-script="two"] .kurd {
+/* ==========================================================================
+   کوردی mode (data-kurd-script="two")
+   Every section that contains Arabic-script Kurdish text:
+     - Vazirmatn font
+     - RTL direction
+     - 5% font-size downscale to match Vazir's physically larger render
+   Other sections (Gregorian, Latin transliteration, English translation,
+   calendar grid, form pickers) keep the user's chosen Latin font.
+   ========================================================================== */
+
+/* (1) Vazirmatn + RTL applied to every container of Kurdish content. */
+[data-kurd-script="two"] .kurd,
+[data-kurd-script="two"] [data-ar],
+[data-kurd-script="two"] .cal-newroz,
+[data-kurd-script="two"] .cal-newroz-text,
+[data-kurd-script="two"] .cal-newroz-text *,
+[data-kurd-script="two"] .cal-newroz-date,
+[data-kurd-script="two"] .cal-day-name[dir="rtl"],
+[data-kurd-script="two"] .cal-day-name[dir="rtl"] *,
+[data-kurd-script="two"] .fig-name[dir="rtl"],
+[data-kurd-script="two"] .fig-name[dir="rtl"] *,
+[data-kurd-script="two"] .fig-role[dir="rtl"],
+[data-kurd-script="two"] .fig-detail p[dir="rtl"] {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+}
+[data-kurd-script="two"] .kurd,
+[data-kurd-script="two"] .cal-newroz,
+[data-kurd-script="two"] .cal-newroz-text,
+[data-kurd-script="two"] .cal-newroz-date,
+[data-kurd-script="two"] .cal-day-name[dir="rtl"],
+[data-kurd-script="two"] .fig-name[dir="rtl"],
+[data-kurd-script="two"] .fig-role[dir="rtl"],
+[data-kurd-script="two"] .fig-detail p[dir="rtl"] {
   direction: rtl;
   text-align: right;
+}
+
+/* (2) Newroz banner: parent flex flips so the icon sits on the right and
+   the text flows نەورۆز → لە → ٣٢٨ → ڕۆژدا → (date) right-to-left. */
+[data-kurd-script="two"] .cal-newroz { flex-direction: row-reverse; }
+[data-kurd-script="two"] .cal-newroz-text { direction: rtl; text-align: right; }
+
+/* (3) Size compensation — apply ONLY at outer container level so children
+   inherit and don't compound (0.95 × 0.95 ≠ 0.95). */
+[data-kurd-script="two"] .kurd,
+[data-kurd-script="two"] .cal-newroz-text,
+[data-kurd-script="two"] .cal-day-name[dir="rtl"],
+[data-kurd-script="two"] .fig-name[dir="rtl"],
+[data-kurd-script="two"] .fig-role[dir="rtl"],
+[data-kurd-script="two"] .fig-detail p[dir="rtl"],
+[data-kurd-script="two"] h1[data-ar],
+[data-kurd-script="two"] h2[data-ar],
+[data-kurd-script="two"] .cal-today-label[data-ar],
+[data-kurd-script="two"] .conv-label[data-ar],
+[data-kurd-script="two"] label[data-ar],
+[data-kurd-script="two"] button[data-ar],
+[data-kurd-script="two"] .back-link[data-ar],
+[data-kurd-script="two"] input[data-ar-placeholder] {
+  font-size: 0.95em;
+}
+/* Reset on nested elements so the 0.95em doesn't compound into children. */
+[data-kurd-script="two"] .cal-newroz-text [data-ar],
+[data-kurd-script="two"] .cal-newroz-text > *,
+[data-kurd-script="two"] [dir="rtl"] [data-ar],
+[data-kurd-script="two"] [dir="rtl"] [dir="rtl"] {
+  font-size: inherit;
 }
 
 @media (max-width: 700px) {

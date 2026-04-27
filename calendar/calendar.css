@@ -98,7 +98,22 @@
 [data-kurd-script="two"] h1[data-ar],
 [data-kurd-script="two"] h2[data-ar],
 [data-kurd-script="two"] .back-link[data-ar],
-[data-kurd-script="two"] [data-ar-placeholder]::placeholder {
+[data-kurd-script="two"] [data-ar-placeholder]::placeholder,
+/* (1b) Elements whose textContent gets translated to Kurdish by JS but
+       have no .kurd or [data-ar] marker. These all show Kurdish month or
+       day names / Kurdish action labels in کوردی mode. */
+[data-kurd-script="two"] #g-date,
+[data-kurd-script="two"] #g-day,
+[data-kurd-script="two"] #conv-g,
+[data-kurd-script="two"] #month-title,
+[data-kurd-script="two"] .cal-dow,
+[data-kurd-script="two"] .cal-day-when,
+[data-kurd-script="two"] .fig-when,
+[data-kurd-script="two"] #poem-actions,
+[data-kurd-script="two"] #poem-actions *,
+[data-kurd-script="two"] .cal-poem-saved,
+[data-kurd-script="two"] .cal-poem-saved *,
+[data-kurd-script="two"] .seg[data-control="conv-dir"] button {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
 }
 [data-kurd-script="two"] .kurd,
@@ -133,7 +148,18 @@
 [data-kurd-script="two"] label[data-ar],
 [data-kurd-script="two"] button[data-ar],
 [data-kurd-script="two"] .back-link[data-ar],
-[data-kurd-script="two"] input[data-ar-placeholder] {
+[data-kurd-script="two"] input[data-ar-placeholder],
+/* Same size compensation for the JS-translated dynamic-content elements. */
+[data-kurd-script="two"] #g-date,
+[data-kurd-script="two"] #g-day,
+[data-kurd-script="two"] #conv-g,
+[data-kurd-script="two"] #month-title,
+[data-kurd-script="two"] .cal-dow,
+[data-kurd-script="two"] .cal-day-when,
+[data-kurd-script="two"] .fig-when,
+[data-kurd-script="two"] #poem-actions,
+[data-kurd-script="two"] .cal-poem-saved,
+[data-kurd-script="two"] .seg[data-control="conv-dir"] button {
   font-size: 0.88em;
 }
 /* Reset on nested elements so the 0.95em doesn't compound into children. */

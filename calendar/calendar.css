@@ -331,6 +331,38 @@ html[data-kurd-script="two"] textarea {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif;
 }
 
+/* Apply RTL flow to the page in کوردی mode, with targeted LTR overrides
+   for content that is intrinsically LTR (form pickers, calendar grid,
+   Latin-script transliterations, GitHub/translate links). */
+html[data-kurd-script="two"] body { direction: rtl; }
+html[data-kurd-script="two"] .cal-grid,
+html[data-kurd-script="two"] .conv-row,
+html[data-kurd-script="two"] input[type="date"],
+html[data-kurd-script="two"] .cal-search,
+html[data-kurd-script="two"] .poem-latin,
+html[data-kurd-script="two"] .poem-title-lat,
+html[data-kurd-script="two"] .poem-trans,
+html[data-kurd-script="two"] .seg,
+html[data-kurd-script="two"] .reader-controls,
+html[data-kurd-script="two"] .cal-month-head .cal-nav {
+  direction: ltr;
+}
+/* Each card stays as a row of LTR/RTL according to its content; just keep
+   their flex layout consistent regardless of page direction. */
+html[data-kurd-script="two"] .cal-today-grid,
+html[data-kurd-script="two"] .conv-out {
+  direction: ltr; /* row container — children render with their own dir */
+}
+html[data-kurd-script="two"] .cal-today-card,
+html[data-kurd-script="two"] .conv-card {
+  direction: rtl;
+  text-align: right;
+}
+html[data-kurd-script="two"] .cal-today-card .cal-today-label,
+html[data-kurd-script="two"] .conv-card .conv-label,
+html[data-kurd-script="two"] .cal-today-card .cal-today-date,
+html[data-kurd-script="two"] .conv-card .conv-value { text-align: right; }
+
 /* Unified control heights — buttons, search inputs, date input, and selects
    in the calendar all sit on the same baseline. */
 .cal-month-head .btn,

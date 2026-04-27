@@ -116,98 +116,98 @@
   // All entries link to Wikipedia where a page exists.
   const FIGURES = [
     // January
-    { m: 1,  d: 1,  type: 'b', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Kurdish novelist whose works revived modern literary Kurdish. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
-    { m: 1,  d: 9,  type: 'd', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
-    { m: 1,  d: 15, type: 'b', name: 'Aram Tigran',                role: 'Kurdish musician',         years: '1934—2009', bio: 'Beloved singer who composed and performed in Kurdish, Armenian, Turkish, and Arabic.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran' },
-    { m: 1,  d: 31, type: 'd', name: 'Idris Barzani',              role: 'Kurdish leader',                    years: '1944—1987', bio: 'Son of Mustafa Barzani and joint leader of the KDP after his father; succeeded by his brother Massoud.', wiki: 'https://en.wikipedia.org/wiki/Idris_Barzani' },
+    { m: 1,  d: 1,  type: 'b', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Kurdish novelist whose works revived modern literary Kurdish. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'مەهمەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'ڕۆماننووسی ناودار، نووسینەکانی ئەدەبیاتی هاوچەرخی کوردیی نوێی زیندوو کردەوە. زۆربەی ژیانی لە سوێد لە دوورخراوەییدا بەسەربرد.' },
+    { m: 1,  d: 9,  type: 'd', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z', name_ar: 'ساکینە جانسز', role_ar: 'چالاکی سیاسیی کورد', bio_ar: 'یەکێک لە دامەزرێنەرانی پکک؛ لە ٢٠١٣ لە پاریس تیرۆر کرا.' },
+    { m: 1,  d: 15, type: 'b', name: 'Aram Tigran',                role: 'Kurdish musician',         years: '1934—2009', bio: 'Beloved singer who composed and performed in Kurdish, Armenian, Turkish, and Arabic.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran', name_ar: 'ئارام تیگران', role_ar: 'موزیکژەنی کورد', bio_ar: 'گۆرانیبێژی خۆشەویست، بە کوردی، ئەرمەنی، تورکی و عەرەبی گۆرانی دەوت.' },
+    { m: 1,  d: 31, type: 'd', name: 'Idris Barzani',              role: 'Kurdish leader',                    years: '1944—1987', bio: 'Son of Mustafa Barzani and joint leader of the KDP after his father; succeeded by his brother Massoud.', wiki: 'https://en.wikipedia.org/wiki/Idris_Barzani', name_ar: 'ئیدریس بارزانی', role_ar: 'سەرکردەی کورد', bio_ar: 'کوڕی مستەفا بارزانی و سەرکردەی هاوبەشی پارتی پاش باوکی؛ پاشان مەسعود جێی گرتەوە.' },
 
     // February
-    { m: 2,  d: 12, type: 'b', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z' },
-    { m: 2,  d: 22, type: 'd', name: 'Hejar Mukrîyanî',            role: 'Kurdish poet and translator',         years: '1920—1991', bio: 'Pen name of Abdurrahman Sharafkandi. Translator of the Quran and the Shahnameh into Kurdish.', wiki: 'https://en.wikipedia.org/wiki/Hejar' },
-    { m: 2,  d: 25, type: 'b', name: 'Sharaf Khan Bidlisi',        role: 'Historian, prince of Bitlis',       years: '1543—1603', bio: 'Author of the Sharafnama (1597), the first major historical chronicle of the Kurds.', wiki: 'https://en.wikipedia.org/wiki/Sharaf_Khan_Bidlisi' },
-    { m: 2,  d: 28, type: 'd', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
+    { m: 2,  d: 12, type: 'b', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z', name_ar: 'ساکینە جانسز', role_ar: 'چالاکی سیاسیی کورد', bio_ar: 'یەکێک لە دامەزرێنەرانی پکک و گرتووی سیاسیی درێژخایەن.' },
+    { m: 2,  d: 22, type: 'd', name: 'Hejar Mukrîyanî',            role: 'Kurdish poet and translator',         years: '1920—1991', bio: 'Pen name of Abdurrahman Sharafkandi. Translator of the Quran and the Shahnameh into Kurdish.', wiki: 'https://en.wikipedia.org/wiki/Hejar', name_ar: 'هەژار موکریانی', role_ar: 'شاعیر و وەرگێڕی کورد', bio_ar: 'ناوی نهێنیی عبدالڕحمن شەرەفکەندی. وەرگێڕی قورئان و شاهنامە بۆ کوردی.' },
+    { m: 2,  d: 25, type: 'b', name: 'Sharaf Khan Bidlisi',        role: 'Historian, prince of Bitlis',       years: '1543—1603', bio: 'Author of the Sharafnama (1597), the first major historical chronicle of the Kurds.', wiki: 'https://en.wikipedia.org/wiki/Sharaf_Khan_Bidlisi', name_ar: 'شەرەف خانی بدلیسی', role_ar: 'مێژوونووس، میری بدلیس', bio_ar: 'نووسەری شەرەفنامە (١٥٩٧)، یەکەم کرۆنیکی مێژووییی گرنگ سەبارەت بە کورد.' },
+    { m: 2,  d: 28, type: 'd', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal', name_ar: 'یاشار کەمال', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'نووسەری «مەحمەد، باژەکەم»؛ یەکێک لە ڕۆماننووسە مەزنەکانی سەدەی بیستەمی زمانی تورکی، بنەچەی کوردی.' },
 
     // March
-    { m: 3,  d: 1,  type: 'd', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq; Defense Minister of the Republic of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
-    { m: 3,  d: 4,  type: 'd', name: 'Saladin (Selahaddînê Eyûbî)',role: 'Sultan and military leader',        years: '1137—1193', bio: 'Founder of the Ayyubid dynasty; of Kurdish origin from Tikrit. Recaptured Jerusalem in 1187.', wiki: 'https://en.wikipedia.org/wiki/Saladin' },
-    { m: 3,  d: 14, type: 'b', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani' },
-    { m: 3,  d: 15, type: 'b', name: 'Hejar Mukrîyanî',            role: 'Kurdish poet and translator',         years: '1920—1991', bio: 'Major figure in 20th-century Kurdish letters; produced one of the most important Kurdish dictionaries.', wiki: 'https://en.wikipedia.org/wiki/Hejar' },
-    { m: 3,  d: 31, type: 'd', name: 'Qazi Muhammad',              role: 'President of the Republic of Kurdistan', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Kurdistan (1946). Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad' },
+    { m: 3,  d: 1,  type: 'd', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq; Defense Minister of the Republic of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani', name_ar: 'مستەفا بارزانی', role_ar: 'سەرکردەی کورد', bio_ar: 'دامەزرێنەری بزووتنەوەی نیشتمانیی نوێی کورد لە عێراق؛ وەزیری بەرگری کۆماری کوردستان.' },
+    { m: 3,  d: 4,  type: 'd', name: 'Saladin (Selahaddînê Eyûbî)',role: 'Sultan and military leader',        years: '1137—1193', bio: 'Founder of the Ayyubid dynasty; of Kurdish origin from Tikrit. Recaptured Jerusalem in 1187.', wiki: 'https://en.wikipedia.org/wiki/Saladin', name_ar: 'سەلاحەددینی ئەییوبی', role_ar: 'سوڵتان و سەرکردەی سەربازی', bio_ar: 'دامەزرێنەری دودمانی ئەییوبی؛ کوردی تکریتی. لە ١١٨٧ بەیت‌المقدسی گرتەوە.' },
+    { m: 3,  d: 14, type: 'b', name: 'Mustafa Barzani',            role: 'Kurdish leader',                    years: '1903—1979', bio: 'Founding leader of the modern Kurdish national movement in Iraq.', wiki: 'https://en.wikipedia.org/wiki/Mustafa_Barzani', name_ar: 'مستەفا بارزانی', role_ar: 'سەرکردەی کورد', bio_ar: 'دامەزرێنەری بزووتنەوەی نیشتمانیی نوێی کورد لە عێراق.' },
+    { m: 3,  d: 15, type: 'b', name: 'Hejar Mukrîyanî',            role: 'Kurdish poet and translator',         years: '1920—1991', bio: 'Major figure in 20th-century Kurdish letters; produced one of the most important Kurdish dictionaries.', wiki: 'https://en.wikipedia.org/wiki/Hejar', name_ar: 'هەژار موکریانی', role_ar: 'شاعیر و وەرگێڕی کورد', bio_ar: 'سیمایەکی گرنگ لە ئەدەبی کوردیی سەدەی بیستەم؛ یەکێک لە گرنگترین فەرهەنگەکانی کوردیی پێکهێنا.' },
+    { m: 3,  d: 31, type: 'd', name: 'Qazi Muhammad',              role: 'President of the Republic of Kurdistan', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Kurdistan (1946). Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad', name_ar: 'قازی محەممەد', role_ar: 'سەرۆکی کۆماری کوردستان', bio_ar: 'دامەزرێنەر و تاکە سەرۆکی کۆماری کوردستان (١٩٤٦). لە ١٩٤٧ لەسێدارە درا، لەو گۆڕەپانەی کۆمارەکەی تێیدا ڕاگەیاند.' },
 
     // April
-    { m: 4,  d: 1,  type: 'b', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (Palme d\'Or, 1982); one of the most acclaimed filmmakers of his generation.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney' },
-    { m: 4,  d: 4,  type: 'b', name: 'Abdullah Öcalan',            role: 'Founder of the PKK',                years: 'b. 1948',   bio: 'Co-founder of the PKK and one of the most influential — and controversial — figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan' },
-    { m: 4,  d: 18, type: 'd', name: 'Hêmin Mukrîyanî',            role: 'Kurdish poet',                       years: '1921—1986', bio: 'Pen name of Mohammad Amin Sheikhalislami. One of the leading Kurdish poets of the 20th century.', wiki: 'https://en.wikipedia.org/wiki/H%C3%AAmin' },
+    { m: 4,  d: 1,  type: 'b', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (Palme d\'Or, 1982); one of the most acclaimed filmmakers of his generation.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'یلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (پاڵمەی زێڕین، ١٩٨٢)؛ یەکێک لە دەرهێنەرە بەناوبانگەکانی نەوەی خۆی.' },
+    { m: 4,  d: 4,  type: 'b', name: 'Abdullah Öcalan',            role: 'Founder of the PKK',                years: 'b. 1948',   bio: 'Co-founder of the PKK and one of the most influential — and controversial — figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan', name_ar: 'عەبدوڵڵا ئۆجالان', role_ar: 'دامەزرێنەری پکک', bio_ar: 'هاوبەشی دامەزرێنەری پکک و یەکێک لە کاریگەرترین — و دژبەرترین — کەسایەتیی سیاسەتی کوردیی هاوچەرخ. لە ١٩٩٩ەوە لە تورکیا گیراوە.' },
+    { m: 4,  d: 18, type: 'd', name: 'Hêmin Mukrîyanî',            role: 'Kurdish poet',                       years: '1921—1986', bio: 'Pen name of Mohammad Amin Sheikhalislami. One of the leading Kurdish poets of the 20th century.', wiki: 'https://en.wikipedia.org/wiki/H%C3%AAmin', name_ar: 'هێمن موکریانی', role_ar: 'شاعیری کورد', bio_ar: 'ناوی نهێنیی محمد ئەمین شێخ‌الئسلامی. یەکێک لە سەرۆک شاعیرانی کوردیی سەدەی بیستەم.' },
 
     // May
-    { m: 5,  d: 2,  type: 'b', name: 'Şêrko Bêkes',                role: 'Kurdish poet',                       years: '1940—2013', bio: 'One of the giants of modern Kurdish poetry. Pioneered the "poster poem" form.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
-    { m: 5,  d: 3,  type: 'b', name: 'Leyla Zana',                 role: 'Kurdish politician',        years: 'b. 1961',   bio: 'First Kurdish woman elected to the Turkish parliament; sentenced for speaking Kurdish at her swearing-in.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Zana' },
-    { m: 5,  d: 9,  type: 'd', name: 'Ferzad Kemanger',            role: 'Kurdish teacher and activist',      years: '1975—2010', bio: 'Kurdish teacher and human-rights activist; executed by Iran on charges he denied.', wiki: 'https://en.wikipedia.org/wiki/Farzad_Kamangar' },
-    { m: 5,  d: 12, type: 'd', name: 'Leyla Qasim',                role: 'Kurdish activist',                  years: '1952—1974', bio: 'First Kurdish woman to be executed for political activism in modern Iraq. Member of the KDP.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Qasim' },
-    { m: 5,  d: 15, type: 'b', name: 'Salim Barakat',              role: 'Kurdish poet and novelist',  years: 'b. 1951',   bio: 'Major contemporary Arabic-language poet and novelist of Kurdish origin from Qamishli.', wiki: 'https://en.wikipedia.org/wiki/Salim_Barakat' },
+    { m: 5,  d: 2,  type: 'b', name: 'Şêrko Bêkes',                role: 'Kurdish poet',                       years: '1940—2013', bio: 'One of the giants of modern Kurdish poetry. Pioneered the "poster poem" form.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas', name_ar: 'شێرکۆ بێکەس', role_ar: 'شاعیری کورد', bio_ar: 'یەکێک لە کۆلۆسەکانی شیعری کوردیی نوێ. شێوازی «شیعری پۆستەر»ی بنیادنا.' },
+    { m: 5,  d: 3,  type: 'b', name: 'Leyla Zana',                 role: 'Kurdish politician',        years: 'b. 1961',   bio: 'First Kurdish woman elected to the Turkish parliament; sentenced for speaking Kurdish at her swearing-in.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Zana', name_ar: 'لەیلا زانا', role_ar: 'سیاسەتمەداری کورد', bio_ar: 'یەکەم ژنی کورد لە پەرلەمانی تورکیا هەڵبژێردرا؛ بۆ قسەکردن بە کوردی لە مەراسیمی سوێندخواردنەکەی حوکم درا.' },
+    { m: 5,  d: 9,  type: 'd', name: 'Ferzad Kemanger',            role: 'Kurdish teacher and activist',      years: '1975—2010', bio: 'Kurdish teacher and human-rights activist; executed by Iran on charges he denied.', wiki: 'https://en.wikipedia.org/wiki/Farzad_Kamangar', name_ar: 'فەرزاد کەمانگەر', role_ar: 'مامۆستا و چالاکی کورد', bio_ar: 'مامۆستا و چالاکی مافی مرۆڤی کوردی ئێرانی؛ لەلایەن ئێرانەوە لەسێدارە درا، تاوانێک کە خۆی نکۆڵی لێ کرد.' },
+    { m: 5,  d: 12, type: 'd', name: 'Leyla Qasim',                role: 'Kurdish activist',                  years: '1952—1974', bio: 'First Kurdish woman to be executed for political activism in modern Iraq. Member of the KDP.', wiki: 'https://en.wikipedia.org/wiki/Leyla_Qasim', name_ar: 'لەیلا قاسم', role_ar: 'چالاکی کورد', bio_ar: 'یەکەم ژنی کورد کە لە عێراقی نوێدا بۆ چالاکی سیاسی لەسێدارە درا. ئەندامی پارتی.' },
+    { m: 5,  d: 15, type: 'b', name: 'Salim Barakat',              role: 'Kurdish poet and novelist',  years: 'b. 1951',   bio: 'Major contemporary Arabic-language poet and novelist of Kurdish origin from Qamishli.', wiki: 'https://en.wikipedia.org/wiki/Salim_Barakat', name_ar: 'سەلیم بەرەکات', role_ar: 'شاعیر و ڕۆماننووسی کورد', bio_ar: 'شاعیر و ڕۆماننووسی هاوچەرخی زمانی عەرەبی، بنەچەی کوردی لە قامیشلۆ.' },
 
     // June
-    { m: 6,  d: 11, type: 'd', name: 'Piremerd',                   role: 'Kurdish poet, journalist',           years: '1867—1950', bio: 'Pen name of Hac Tofiq. Influential Kurdish poet, journalist, and educator from Sulaymaniyah.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
-    { m: 6,  d: 29, type: 'd', name: 'Sheikh Said',                role: 'Religious leader, rebellion of 1925',years: '1865—1925', bio: 'Naqshbandi sheikh who led the 1925 Kurdish uprising in Turkey; executed with 46 others in Diyarbakır.', wiki: 'https://en.wikipedia.org/wiki/Sheikh_Said' },
+    { m: 6,  d: 11, type: 'd', name: 'Piremerd',                   role: 'Kurdish poet, journalist',           years: '1867—1950', bio: 'Pen name of Hac Tofiq. Influential Kurdish poet, journalist, and educator from Sulaymaniyah.', wiki: 'https://en.wikipedia.org/wiki/Piremerd', name_ar: 'پیرەمێرد', role_ar: 'شاعیر و ڕۆژنامەنووسی کورد', bio_ar: 'ناوی نهێنیی حاج تۆفیق. شاعیر، ڕۆژنامەنووس و پەروەردەکاری بەناوبانگی کوردیی سلێمانی.' },
+    { m: 6,  d: 29, type: 'd', name: 'Sheikh Said',                role: 'Religious leader, rebellion of 1925',years: '1865—1925', bio: 'Naqshbandi sheikh who led the 1925 Kurdish uprising in Turkey; executed with 46 others in Diyarbakır.', wiki: 'https://en.wikipedia.org/wiki/Sheikh_Said', name_ar: 'شێخ سەعید', role_ar: 'پێشەوای ئایینی، ڕاپەڕینی ١٩٢٥', bio_ar: 'مامۆستای نەقشبەندی کە سەرکردایەتیی ڕاپەڕینی ١٩٢٥ی کوردی لە تورکیای کرد؛ لەگەڵ ٤٦ کەسی تردا لە دیاربەکر لەسێدارە درا.' },
 
     // July
-    { m: 7,  d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Long-time leader of KDPI. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
+    { m: 7,  d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Long-time leader of KDPI. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عبدول ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'سەرۆکی درێژخایەنی پارتی دیموکراتی کوردستانی ئێران. لە ڤیەننا لە دانوستاندنی ئاشتیدا لەلایەن کارمەندانی ئێرانەوە تیرۆر کرا.' },
 
     // August
-    { m: 8,  d: 4,  type: 'd', name: 'Şêrko Bêkes',                role: 'Kurdish poet',                       years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas' },
-    { m: 8,  d: 8,  type: 'd', name: 'Aram Tigran',                role: 'Kurdish musician',         years: '1934—2009', bio: 'Death anniversary of the multilingual singer who carried Kurdish songs to the Armenian and Syriac diasporas.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran' },
-    { m: 8,  d: 16, type: 'b', name: 'Massoud Barzani',            role: 'KDP leader, former president of KRI',years: 'b. 1946',   bio: 'Son of Mustafa Barzani; led the KDP from 1979 and served as President of the Kurdistan Region (2005–2017).', wiki: 'https://en.wikipedia.org/wiki/Massoud_Barzani' },
+    { m: 8,  d: 4,  type: 'd', name: 'Şêrko Bêkes',                role: 'Kurdish poet',                       years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas', name_ar: 'شێرکۆ بێکەس', role_ar: 'شاعیری کورد', bio_ar: 'یادی کۆچی دوایی یەکێک لە کۆلۆسەکانی شیعری کوردیی نوێ.' },
+    { m: 8,  d: 8,  type: 'd', name: 'Aram Tigran',                role: 'Kurdish musician',         years: '1934—2009', bio: 'Death anniversary of the multilingual singer who carried Kurdish songs to the Armenian and Syriac diasporas.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran', name_ar: 'ئارام تیگران', role_ar: 'موزیکژەنی کورد', bio_ar: 'یادی کۆچی دوایی گۆرانیبێژی فرە‌زمان کە گۆرانیی کوردیی بە دیاسپۆرای ئەرمەنی و سریانی گەیاند.' },
+    { m: 8,  d: 16, type: 'b', name: 'Massoud Barzani',            role: 'KDP leader, former president of KRI',years: 'b. 1946',   bio: 'Son of Mustafa Barzani; led the KDP from 1979 and served as President of the Kurdistan Region (2005–2017).', wiki: 'https://en.wikipedia.org/wiki/Massoud_Barzani', name_ar: 'مەسعود بارزانی', role_ar: 'سەرکردەی پارتی، سەرۆکی پێشووی هەرێمی کوردستان', bio_ar: 'کوڕی مستەفا بارزانی؛ لە ١٩٧٩ەوە سەرکردایەتیی پارتیی کرد و سەرۆکایەتیی هەرێمی کوردستانی کرد (٢٠٠٥–٢٠١٧).' },
 
     // September
-    { m: 9,  d: 9,  type: 'd', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (1982); won the Palme d\'Or while in exile in France.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney' },
-    { m: 9,  d: 17, type: 'd', name: 'Sadegh Sharafkandi',         role: 'Successor of Ghassemlou (KDPI)',     years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi' },
+    { m: 9,  d: 9,  type: 'd', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (1982); won the Palme d\'Or while in exile in France.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'یلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (١٩٨٢)؛ پاڵمەی زێڕینی بەدەستهێنا کاتێک لە فەڕەنسا لە دوورخراوەییدا بوو.' },
+    { m: 9,  d: 17, type: 'd', name: 'Sadegh Sharafkandi',         role: 'Successor of Ghassemlou (KDPI)',     years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi', name_ar: 'سادق شەرەفکەندی', role_ar: 'جێگری قاسملۆ (پارتی دیموکراتی کوردستانی ئێران)', bio_ar: 'سکرتێری گشتیی پارتی دیموکراتی کوردستانی ئێران پاش قاسملۆ. لە چێشتخانەی میکۆنۆس لە بەرلین تیرۆر کرا.' },
 
     // October
-    { m: 10, d: 3,  type: 'd', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK and President of Iraq (2005–2014); the first non-Arab president of an Arab-majority state in modern history.', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani' },
-    { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal' },
-    { m: 10, d: 9,  type: 'd', name: 'Sheikh Mahmud Barzanji',     role: 'King of Kurdistan (1922—1924)',     years: '1878—1956', bio: 'Led several uprisings against British control of southern Kurdistan; briefly proclaimed himself King of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mahmud_Barzanji' },
-    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurdish literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun' },
-    { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef',               role: 'Kurdish politician',         years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf' },
-    { m: 10, d: 22, type: 'd', name: 'Cegerxwîn',                  role: 'Kurdish poet',                     years: '1903—1984', bio: 'Pen name of Şêx Mûs Hesen. One of the most influential Kurdish poets; his verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn' },
+    { m: 10, d: 3,  type: 'd', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK and President of Iraq (2005–2014); the first non-Arab president of an Arab-majority state in modern history.', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani', name_ar: 'جەلال تاڵەبانی', role_ar: 'هاوبەشی دامەزرێنەری یەکێتی، سەرۆکی عێراق', bio_ar: 'دامەزرێنەری یەکێتی نیشتمانیی کوردستان و سەرۆکی عێراق (٢٠٠٥–٢٠١٤)؛ یەکەم سەرۆکی نا‌عەرەب لە دەوڵەتێکی زۆرینەی عەرەبدا لە مێژووی نوێدا.' },
+    { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal', name_ar: 'یاشار کەمال', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'نووسەری «مەحمەد، باژەکەم» و چەرخەی «ئینجە مەحمەد».' },
+    { m: 10, d: 9,  type: 'd', name: 'Sheikh Mahmud Barzanji',     role: 'King of Kurdistan (1922—1924)',     years: '1878—1956', bio: 'Led several uprisings against British control of southern Kurdistan; briefly proclaimed himself King of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mahmud_Barzanji', name_ar: 'شێخ مەحمود بەرزنجی', role_ar: 'پاشای کوردستان (١٩٢٢—١٩٢٤)', bio_ar: 'چەند ڕاپەڕینی لە دژی کۆنترۆڵی بەریتانی بۆ کوردستانی باشوور سەرکردایەتی کرد؛ بۆ ماوەیەکی کورت خۆی بە پاشای کوردستان ڕاگەیاند.' },
+    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurdish literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'مەهمەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'یادی کۆچی دوایی نووسەرێک کە ئەدەبیاتی نوێی کوردی هێنایە بەرچاوی جیهان.' },
+    { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef',               role: 'Kurdish politician',         years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf', name_ar: 'هەڤرین خەلەف', role_ar: 'سیاسەتمەداری کورد', bio_ar: 'سکرتێری گشتیی پارتی داهاتووی سوریا؛ لە ٢٠١٩ لە سەرکردایەتی هێرشی تورکیای سەر باکوری سوریا تیرۆر کرا.' },
+    { m: 10, d: 22, type: 'd', name: 'Cegerxwîn',                  role: 'Kurdish poet',                     years: '1903—1984', bio: 'Pen name of Şêx Mûs Hesen. One of the most influential Kurdish poets; his verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn', name_ar: 'جگەرخوین', role_ar: 'شاعیری کورد', bio_ar: 'ناوی نهێنیی شێخ موسی حەسەن. یەکێک لە کاریگەرترین شاعیرانی کوردی؛ شیعرەکانی لە بزووتنەوەی نیشتمانیی کوردیی سەدەی بیستەمدا گرنگ بوون.' },
 
     // November
-    { m: 11, d: 9,  type: 'b', name: 'Piremerd',                   role: 'Kurdish poet, journalist',           years: '1867—1950', bio: 'Sulaymaniyah-born poet whose journalism shaped early modern Kurdish prose.', wiki: 'https://en.wikipedia.org/wiki/Piremerd' },
-    { m: 11, d: 9,  type: 'b', name: 'Abdulla Pashew',             role: 'Kurdish poet',                       years: 'b. 1946',   bio: 'One of the most widely read living Kurdish poets; lives in exile in Norway.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Pashew' },
-    { m: 11, d: 12, type: 'b', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK; later President of Iraq (2005–2014).', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani' },
-    { m: 11, d: 18, type: 'b', name: 'Ehmedê Xanî',                role: 'Classical poet',                    years: '~1651—1707',bio: 'Author of the Kurdish national epic Mem û Zîn (1692); pioneer of literary Kurdish. Birth date approximate.', wiki: 'https://en.wikipedia.org/wiki/Ahmad_Khani' },
-    { m: 11, d: 18, type: 'd', name: 'Goran',                      role: 'Kurdish modernist poet',             years: '1904—1962', bio: 'Pen name of Abdulla Sulaiman. Pioneer of modern Kurdish free-verse and a touchstone of 20th-century Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Goran' },
+    { m: 11, d: 9,  type: 'b', name: 'Piremerd',                   role: 'Kurdish poet, journalist',           years: '1867—1950', bio: 'Sulaymaniyah-born poet whose journalism shaped early modern Kurdish prose.', wiki: 'https://en.wikipedia.org/wiki/Piremerd', name_ar: 'پیرەمێرد', role_ar: 'شاعیر و ڕۆژنامەنووسی کورد', bio_ar: 'شاعیری سلێمانی کە ڕۆژنامەنووسیی پەخشانی کوردیی نوێی شێوەداڕشت.' },
+    { m: 11, d: 9,  type: 'b', name: 'Abdulla Pashew',             role: 'Kurdish poet',                       years: 'b. 1946',   bio: 'One of the most widely read living Kurdish poets; lives in exile in Norway.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Pashew', name_ar: 'عەبدوڵڵا پەشێو', role_ar: 'شاعیری کورد', bio_ar: 'یەکێک لە بەناوبانگترین شاعیرانی کوردی زیندوو؛ لە نەرویج لە دوورخراوەییدا دەژی.' },
+    { m: 11, d: 12, type: 'b', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK; later President of Iraq (2005–2014).', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani', name_ar: 'جەلال تاڵەبانی', role_ar: 'هاوبەشی دامەزرێنەری یەکێتی، سەرۆکی عێراق', bio_ar: 'دامەزرێنەری یەکێتی نیشتمانیی کوردستان؛ پاشان سەرۆکی عێراق (٢٠٠٥–٢٠١٤).' },
+    { m: 11, d: 18, type: 'b', name: 'Ehmedê Xanî',                role: 'Classical poet',                    years: '~1651—1707',bio: 'Author of the Kurdish national epic Mem û Zîn (1692); pioneer of literary Kurdish. Birth date approximate.', wiki: 'https://en.wikipedia.org/wiki/Ahmad_Khani', name_ar: 'ئەحمەدێ خانی', role_ar: 'شاعیری کلاسیک', bio_ar: 'نووسەری ئەپۆسی نیشتمانیی کوردیی «مەم و زین» (١٦٩٢)؛ پێشەنگی ئەدەبیاتی کوردی. ساڵی لەدایکبوون نزیکە.' },
+    { m: 11, d: 18, type: 'd', name: 'Goran',                      role: 'Kurdish modernist poet',             years: '1904—1962', bio: 'Pen name of Abdulla Sulaiman. Pioneer of modern Kurdish free-verse and a touchstone of 20th-century Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Abdulla_Goran', name_ar: 'گۆران', role_ar: 'شاعیری مۆدێرنیستی کورد', bio_ar: 'ناوی نهێنیی عبدوڵڵا سلێمان. پێشەنگی شیعری ئازادی نوێی کوردی و ستوونێکی شیعری کوردیی سەدەی بیستەم.' },
 
     // December
-    { m: 12, d: 16, type: 'd', name: 'Mihemed Mamlê',              role: 'Kurdish singer',                    years: '1925—1999', bio: 'Iconic singer of Kurdish folk and patriotic songs from Mukriyan; long held a near-monopoly on Iran-state Kurdish broadcasting.', wiki: 'https://en.wikipedia.org/wiki/Mohammad_Mamle' },
-    { m: 12, d: 18, type: 'd', name: 'Eyşe Şan',                   role: 'Kurdish singer',                    years: '1938—1996', bio: 'Pioneering Kurdish woman singer from Diyarbakır; defied bans on Kurdish-language song.', wiki: 'https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan' },
-    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou' },
-    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',               role: 'Kurdish singer',                    years: 'b. 1955',   bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurdish popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer' },
+    { m: 12, d: 16, type: 'd', name: 'Mihemed Mamlê',              role: 'Kurdish singer',                    years: '1925—1999', bio: 'Iconic singer of Kurdish folk and patriotic songs from Mukriyan; long held a near-monopoly on Iran-state Kurdish broadcasting.', wiki: 'https://en.wikipedia.org/wiki/Mohammad_Mamle', name_ar: 'محەممەد ماملێ', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'گۆرانیبێژی نمادینی گۆرانی فۆلکلۆری و نیشتمانیی کوردی لە موکریان؛ ماوەیەکی درێژ بەشی کوردیی ڕادیۆی ئێرانی هەڵگرتبوو.' },
+    { m: 12, d: 18, type: 'd', name: 'Eyşe Şan',                   role: 'Kurdish singer',                    years: '1938—1996', bio: 'Pioneering Kurdish woman singer from Diyarbakır; defied bans on Kurdish-language song.', wiki: 'https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan', name_ar: 'عەیشە شان', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'پێشەنگی گۆرانیبێژیی ژنانی کورد لە دیاربەکر؛ لە دژی قەدەغەکانی گۆرانی بە زمانی کوردی وەستایەوە.' },
+    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عبدول ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'لە ورمێ لەدایک بوو. دوو دەیە سەرۆکایەتیی پارتی دیموکراتی کوردستانی ئێرانی کرد.' },
+    { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',               role: 'Kurdish singer',                    years: 'b. 1955',   bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurdish popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer', name_ar: 'شیڤان پەروەر', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'یەکێک لە موزیکژەنە خۆشەویستەکانی کورد؛ گۆرانیەکانی لە کلتووری کوردیی نوێ گرنگن.' },
 
     // ---- Round 2 of figures research ----
 
     // Bedirxan family — language reformers / nationalists
-    { m: 4,  d: 26, type: 'b', name: 'Celadet Bedirxan',           role: 'Linguist, founder of Hawar journal', years: '1893—1951', bio: 'Created the modern Latin-script Kurdish alphabet (Hawar alphabet, 1932); his journal Hawar shaped 20th-century Kurdish literacy.', wiki: 'https://en.wikipedia.org/wiki/Celadet_Ali_Bedirkhan' },
-    { m: 9,  d: 21, type: 'b', name: 'Kamuran Bedirxan',           role: 'Writer, diplomat',                  years: '1895—1978', bio: 'Brother of Celadet; co-edited Hawar and Ronahî, taught Kurdish at the Sorbonne, and represented the Kurdish question in Europe for decades.', wiki: 'https://en.wikipedia.org/wiki/Kamuran_Bedirkhan' },
-    { m: 11, d: 15, type: 'd', name: 'Idris Bitlisi',              role: 'Historian, statesman',              years: '1457—1520', bio: 'Ottoman-era Kurdish polymath; negotiated the alliance between Ottoman Sultan Selim I and Kurdish emirs that defined Kurdish autonomy for centuries.', wiki: 'https://en.wikipedia.org/wiki/Idris_Bitlisi' },
+    { m: 4,  d: 26, type: 'b', name: 'Celadet Bedirxan',           role: 'Linguist, founder of Hawar journal', years: '1893—1951', bio: 'Created the modern Latin-script Kurdish alphabet (Hawar alphabet, 1932); his journal Hawar shaped 20th-century Kurdish literacy.', wiki: 'https://en.wikipedia.org/wiki/Celadet_Ali_Bedirkhan', name_ar: 'جەلادەت بەدرخان', role_ar: 'زمانناس، دامەزرێنەری گۆڤاری هەوار', bio_ar: 'ئەلفبێی لاتینیی نوێی کوردیی نووسی (ئەلفبێی هەوار، ١٩٣٢)؛ گۆڤاری هەواری ساز کرد کە خوێندەواریی کوردیی سەدەی بیستەمی شێوەداڕشت.' },
+    { m: 9,  d: 21, type: 'b', name: 'Kamuran Bedirxan',           role: 'Writer, diplomat',                  years: '1895—1978', bio: 'Brother of Celadet; co-edited Hawar and Ronahî, taught Kurdish at the Sorbonne, and represented the Kurdish question in Europe for decades.', wiki: 'https://en.wikipedia.org/wiki/Kamuran_Bedirkhan', name_ar: 'کامەران بەدرخان', role_ar: 'نووسەر، دیپلۆمات', bio_ar: 'برای جەلادەت؛ گۆڤارەکانی هەوار و ڕۆناهیی هاوبەش بەڕێوە برد، لە سۆربۆن کوردیی فێر کرد و چەند دەیە نوێنەرایەتیی پرسی کوردیی لە ئەوروپا کرد.' },
+    { m: 11, d: 15, type: 'd', name: 'Idris Bitlisi',              role: 'Historian, statesman',              years: '1457—1520', bio: 'Ottoman-era Kurdish polymath; negotiated the alliance between Ottoman Sultan Selim I and Kurdish emirs that defined Kurdish autonomy for centuries.', wiki: 'https://en.wikipedia.org/wiki/Idris_Bitlisi', name_ar: 'ئیدریس بدلیسی', role_ar: 'مێژوونووس، دەوڵەتمەدار', bio_ar: 'زانایەکی فرە‌زانستی کورد لە سەردەمی عوسمانی؛ هاوپەیمانیی نێوان سوڵتان سلێمی یەکەمی عوسمانی و میرە کوردەکانی ڕێکخست کە بۆ سەدان ساڵ خۆبەڕێوەبەریی کوردیی دیاری کرد.' },
 
     // Singers / cultural figures
-    { m: 6,  d: 4,  type: 'd', name: 'Hesen Zîrek',                role: 'Kurdish singer',                     years: '1921—1972', bio: 'Prolific Kurdish folk singer from Bukan; recorded thousands of pieces, many of which became standards.', wiki: 'https://en.wikipedia.org/wiki/Hassan_Zirak' },
-    { m: 10, d: 28, type: 'b', name: 'Ahmet Kaya',                 role: 'Kurdish singer',            years: '1957—2000', bio: 'Beloved political singer of Kurdish origin who sang in Turkish; exiled after publicly singing in Kurdish, died in Paris.', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya' },
-    { m: 11, d: 16, type: 'd', name: 'Ahmet Kaya',                 role: 'Kurdish singer',            years: '1957—2000', bio: 'Death anniversary of one of the great voices of Anatolia.', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya' },
+    { m: 6,  d: 4,  type: 'd', name: 'Hesen Zîrek',                role: 'Kurdish singer',                     years: '1921—1972', bio: 'Prolific Kurdish folk singer from Bukan; recorded thousands of pieces, many of which became standards.', wiki: 'https://en.wikipedia.org/wiki/Hassan_Zirak', name_ar: 'حەسەن زیرەک', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'گۆرانیبێژی فۆلکلۆری کوردی لە بۆکان؛ هەزاران بەرهەمی تۆمار کرد، زۆربەی بوون بە ستاندارد.' },
+    { m: 10, d: 28, type: 'b', name: 'Ahmet Kaya',                 role: 'Kurdish singer',            years: '1957—2000', bio: 'Beloved political singer of Kurdish origin who sang in Turkish; exiled after publicly singing in Kurdish, died in Paris.', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya', name_ar: 'ئەحمەد کایا', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'گۆرانیبێژی سیاسی خۆشەویست بە بنەچەی کوردی کە بە تورکی گۆرانیی دەوت؛ پاش گۆرانی گوتنی ئاشکرای بە کوردی دوور خرایەوە، لە پاریس کۆچی دوایی کرد.' },
+    { m: 11, d: 16, type: 'd', name: 'Ahmet Kaya',                 role: 'Kurdish singer',            years: '1957—2000', bio: 'Death anniversary of one of the great voices of Anatolia.', wiki: 'https://en.wikipedia.org/wiki/Ahmet_Kaya', name_ar: 'ئەحمەد کایا', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'یادی کۆچی دوایی یەکێک لە دەنگە مەزنەکانی ئەناتۆلیا.' },
 
     // Filmmakers / contemporary
-    { m: 2,  d: 1,  type: 'b', name: 'Bahman Ghobadi',             role: 'Kurdish filmmaker',                 years: 'b. 1969',   bio: 'Director of A Time for Drunken Horses, Turtles Can Fly, and No One Knows About Persian Cats; one of the most internationally recognized Kurdish filmmakers.', wiki: 'https://en.wikipedia.org/wiki/Bahman_Ghobadi' },
+    { m: 2,  d: 1,  type: 'b', name: 'Bahman Ghobadi',             role: 'Kurdish filmmaker',                 years: 'b. 1969',   bio: 'Director of A Time for Drunken Horses, Turtles Can Fly, and No One Knows About Persian Cats; one of the most internationally recognized Kurdish filmmakers.', wiki: 'https://en.wikipedia.org/wiki/Bahman_Ghobadi', name_ar: 'بەهمەن قوبادی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «کاتێک بۆ ئەسپە سەرخۆشەکان»، «کیسەڵەکان دەتوانن بفڕن» و «کەس لە پشیلە فارسییەکان نازانێ»؛ یەکێک لە بەناوبانگترین فیلمسازە کوردەکان.' },
 
     // Activists / contemporary politics
-    { m: 3,  d: 10, type: 'b', name: 'Nadia Murad',                role: 'Yezîdî activist, Nobel laureate',    years: 'b. 1993',   bio: 'Yezîdî survivor of the 2014 ISIS attacks; awarded the 2018 Nobel Peace Prize for her work documenting genocide and assisting survivors.', wiki: 'https://en.wikipedia.org/wiki/Nadia_Murad' },
-    { m: 4,  d: 10, type: 'b', name: 'Selahattin Demirtaş',        role: 'Kurdish politician',         years: 'b. 1973',   bio: 'Former co-chair of the HDP; presidential candidate in Turkey; imprisoned since 2016.', wiki: 'https://en.wikipedia.org/wiki/Selahattin_Demirta%C5%9F' },
-    { m: 5,  d: 22, type: 'd', name: 'Mîr Bedirxan',               role: 'Kurdish prince',                    years: '1803—1869', bio: 'Last semi-autonomous emir of Cizîre-Botan; led one of the major 19th-century Kurdish revolts against Ottoman centralization.', wiki: 'https://en.wikipedia.org/wiki/Bedir_Khan_Beg' },
+    { m: 3,  d: 10, type: 'b', name: 'Nadia Murad',                role: 'Yezîdî activist, Nobel laureate',    years: 'b. 1993',   bio: 'Yezîdî survivor of the 2014 ISIS attacks; awarded the 2018 Nobel Peace Prize for her work documenting genocide and assisting survivors.', wiki: 'https://en.wikipedia.org/wiki/Nadia_Murad', name_ar: 'نادیە مراد', role_ar: 'چالاکی ئێزدی، نازناوبەخشی نۆبڵی ئاشتی', bio_ar: 'ڕزگاربووی ئێزدی هێرشەکانی داعش لە ٢٠١٤؛ بە نازناوی نۆبڵی ئاشتیی ٢٠١٨ بەخشرا بە دامەزراندنی جینۆساید و یارمەتی ڕزگاربووان.' },
+    { m: 4,  d: 10, type: 'b', name: 'Selahattin Demirtaş',        role: 'Kurdish politician',         years: 'b. 1973',   bio: 'Former co-chair of the HDP; presidential candidate in Turkey; imprisoned since 2016.', wiki: 'https://en.wikipedia.org/wiki/Selahattin_Demirta%C5%9F', name_ar: 'سەلاحەتین دەمیرتاش', role_ar: 'سیاسەتمەداری کورد', bio_ar: 'سەرۆکی پێشووی هاوبەشی هدپ؛ کاندیدای سەرۆکایەتیی تورکیا؛ لە ٢٠١٦ەوە لە زیندانە.' },
+    { m: 5,  d: 22, type: 'd', name: 'Mîr Bedirxan',               role: 'Kurdish prince',                    years: '1803—1869', bio: 'Last semi-autonomous emir of Cizîre-Botan; led one of the major 19th-century Kurdish revolts against Ottoman centralization.', wiki: 'https://en.wikipedia.org/wiki/Bedir_Khan_Beg', name_ar: 'میر بەدرخان', role_ar: 'میری کورد', bio_ar: 'دواین میری ئازادی نیمچە‌خۆبەڕێوەبەری جزیرە‌بۆتان؛ یەکێک لە ڕاپەڕینە گەورەکانی کوردیی سەدەی نۆزدەی لە دژی ناوەندی عوسمانی سەرکردایەتی کرد.' },
 
     // Older figures
-    { m: 7,  d: 1,  type: 'b', name: 'Karim Khan Zand',            role: 'Founder of the Zand dynasty',        years: '~1705—1779',bio: 'Lak/Lor-Kurdish founder of the Zand dynasty in Iran; widely remembered as one of Iran\'s most just rulers. Birth date approximate.', wiki: 'https://en.wikipedia.org/wiki/Karim_Khan_Zand' },
+    { m: 7,  d: 1,  type: 'b', name: 'Karim Khan Zand',            role: 'Founder of the Zand dynasty',        years: '~1705—1779',bio: 'Lak/Lor-Kurdish founder of the Zand dynasty in Iran; widely remembered as one of Iran\'s most just rulers. Birth date approximate.', wiki: 'https://en.wikipedia.org/wiki/Karim_Khan_Zand', name_ar: 'کەریم خانی زەند', role_ar: 'دامەزرێنەری دودمانی زەند', bio_ar: 'دامەزرێنەری دودمانی زەند لە ئێران، بنەچەی لاک/لۆر-کوردی؛ یەکێک لە دادپەروەرترین فەرمانڕەوایانی ئێران بە بیر دەهێنرێتەوە. ساڵی لەدایکبوون نزیکە.' },
 
     // Modern Kurdish literature
-    { m: 4,  d: 28, type: 'b', name: 'Bextiyar Elî',               role: 'Kurdish novelist',                    years: 'b. 1966',   bio: 'Major contemporary Kurdish novelist and poet; his fiction has been translated into many European languages.', wiki: 'https://en.wikipedia.org/wiki/Bachtyar_Ali' },
+    { m: 4,  d: 28, type: 'b', name: 'Bextiyar Elî',               role: 'Kurdish novelist',                    years: 'b. 1966',   bio: 'Major contemporary Kurdish novelist and poet; his fiction has been translated into many European languages.', wiki: 'https://en.wikipedia.org/wiki/Bachtyar_Ali', name_ar: 'بەختیار عەلی', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'ڕۆماننووس و شاعیری هاوچەرخی گرنگی کوردی؛ ڕۆمانەکانی بۆ زۆر زمانی ئەوروپی وەرگێڕدراون.' },
   ];
 
   // ---------- helpers ----------
@@ -521,6 +521,39 @@
   function isLatVow(c) { return c && CK_VOWELS_LAT.includes(c); }
   function isLatCons(c) { return c && /\p{L}/u.test(c) && !isLatVow(c); }
 
+  // For an unbroken run of N consonants, place "i"s so that:
+  //   • a word-initial #CC+V splits between the first and second consonant
+  //     (Sorani disallows complex onsets), e.g. ktêb → kitêb
+  //   • a word-final cluster keeps the rightmost permissible 2-coda intact
+  //     (rd, st, nd, …); otherwise an "i" goes before the last consonant,
+  //     e.g. agr → agir, kurd stays kurd
+  //   • a 3+ cluster anywhere prefers to keep the rightmost permissible
+  //     2-cluster as a coda+onset and inserts "i" *before* it,
+  //     e.g. agrda → agirda (not agrida), kurdstan → kurdistan,
+  //          pşkût → pişkût (not pşikût).
+  function ckEpenthRun(run, atStart, atEnd) {
+    const n = run.length;
+    if (n <= 1) return run;
+    if (n === 2) {
+      if (atStart) return run[0] + 'i' + run[1];
+      if (atEnd)   return CK_PERM_FIN.has(run.toLowerCase()) ? run : (run[0] + 'i' + run[1]);
+      return run; // V-CC-V keeps the cluster
+    }
+    // n >= 3
+    if (atStart) {
+      // #CCC+V — split first onset, then handle the rest as a mid-word run
+      // (no longer atStart; atEnd flag passes through).
+      return run[0] + 'i' + ckEpenthRun(run.slice(1), false, atEnd);
+    }
+    // atEnd or mid-word: try to keep the last 2 as a permissible coda.
+    const last2 = run.slice(n - 2).toLowerCase();
+    if (CK_PERM_FIN.has(last2)) {
+      return ckEpenthRun(run.slice(0, n - 2), false, false) + 'i' + run.slice(n - 2);
+    }
+    // Otherwise treat the very last char as a single coda.
+    return ckEpenthRun(run.slice(0, n - 1), false, false) + 'i' + run[n - 1];
+  }
+
   function ckEpenthesize(latin) {
     return latin.replace(/[\p{L}']+/gu, word => {
       const N = word.length;
@@ -530,39 +563,7 @@
         if (!isLatCons(word[i])) { out += word[i]; i++; continue; }
         let j = i;
         while (j < N && isLatCons(word[j])) j++;
-        const run = word.slice(i, j);
-        const len = run.length;
-        const atStart = (i === 0);
-        const atEnd = (j === N);
-        if (len === 1) {
-          out += run;
-        } else if (len === 2) {
-          const cluster = run.toLowerCase();
-          if (atStart) {
-            out += run[0] + 'i' + run[1];
-          } else if (atEnd) {
-            out += CK_PERM_FIN.has(cluster) ? run : (run[0] + 'i' + run[1]);
-          } else {
-            out += run;
-          }
-        } else {
-          const chunks = [];
-          let p = 0;
-          while (p < len) {
-            chunks.push(run.slice(p, Math.min(p + 2, len)));
-            p += 2;
-          }
-          if (atStart && chunks[0].length === 2) {
-            chunks[0] = chunks[0][0] + 'i' + chunks[0][1];
-          }
-          if (atEnd) {
-            const last = chunks[chunks.length - 1];
-            if (last.length === 2 && !CK_PERM_FIN.has(last.toLowerCase())) {
-              chunks[chunks.length - 1] = last[0] + 'i' + last[1];
-            }
-          }
-          out += chunks.join('i');
-        }
+        out += ckEpenthRun(word.slice(i, j), i === 0, j === N);
         i = j;
       }
       return out;
@@ -1053,7 +1054,9 @@
     if (q) {
       items = items.filter(e =>
         e.name.toLowerCase().includes(q) ||
-        e.sub.toLowerCase().includes(q));
+        e.sub.toLowerCase().includes(q) ||
+        (e.name_ar || '').includes(q) ||
+        (e.sub_ar || '').includes(q));
     } else if (!daysShowAll) {
       items = items.filter(e => e.m === curMonth);
     }
@@ -1129,17 +1132,23 @@
       items = items.filter(f =>
         (f.name || '').toLowerCase().includes(q) ||
         (f.role || '').toLowerCase().includes(q) ||
-        (f.bio || '').toLowerCase().includes(q));
+        (f.bio || '').toLowerCase().includes(q) ||
+        (f.name_ar || '').includes(q) ||
+        (f.role_ar || '').includes(q) ||
+        (f.bio_ar || '').includes(q));
     } else if (!figuresShowAll) {
       items = items.filter(f => f.m === curMonth);
     }
     items.sort((a, b) => a.m - b.m || a.d - b.d);
 
+    const isAr = script() === 'two';
     if (!items.length) {
       const li = document.createElement('li');
       li.style.opacity = '0.7';
       li.style.fontSize = '0.9em';
-      li.textContent = q ? 'No matches.' : 'No figures recorded for this month. Tap "Show all" for the full list.';
+      li.textContent = q
+        ? (isAr ? 'هیچ ئەنجامێک نەدۆزرایەوە.' : 'No matches.')
+        : (isAr ? 'لەم مانگەدا کەسایەتی تۆمار نەکراوە. "هەموو پیشان بدە" بکە بۆ لیستی تەواو.' : 'No figures recorded for this month. Tap "Show all" for the full list.');
       list.appendChild(li);
     }
 
@@ -1149,22 +1158,26 @@
       li.id = 'fig-' + slug;
       li.className = 'fig-item';
       if (f.m === curMonth && f.d === curDay) li.classList.add('today');
-      const date = gMonthShort(f.m - 1) + ' ' + f.d;
+      const date = gMonthShort(f.m - 1) + ' ' + (isAr ? digits(f.d, 'two') : f.d);
       const star = f.type === 'b' ? '★' : '✦';
       const summary = document.createElement('button');
       summary.type = 'button';
       summary.className = 'fig-summary';
+      const dispName = isAr && f.name_ar ? f.name_ar : f.name;
+      const dispRole = isAr && f.role_ar ? f.role_ar : f.role;
       summary.innerHTML =
         '<span class="fig-when">' + date + '</span>' +
-        '<span class="fig-name"><span class="fig-mark">' + star + '</span>' + escapeHtml(f.name) + '</span>' +
-        '<span class="fig-role">' + escapeHtml(f.role) + ' · ' + escapeHtml(f.years) + '</span>';
+        '<span class="fig-name"' + (isAr ? ' dir="rtl"' : '') + '><span class="fig-mark">' + star + '</span>' + escapeHtml(dispName) + '</span>' +
+        '<span class="fig-role"' + (isAr ? ' dir="rtl"' : '') + '>' + escapeHtml(dispRole) + ' · ' + escapeHtml(f.years) + '</span>';
       summary.addEventListener('click', () => li.classList.toggle('expanded'));
 
       const detail = document.createElement('div');
       detail.className = 'fig-detail';
+      const dispBio = isAr && f.bio_ar ? f.bio_ar : (f.bio || '');
+      const wikiLabel = isAr ? 'ویکیپیدیا' : 'Wikipedia';
       detail.innerHTML =
-        '<p>' + escapeHtml(f.bio || '') + '</p>' +
-        (f.wiki ? '<p><a href="' + f.wiki + '" target="_blank" rel="noopener">Wikipedia &rarr;</a></p>' : '');
+        '<p' + (isAr ? ' dir="rtl"' : '') + '>' + escapeHtml(dispBio) + '</p>' +
+        (f.wiki ? '<p><a href="' + f.wiki + '" target="_blank" rel="noopener">' + wikiLabel + ' &rarr;</a></p>' : '');
 
       li.appendChild(summary);
       li.appendChild(detail);

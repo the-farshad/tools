@@ -280,6 +280,22 @@
   function isLatVow(c)  { return c && CK_VOWELS_LAT.indexOf(c) >= 0; }
   function isLatCons(c) { return c && /[A-ɏÀ-ÿ]/.test(c) && !isLatVow(c); }
 
+  function ckEpenthRun(run, atStart, atEnd) {
+    var n = run.length;
+    if (n <= 1) return run;
+    if (n === 2) {
+      if (atStart) return run.charAt(0) + 'i' + run.charAt(1);
+      if (atEnd)   return CK_PERM_FIN[run.toLowerCase()] ? run : (run.charAt(0) + 'i' + run.charAt(1));
+      return run;
+    }
+    if (atStart) return run.charAt(0) + 'i' + ckEpenthRun(run.slice(1), false, atEnd);
+    var last2 = run.slice(n - 2).toLowerCase();
+    if (CK_PERM_FIN[last2]) {
+      return ckEpenthRun(run.slice(0, n - 2), false, false) + 'i' + run.slice(n - 2);
+    }
+    return ckEpenthRun(run.slice(0, n - 1), false, false) + 'i' + run.charAt(n - 1);
+  }
+
   function ckEpenthesize(latin) {
     return latin.replace(/[A-Za-zÀ-ÿĀ-ſ']+/g, function (word) {
       var N = word.length, out = '', i = 0;
@@ -287,26 +303,7 @@
         if (!isLatCons(word.charAt(i))) { out += word.charAt(i); i++; continue; }
         var j = i;
         while (j < N && isLatCons(word.charAt(j))) j++;
-        var run = word.slice(i, j), len = run.length;
-        var atStart = (i === 0), atEnd = (j === N);
-        if (len === 1) out += run;
-        else if (len === 2) {
-          var cluster = run.toLowerCase();
-          if (atStart) out += run.charAt(0) + 'i' + run.charAt(1);
-          else if (atEnd) out += CK_PERM_FIN[cluster] ? run : (run.charAt(0) + 'i' + run.charAt(1));
-          else out += run;
-        } else {
-          var chunks = [], p = 0;
-          while (p < len) { chunks.push(run.slice(p, Math.min(p + 2, len))); p += 2; }
-          if (atStart && chunks[0].length === 2) chunks[0] = chunks[0].charAt(0) + 'i' + chunks[0].charAt(1);
-          if (atEnd) {
-            var last = chunks[chunks.length - 1];
-            if (last.length === 2 && !CK_PERM_FIN[last.toLowerCase()]) {
-              chunks[chunks.length - 1] = last.charAt(0) + 'i' + last.charAt(1);
-            }
-          }
-          out += chunks.join('i');
-        }
+        out += ckEpenthRun(word.slice(i, j), i === 0, j === N);
         i = j;
       }
       return out;

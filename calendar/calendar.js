@@ -72,43 +72,43 @@
 
   // ---------- Important days (civic / national / memorial) ----------
   const EVENTS = [
-    { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                slug: 'mahabad' },
-    { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',              slug: 'kobane-liberation' },
-    { m: 2,  d: 21, name: 'Mother Language Day',                      sub: 'International',                             slug: 'mother-language' },
-    { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',        slug: 'halabja' },
-    { m: 3,  d: 21, name: 'Newroz',                                   sub: 'Kurdish New Year',                          slug: 'newroz' },
-    { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)',     slug: 'mahabad-execution' },
-    { m: 4,  d: 14, name: 'Anfal Memorial',                           sub: 'Anfal campaign remembrance',                slug: 'anfal' },
-    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî',                        sub: 'Kurdish Language Day',                      slug: 'kurdish-language' },
-    { m: 6,  d: 1,  name: 'Founding of the PUK',                      sub: 'Patriotic Union of Kurdistan (1975)',       slug: 'puk-founding' },
-    { m: 7,  d: 19, name: 'Rojava Revolution',                        sub: 'Anniversary (2012)',                        slug: 'rojava-revolution' },
-    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial',                 sub: 'Sinjar attack remembrance (2014)',          slug: 'yezidi-memorial' },
-    { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',         slug: 'kdp-founding' },
-    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                      slug: 'referendum' },
-    { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',              slug: 'kobane-siege' },
-    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          slug: 'mahabad-fall' },
-    { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',                    slug: 'flag-day' },
+    { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                name_ar: 'کۆماری کوردستان', sub_ar: 'دامەزراندن لە مەهاباد (١٩٤٦)', slug: 'mahabad' },
+    { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',              name_ar: 'ڕزگاربوونی کۆبانی', sub_ar: 'کۆتایی گەمارۆی داعش (٢٠١٥)', slug: 'kobane-liberation' },
+    { m: 2,  d: 21, name: 'Mother Language Day',                      sub: 'International',                             name_ar: 'ڕۆژی زمانی دایک', sub_ar: 'نێودەوڵەتی', slug: 'mother-language' },
+    { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',        name_ar: 'یادی هەڵەبجە', sub_ar: 'یادی هێرشی کیمیایی (١٩٨٨)', slug: 'halabja' },
+    { m: 3,  d: 21, name: 'Newroz',                                   sub: 'Kurdish New Year',                          name_ar: 'نەورۆز', sub_ar: 'سەری ساڵی کوردی', slug: 'newroz' },
+    { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)',     name_ar: 'لەسێدارەدانی سەرکردایەتی کۆماری کوردستان', sub_ar: 'قازی محەممەد و چەند کەسی تر (١٩٤٧)', slug: 'mahabad-execution' },
+    { m: 4,  d: 14, name: 'Anfal Memorial',                           sub: 'Anfal campaign remembrance',                name_ar: 'یادی ئەنفال', sub_ar: 'یادی شاڵاوی ئەنفال', slug: 'anfal' },
+    { m: 5,  d: 15, name: 'Roja Zimanê Kurdî',                        sub: 'Kurdish Language Day',                      name_ar: 'ڕۆژی زمانی کوردی', sub_ar: 'ڕۆژی نیشتمانیی زمان', slug: 'kurdish-language' },
+    { m: 6,  d: 1,  name: 'Founding of the PUK',                      sub: 'Patriotic Union of Kurdistan (1975)',       name_ar: 'دامەزراندنی یەکێتی', sub_ar: 'یەکێتیی نیشتمانیی کوردستان (١٩٧٥)', slug: 'puk-founding' },
+    { m: 7,  d: 19, name: 'Rojava Revolution',                        sub: 'Anniversary (2012)',                        name_ar: 'شۆڕشی ڕۆژاوا', sub_ar: 'یادی (٢٠١٢)', slug: 'rojava-revolution' },
+    { m: 8,  d: 3,  name: 'Yezîdî Genocide Memorial',                 sub: 'Sinjar attack remembrance (2014)',          name_ar: 'یادی جینۆسایدی ئێزدییەکان', sub_ar: 'یادی هێرشی شنگال (٢٠١٤)', slug: 'yezidi-memorial' },
+    { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',         name_ar: 'دامەزراندنی پارتی', sub_ar: 'پارتیی دیموکراتیی کوردستان (١٩٤٦)', slug: 'kdp-founding' },
+    { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                      name_ar: 'ڕیفراندۆمی سەربەخۆیی کوردستان', sub_ar: '٢٠١٧', slug: 'referendum' },
+    { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',              name_ar: 'دەستپێکی گەمارۆی کۆبانی', sub_ar: 'هێرشی داعش بۆ کۆبانی (٢٠١٤)', slug: 'kobane-siege' },
+    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          name_ar: 'کەوتنی کۆماری کوردستان', sub_ar: 'داگیرکردنەوەی مەهاباد لەلایەن هێزە ئێرانییەکان (١٩٤٦)', slug: 'mahabad-fall' },
+    { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',                    name_ar: 'ڕۆژی ئاڵای کوردستان', sub_ar: 'پەسەندکراوە لە هەرێمی کوردستان (١٩٩٩)', slug: 'flag-day' },
     // Treaties and major historical turning points
-    { m: 8,  d: 23, name: 'Battle of Chaldiran',                      sub: '1514 — Ottoman-Safavid war; Kurdistan split between two empires', slug: 'chaldiran' },
-    { m: 5,  d: 17, name: 'Treaty of Zuhab',                          sub: '1639 — first formal partition of Kurdistan',            slug: 'zuhab' },
-    { m: 8,  d: 10, name: 'Treaty of Sèvres',                         sub: '1920 — first international promise of a Kurdish state', slug: 'sevres' },
-    { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan',         slug: 'lausanne' },
-    { m: 4,  d: 7,  name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising',   slug: 'no-fly-zone' },
-    { m: 5,  d: 19, name: 'First Kurdistan Region elections',         sub: '1992 — first parliamentary vote in Iraqi Kurdistan',    slug: 'kri-elections' },
-    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       slug: 'kirkuk-2017' },
+    { m: 8,  d: 23, name: 'Battle of Chaldiran',                      sub: '1514 — Ottoman-Safavid war; Kurdistan split between two empires', name_ar: 'جەنگی چاڵدێران', sub_ar: '١٥١٤ — جەنگی عوسمانی-سەفەوی؛ کوردستان دابەش بوو', slug: 'chaldiran' },
+    { m: 5,  d: 17, name: 'Treaty of Zuhab',                          sub: '1639 — first formal partition of Kurdistan',            name_ar: 'پەیماننامەی زوهاب', sub_ar: '١٦٣٩ — یەکەم پارچەکردنی فەرمیی کوردستان', slug: 'zuhab' },
+    { m: 8,  d: 10, name: 'Treaty of Sèvres',                         sub: '1920 — first international promise of a Kurdish state', name_ar: 'پەیماننامەی سێڤر', sub_ar: '١٩٢٠ — یەکەم بەڵێنی نێودەوڵەتی بۆ دەوڵەتی کورد', slug: 'sevres' },
+    { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan',         name_ar: 'پەیماننامەی لۆزان', sub_ar: '١٩٢٣ — جێگری سێڤر؛ پارچەکردنی کوردستان', slug: 'lausanne' },
+    { m: 4,  d: 7,  name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising',   name_ar: 'دامەزراندنی ناوچەی نەفڕین', sub_ar: '١٩٩١ — پاراستنی کوردستانی عێراق پاش ڕاپەڕین', slug: 'no-fly-zone' },
+    { m: 5,  d: 19, name: 'First Kurdistan Region elections',         sub: '1992 — first parliamentary vote in Iraqi Kurdistan',    name_ar: 'یەکەم هەڵبژاردنی هەرێمی کوردستان', sub_ar: '١٩٩٢ — یەکەم دەنگدانی پەرلەمانی لە کوردستانی عێراق', slug: 'kri-elections' },
+    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       name_ar: 'گرتنەوەی کەرکوک لەلایەن هێزە عێراقییەکان', sub_ar: '٢٠١٧ — پاش ڕیفراندۆم', slug: 'kirkuk-2017' },
     // Major uprisings
-    { m: 2,  d: 13, name: 'Beginning of the Sheikh Said rebellion',   sub: '1925 — Kurdish uprising in Turkey',                     slug: 'sheikh-said-rebellion' },
-    { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   slug: '1991-uprising' },
-    { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        slug: 'qamishlo-uprising' },
-    { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           slug: 'jina-amini' },
+    { m: 2,  d: 13, name: 'Beginning of the Sheikh Said rebellion',   sub: '1925 — Kurdish uprising in Turkey',                     name_ar: 'دەستپێکی ڕاپەڕینی شێخ سەعید', sub_ar: '١٩٢٥ — ڕاپەڕینی کورد لە تورکیا', slug: 'sheikh-said-rebellion' },
+    { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   name_ar: 'دەستپێکی ڕاپەڕینی ١٩٩١', sub_ar: 'کوردانی عێراق هەستان پاش جەنگی کەنداو', slug: '1991-uprising' },
+    { m: 3,  d: 12, name: 'Qamişlo uprising',                         sub: '2004 — Syrian Kurdish uprising',                        name_ar: 'ڕاپەڕینی قامیشلۆ', sub_ar: '٢٠٠٤ — ڕاپەڕینی کوردانی سوریا', slug: 'qamishlo-uprising' },
+    { m: 9,  d: 16, name: 'Death of Jina Mahsa Amini',                sub: '2022 — sparked the Jin Jiyan Azadî movement',           name_ar: 'کۆچی دوایی ژینا مەهسا ئەمینی', sub_ar: '٢٠٢٢ — هاندەری بزووتنەوەی ژن ژیان ئازادی', slug: 'jina-amini' },
     // Major Kurdish political organizations (chronological, neutral)
-    { m: 9,  d: 20, name: 'Founding of the PYD',                      sub: '2003 — Democratic Union Party (Syrian Kurdistan)',                slug: 'pyd-founding' },
-    { m: 9,  d: 21, name: 'Founding of Gorran',                       sub: '2009 — Movement for Change (Iraqi Kurdistan)',                    slug: 'goran-founding' },
-    { m: 9,  d: 26, name: 'Founding of Komala',                       sub: '1969 — Society of Revolutionary Toilers (Iranian Kurdistan)',     slug: 'komala-founding' },
-    { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', slug: 'khoyboun' },
-    { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          slug: 'kdpi-founding' },
-    { m: 11, d: 27, name: 'Founding of the PKK',                      sub: '1978 — Kurdistan Workers\' Party',                      slug: 'pkk-founding' },
-    { m: 10, d: 15, name: 'Founding of the HDP',                      sub: '2012 — Peoples\' Democratic Party (Turkey)',            slug: 'hdp-founding' },
+    { m: 9,  d: 20, name: 'Founding of the PYD',                      sub: '2003 — Democratic Union Party (Syrian Kurdistan)',                name_ar: 'دامەزراندنی پی‌دی‌دی', sub_ar: '٢٠٠٣ — پارتیی یەکێتیی دیموکراتی (کوردستانی سوریا)', slug: 'pyd-founding' },
+    { m: 9,  d: 21, name: 'Founding of Gorran',                       sub: '2009 — Movement for Change (Iraqi Kurdistan)',                    name_ar: 'دامەزراندنی گۆڕان', sub_ar: '٢٠٠٩ — بزووتنەوەی گۆڕان (کوردستانی عێراق)', slug: 'goran-founding' },
+    { m: 9,  d: 26, name: 'Founding of Komala',                       sub: '1969 — Society of Revolutionary Toilers (Iranian Kurdistan)',     name_ar: 'دامەزراندنی کۆمەڵە', sub_ar: '١٩٦٩ — کۆمەڵەی شۆڕشگێڕانی زەحمەتکێشانی کوردستانی ئێران', slug: 'komala-founding' },
+    { m: 10, d: 5,  name: 'Founding of the Khoybûn League',           sub: '1927 — first transnational Kurdish nationalist organization', name_ar: 'دامەزراندنی خۆیبوون', sub_ar: '١٩٢٧ — یەکەم ڕێکخراوی نیشتمانیی نێودەوڵەتیی کورد', slug: 'khoyboun' },
+    { m: 8,  d: 16, name: 'Founding of the KDP-Iran (KDPI)',          sub: '1945 — Democratic Party of Iranian Kurdistan',          name_ar: 'دامەزراندنی پارتی دیموکراتی کوردستانی ئێران', sub_ar: '١٩٤٥ — پارتی دیموکراتیی کوردستانی ئێران', slug: 'kdpi-founding' },
+    { m: 11, d: 27, name: 'Founding of the PKK',                      sub: '1978 — Kurdistan Workers\' Party',                      name_ar: 'دامەزراندنی پی‌کی‌کە', sub_ar: '١٩٧٨ — پارتی کرێکارانی کوردستان', slug: 'pkk-founding' },
+    { m: 10, d: 15, name: 'Founding of the HDP',                      sub: '2012 — Peoples\' Democratic Party (Turkey)',            name_ar: 'دامەزراندنی هە‌دە‌پە', sub_ar: '٢٠١٢ — پارتیی دیموکراتیکی گەلان (تورکیا)', slug: 'hdp-founding' },
   ];
 
   // ---------- Figures (poets, writers, leaders, activists) ----------
@@ -225,7 +225,7 @@
     for (let d = 14; d <= 20; d++) {
       const dow = new Date(year, 3, d).getDay(); // 0=Sun, 3=Wed
       if (dow === 3) {
-        return { m: 4, d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', slug: 'carsema-sor' };
+        return { m: 4, d, name: 'Çarşema Sor (Yezidi New Year)', sub: 'First Wednesday of Nisan in the Yezidi religious calendar', name_ar: 'چارشەمە سوور (سەری ساڵی ئێزدی)', sub_ar: 'یەکەم چوارشەممەی نیسان لە ساڵنامەی ئاینیی ئێزدی', slug: 'carsema-sor' };
       }
     }
     return null;
@@ -767,6 +767,7 @@
     if (titleAr) {
       if (isArabicSource && p.title) {
         titleAr.textContent = p.title;
+        titleAr.setAttribute('dir', 'rtl');
         titleAr.style.display = '';
       } else {
         titleAr.style.display = 'none';
@@ -775,6 +776,7 @@
     if (titleLat) {
       if (isArabicSource && p.title) {
         titleLat.textContent = titleCaseLat(ckArToLat(p.title));
+        titleLat.setAttribute('dir', 'ltr');
         titleLat.style.display = '';
       } else {
         titleLat.style.display = 'none';
@@ -1061,23 +1063,33 @@
       const li = document.createElement('li');
       li.style.opacity = '0.7';
       li.style.fontSize = '0.9em';
-      li.textContent = q ? 'No matches.' : 'No important days this month. Tap "Show all" for the full year.';
+      li.textContent = q
+        ? (script() === 'two' ? 'هیچ ئەنجامێک نەدۆزرایەوە.' : 'No matches.')
+        : (script() === 'two' ? 'لەم مانگەدا ڕۆژی گرنگ نییە. "هەموو پیشان بدە" بکە بۆ ساڵەکە.' : 'No important days this month. Tap "Show all" for the full year.');
       list.appendChild(li);
     }
 
+    const isAr = script() === 'two';
     items.forEach(e => {
       const li = document.createElement('li');
       const when = document.createElement('span');
       when.className = 'cal-day-when';
-      if (e.daysAway === 0) { when.textContent = 'today'; when.classList.add('upcoming'); }
-      else if (e.daysAway === 1) { when.textContent = 'tomorrow'; when.classList.add('upcoming'); }
-      else if (e.daysAway <= 30 && !daysShowAll && !q) { when.textContent = 'in ' + e.daysAway + ' days'; when.classList.add('upcoming'); }
-      else when.textContent = gMonthShort(e.m - 1) + ' ' + e.d;
+      if (e.daysAway === 0) { when.textContent = isAr ? 'ئەمڕۆ' : 'today'; when.classList.add('upcoming'); }
+      else if (e.daysAway === 1) { when.textContent = isAr ? 'سبەینێ' : 'tomorrow'; when.classList.add('upcoming'); }
+      else if (e.daysAway <= 30 && !daysShowAll && !q) {
+        when.textContent = isAr ? ('لە ' + digits(e.daysAway, 'two') + ' ڕۆژدا') : ('in ' + e.daysAway + ' days');
+        when.classList.add('upcoming');
+      }
+      else when.textContent = gMonthShort(e.m - 1) + ' ' + (isAr ? digits(e.d, 'two') : e.d);
 
       const name = document.createElement(e.slug ? 'a' : 'span');
       name.className = 'cal-day-name';
       if (e.slug) name.href = './days/' + e.slug + '.html';
-      name.innerHTML = escapeHtml(e.name) + '<span class="cal-day-sub">' + escapeHtml(e.sub) + '</span>';
+      const dispName = isAr && e.name_ar ? e.name_ar : e.name;
+      const dispSub  = isAr && e.sub_ar  ? e.sub_ar  : e.sub;
+      if (isAr) { name.setAttribute('dir', 'rtl'); name.style.textAlign = 'right'; }
+      else      { name.removeAttribute('dir'); name.style.textAlign = ''; }
+      name.innerHTML = escapeHtml(dispName) + '<span class="cal-day-sub">' + escapeHtml(dispSub) + '</span>';
 
       li.appendChild(when);
       li.appendChild(name);

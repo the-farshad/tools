@@ -320,6 +320,17 @@
 .cal-search::placeholder { opacity: 0.6; }
 .cal-search:focus { outline: 1px dashed var(--btn-border); outline-offset: 1px; }
 
+/* In کوردی mode, force Vazirmatn for the whole page (including buttons and
+   inputs which would otherwise stay on the user's chosen Latin font).
+   Keeping --base-size unchanged so visual sizing is preserved across toggle. */
+html[data-kurd-script="two"] { --font: 'Vazirmatn', 'Tahoma', sans-serif; }
+html[data-kurd-script="two"] input,
+html[data-kurd-script="two"] button,
+html[data-kurd-script="two"] select,
+html[data-kurd-script="two"] textarea {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+}
+
 /* Unified control heights — buttons, search inputs, date input, and selects
    in the calendar all sit on the same baseline. */
 .cal-month-head .btn,
@@ -358,21 +369,27 @@
 /* .cal-poem-section + .cal-poem sizing come from the shared rule above */
 
 .poem-title {
-  font-weight: 600;
-  font-size: 1.05em;
-  margin-bottom: 2px;
+  font-weight: 700;
+  font-size: 1.3em;
+  margin: 0 0 2px;
   font-family: 'Vazirmatn','Tahoma',sans-serif;
   text-align: right;
   direction: rtl;
+  line-height: 1.3;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 6px;
 }
 .poem-title-lat {
   font-weight: 600;
-  font-size: 0.95em;
-  margin-bottom: 8px;
-  opacity: 0.85;
+  font-size: 1.05em;
+  margin: 0 0 12px;
+  opacity: 0.9;
   direction: ltr;
   text-align: left;
+  line-height: 1.3;
 }
+.poem-title:empty,
+.poem-title-lat:empty { display: none; border: 0; padding: 0; margin: 0; }
 
 .poem-orig {
   white-space: pre-line;

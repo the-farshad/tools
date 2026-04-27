@@ -56,17 +56,17 @@
     <section class="cal-today">
       <div class="cal-today-grid">
         <div class="cal-today-card">
-          <div class="cal-today-label">Gregorian</div>
+          <div class="cal-today-label" data-ar="زایینی">Gregorian</div>
           <div class="cal-today-date" id="g-date">&mdash;</div>
           <div class="cal-today-sub" id="g-day">&mdash;</div>
         </div>
         <div class="cal-today-card">
-          <div class="cal-today-label">Kurdish Calendar</div>
+          <div class="cal-today-label" data-ar="ساڵنامەی کوردی">Kurdish Calendar</div>
           <div class="cal-today-date kurd" id="ck-date">&mdash;</div>
           <div class="cal-today-sub kurd" id="ck-day">&mdash;</div>
         </div>
         <div class="cal-today-card">
-          <div class="cal-today-label">Official Calendar</div>
+          <div class="cal-today-label" data-ar="ساڵنامەی فەرمی">Official Calendar</div>
           <div class="cal-today-date kurd" id="nk-date">&mdash;</div>
           <div class="cal-today-sub kurd" id="nk-day">&mdash;</div>
         </div>
@@ -83,23 +83,23 @@
 
     <section class="cal-converter">
       <div class="cal-month-head" style="margin:0 0 12px">
-        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Convert a date</h2>
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="گۆڕینی ڕۆژ">Convert a date</h2>
         <div class="seg" data-control="conv-dir" role="group" aria-label="Direction">
-          <button type="button" data-value="g2k" class="active">Greg &rarr; Kurdî</button>
-          <button type="button" data-value="k2g">Kurdî &rarr; Greg</button>
+          <button type="button" data-value="g2k" class="active" data-ar="زایینی &rarr; کوردی">Greg &rarr; Kurdî</button>
+          <button type="button" data-value="k2g" data-ar="کوردی &rarr; زایینی">Kurdî &rarr; Greg</button>
         </div>
       </div>
 
       <div id="conv-mode-g2k">
         <div class="conv-row">
-          <label for="conv-input">Pick a Gregorian date</label>
+          <label for="conv-input" data-ar="ڕۆژێکی زایینی هەڵبژێرە">Pick a Gregorian date</label>
           <input type="date" id="conv-input" />
         </div>
       </div>
 
       <div id="conv-mode-k2g" hidden>
         <div class="conv-row">
-          <label>Pick a Kurdish Calendar date</label>
+          <label data-ar="ڕۆژێکی ساڵنامەی کوردی هەڵبژێرە">Pick a Kurdish Calendar date</label>
           <select id="conv-jy"></select>
           <select id="conv-jm"></select>
           <select id="conv-jd"></select>
@@ -108,15 +108,15 @@
 
       <div class="conv-out">
         <div class="conv-card">
-          <div class="conv-label">Gregorian</div>
+          <div class="conv-label" data-ar="زایینی">Gregorian</div>
           <div class="conv-value" id="conv-g">&mdash;</div>
         </div>
         <div class="conv-card">
-          <div class="conv-label">Kurdish Calendar</div>
+          <div class="conv-label" data-ar="ساڵنامەی کوردی">Kurdish Calendar</div>
           <div class="conv-value kurd" id="conv-ck">&mdash;</div>
         </div>
         <div class="conv-card">
-          <div class="conv-label">Official Calendar</div>
+          <div class="conv-label" data-ar="ساڵنامەی فەرمی">Official Calendar</div>
           <div class="conv-value kurd" id="conv-nk">&mdash;</div>
         </div>
       </div>
@@ -127,20 +127,21 @@
         <button type="button" class="btn cal-nav" id="prev-month">&larr;</button>
         <h2 id="month-title" class="cal-month-title">&mdash;</h2>
         <button type="button" class="btn cal-nav" id="next-month">&rarr;</button>
-        <button type="button" class="btn" id="today-btn">Today</button>
+        <button type="button" class="btn" id="today-btn" data-ar="ئەمڕۆ">Today</button>
       </div>
       <div class="cal-grid" id="month-grid"></div>
     </section>
 
     <section class="cal-poem-section">
       <div class="cal-month-head" style="margin:0 0 8px">
-        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Poem</h2>
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="هۆنراوە">Poem</h2>
         <button type="button" class="btn" id="poem-saved-toggle" title="Saved poems">&#9734; <span id="poem-saved-count">0</span></button>
-        <button type="button" class="btn" id="poem-shuffle">Another &#x21bb;</button>
+        <button type="button" class="btn" id="poem-shuffle" data-ar="یەکێکی تر &#x21bb;">Another &#x21bb;</button>
       </div>
       <ul class="cal-poem-saved" id="poem-saved" hidden></ul>
       <article class="cal-poem" id="poem">
         <div class="poem-orig" id="poem-orig"></div>
+        <div class="poem-latin" id="poem-latin"></div>
         <div class="poem-trans" id="poem-trans"></div>
         <div class="poem-attr" id="poem-attr"></div>
       </article>
@@ -148,19 +149,19 @@
 
     <section class="cal-days-section">
       <div class="cal-month-head" style="margin:0 0 8px">
-        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Important days</h2>
-        <input type="search" id="days-search" placeholder="Search…" class="cal-search" autocomplete="off">
-        <button type="button" class="btn" id="days-toggle">Show all</button>
-        <button type="button" class="btn" id="export-ics" title="Download all events as a .ics calendar file">Export .ics</button>
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="ڕۆژە گرنگەکان">Important days</h2>
+        <input type="search" id="days-search" placeholder="Search…" data-ar-placeholder="گەڕان…" class="cal-search" autocomplete="off">
+        <button type="button" class="btn" id="days-toggle" data-ar="هەموو پیشان بدە">Show all</button>
+        <button type="button" class="btn" id="export-ics" title="Download all events as a .ics calendar file" data-ar="پاشەکەوتکردنی .ics">Export .ics</button>
       </div>
       <ul class="cal-days-list" id="days-list"></ul>
     </section>
 
     <section class="cal-figures-section">
       <div class="cal-month-head" style="margin:0 0 8px">
-        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0">Figures</h2>
-        <input type="search" id="figures-search" placeholder="Search…" class="cal-search" autocomplete="off">
-        <button type="button" class="btn" id="figures-toggle">Show all</button>
+        <h2 class="cal-section-title" style="flex:1 1 auto;margin:0" data-ar="کەسایەتییەکان">Figures</h2>
+        <input type="search" id="figures-search" placeholder="Search…" data-ar-placeholder="گەڕان…" class="cal-search" autocomplete="off">
+        <button type="button" class="btn" id="figures-toggle" data-ar="هەموو پیشان بدە">Show all</button>
       </div>
       <ul class="cal-figures-list" id="figures-list"></ul>
     </section>

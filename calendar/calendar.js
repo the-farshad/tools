@@ -244,6 +244,28 @@
     return document.documentElement.getAttribute('data-kurd-script') || 'one';
   }
 
+  // Swap UI labels with Arabic-script Kurdish equivalents when script === 'two'.
+  // Source elements declare alternates via data-ar / data-ar-placeholder.
+  function applyScriptLabels() {
+    const isAr = script() === 'two';
+    document.querySelectorAll('[data-ar]').forEach(el => {
+      if (!el.hasAttribute('data-en')) el.setAttribute('data-en', el.textContent);
+      el.textContent = isAr ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+      if (isAr) {
+        el.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
+        el.setAttribute('dir', 'rtl');
+      } else {
+        el.style.fontFamily = '';
+        el.removeAttribute('dir');
+      }
+    });
+    document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
+      if (!el.hasAttribute('data-en-placeholder')) el.setAttribute('data-en-placeholder', el.placeholder || '');
+      el.placeholder = isAr ? el.getAttribute('data-ar-placeholder') : el.getAttribute('data-en-placeholder');
+      el.style.fontFamily = isAr ? "'Vazirmatn','Tahoma',sans-serif" : '';
+    });
+  }
+
   // Render digits as Arabic-Indic when the second-script mode is active
   const AR_DIGITS = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
   function digits(n, scrip) {
@@ -387,24 +409,62 @@
     };
   }
 
-  // Sorani Arabic-script → Latin transliteration (lossy on و/ی vowel quality;
-  // good enough for readers who don't read Arabic script).
+  // Sorani Arabic-script → Latin transliteration following the Hawar/Bedirxan
+  // alphabet conventions (Wikipedia: "Sorani alphabet"). و and ی are
+  // contextual: vowel (u, î) between consonants or in coda after a consonant;
+  // consonant (w, y) elsewhere. وو is the long vowel û.
   const CK_AR_TO_LAT = {
     'ا':'a','آ':'a','ب':'b','پ':'p','ت':'t','ج':'c','چ':'ç',
     'ح':'h','خ':'x','د':'d','ر':'r','ڕ':'rr','ز':'z','ژ':'j',
-    'س':'s','ش':'ş','ع':'‘','غ':'gh','ف':'f','ڤ':'v','ق':'q',
-    'ک':'k','ك':'k','گ':'g','ل':'l','ڵ':'ll','م':'m','ن':'n',
-    'ھ':'h','ه':'h','ە':'e','و':'w','ۆ':'o','ی':'y','ي':'y',
-    'ێ':'ê','ئ':'','ؤ':'','ء':'','ـ':'',
+    'س':'s','ش':'ş','ع':'','غ':'gh','ف':'f','ڤ':'v','ق':'q',
+    'ک':'k','ك':'k','گ':'g','ل':'l','ڵ':'l','م':'m','ن':'n',
+    'ھ':'h','ه':'h','ە':'e','ۆ':'o','ێ':'ê',
+    'ئ':'','ؤ':'','ء':'','ـ':'',
     '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
     '،':',','؛':';','؟':'?','«':'"','»':'"',
   };
+  const CK_CONS = new Set('بپتجچحخدرڕزژسشعغفڤقکكگلڵمنھه'.split(''));
+  const CK_VOW_LET = new Set('اآەێۆ'.split(''));
+  const CK_AMB = c => c === 'و' || c === 'ی';
+  const CK_LETTER = c => CK_CONS.has(c) || CK_VOW_LET.has(c) || CK_AMB(c);
+
   function ckArToLat(s) {
     if (!s) return '';
-    s = String(s).replace(/وو/g, 'û');
+    // وو digraph → û (placeholder so we don't reprocess)
+    s = String(s).replace(/وو/g, '');
+    const chars = [...s];
     let out = '';
-    for (const ch of s) out += (ch in CK_AR_TO_LAT) ? CK_AR_TO_LAT[ch] : ch;
+    for (let i = 0; i < chars.length; i++) {
+      const c = chars[i];
+      if (c === '') { out += 'û'; continue; }
+      if (CK_AMB(c)) {
+        const prev = chars[i - 1] || '';
+        const next = chars[i + 1] || '';
+        const prevIsCons = CK_CONS.has(prev);
+        const nextIsCons = CK_CONS.has(next);
+        const nextIsLetter = CK_LETTER(next);
+        // vowel when after a consonant AND (followed by another consonant OR
+        // at the end of a token, i.e. next is non-letter)
+        const asVowel = prevIsCons && (nextIsCons || !nextIsLetter);
+        if (c === 'و') out += asVowel ? 'u' : 'w';
+        else out += asVowel ? 'î' : 'y';
+        continue;
+      }
+      out += (c in CK_AR_TO_LAT) ? CK_AR_TO_LAT[c] : c;
+    }
     return out;
+  }
+
+  // Title case for transliterated names (e.g. "hejar mukrîyanî" → "Hejar Mukrîyanî").
+  function titleCaseLat(s) {
+    return String(s || '').replace(/(^|[\s\-])(\p{L})/gu, (m, sep, ch) => sep + ch.toUpperCase());
+  }
+  // First letter of each line (for the poem body).
+  function capLinesLat(s) {
+    return String(s || '').split('\n').map(line => {
+      const m = line.match(/^(\s*)(\p{L})(.*)$/u);
+      return m ? m[1] + m[2].toUpperCase() + m[3] : line;
+    }).join('\n');
   }
 
   function truncateLines(text, maxLines) {
@@ -460,7 +520,7 @@
       return;
     }
     const isLatin = script() === 'one';
-    const tx = s => isLatin ? ckArToLat(s || '') : (s || '');
+    const tx = s => isLatin ? titleCaseLat(ckArToLat(s || '')) : (s || '');
     arr.forEach(b => {
       const li = document.createElement('li');
       li.className = 'poem-saved-item';
@@ -482,23 +542,77 @@
     const saved = isBookmarked(currentPoem.path);
     const star = saved ? '★' : '☆';
     const expandLabel = poemExpanded ? 'show less' : 'view full';
-    const isLatin = script() === 'one';
-    const poet = isLatin ? ckArToLat(currentPoem.poet) : (currentPoem.poet || '');
-    const book = isLatin ? ckArToLat(currentPoem.book) : (currentPoem.book || '');
-    const attrDir = isLatin ? 'ltr' : 'rtl';
+    const isArabic = script() === 'two';
+    const poet = isArabic ? (currentPoem.poet || '') : titleCaseLat(ckArToLat(currentPoem.poet || ''));
+    const book = isArabic ? (currentPoem.book || '') : titleCaseLat(ckArToLat(currentPoem.book || ''));
+    const attrDir = isArabic ? 'rtl' : 'ltr';
 
-    attr.style.fontFamily = isLatin ? '' : "'Vazirmatn','Tahoma',sans-serif";
+    attr.style.fontFamily = isArabic ? "'Vazirmatn','Tahoma',sans-serif" : '';
     attr.innerHTML =
       '<span dir="' + attrDir + '">— ' + escapeHtml(poet) +
       (book ? '  ·  <span style="opacity:.75">' + escapeHtml(book) + '</span>' : '') +
       '</span>' +
-      '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline">' +
+      '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline;flex-wrap:wrap">' +
         '<button type="button" class="poem-bookmark" title="' + (saved ? 'Remove bookmark' : 'Bookmark') + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
-        (currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + expandLabel + '</button>' : '') +
+        '<button type="button" class="poem-share" title="Share" style="' + linkStyle + '">share &#x2197;</button>' +
+        (currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body && !poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + expandLabel + '</button>' : '') +
         (poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">show less</button>' : '') +
         (currentPoem.viewUrl ? '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">on GitHub &#x2197;</a>' : '') +
         ((currentPoem.fullBody || currentPoem.body) ? '<a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">translate &#x2197;</a>' : '') +
       '</span>';
+  }
+
+  async function sharePoem() {
+    if (!currentPoem) return;
+    const url = currentPoem.viewUrl || (location.origin + location.pathname);
+    const poetLat = titleCaseLat(ckArToLat(currentPoem.poet || ''));
+    const titleLat = titleCaseLat(ckArToLat(currentPoem.title || '')) || 'Kurdish poem';
+    const snippet = (currentPoem.body || '').split('\n').slice(0, 4).join('\n');
+    const text = snippet + (poetLat ? '\n\n— ' + poetLat : '');
+    if (navigator.share) {
+      try { await navigator.share({ title: titleLat, text: text, url: url }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    showShareMenu({ title: titleLat, text: text, url: url });
+  }
+
+  function showShareMenu(d) {
+    const enc = encodeURIComponent;
+    const tweetText = (d.text + ' — ' + d.url).slice(0, 270);
+    const links = [
+      { name: 'X (Twitter)', href: 'https://twitter.com/intent/tweet?text=' + enc(tweetText) },
+      { name: 'WhatsApp',    href: 'https://wa.me/?text=' + enc(d.text + '\n' + d.url) },
+      { name: 'Telegram',    href: 'https://t.me/share/url?url=' + enc(d.url) + '&text=' + enc(d.text) },
+      { name: 'Facebook',    href: 'https://www.facebook.com/sharer/sharer.php?u=' + enc(d.url) },
+      { name: 'Email',       href: 'mailto:?subject=' + enc(d.title) + '&body=' + enc(d.text + '\n\n' + d.url) },
+      { name: 'Copy link',   action: 'copy' },
+    ];
+    const overlay = document.createElement('div');
+    overlay.className = 'poem-share-overlay';
+    const items = links.map((l, i) => l.href
+      ? '<a href="' + l.href + '" target="_blank" rel="noopener" class="poem-share-link">' + l.name + '</a>'
+      : '<button type="button" data-i="' + i + '" class="poem-share-link">' + l.name + '</button>'
+    ).join('');
+    overlay.innerHTML = '<div class="poem-share-menu" role="dialog" aria-label="Share poem">' +
+      items +
+      '<button type="button" class="poem-share-close">Close</button>' +
+      '</div>';
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay || e.target.classList.contains('poem-share-close')) {
+        overlay.remove();
+        return;
+      }
+      const idx = e.target.dataset && e.target.dataset.i;
+      if (idx != null) {
+        const link = links[+idx];
+        if (link.action === 'copy') {
+          (navigator.clipboard ? navigator.clipboard.writeText(d.url) : Promise.reject())
+            .then(() => { e.target.textContent = 'Copied ✓'; setTimeout(() => overlay.remove(), 700); })
+            .catch(() => { e.target.textContent = 'Copy failed'; });
+        }
+      }
+    });
+    document.body.appendChild(overlay);
   }
 
   function setPoemUI(p) {
@@ -512,23 +626,38 @@
     if (!currentPoem) return;
     const p = currentPoem;
     const orig = document.getElementById('poem-orig');
+    const latin = document.getElementById('poem-latin');
     const trans = document.getElementById('poem-trans');
     const sourceDir = p.dir || 'rtl';
     const isArabicSource = sourceDir === 'rtl';
-    const isLatin = isArabicSource && script() === 'one';
-
     const rawBody = poemExpanded && p.fullBody ? p.fullBody : p.body;
-    orig.textContent = isLatin ? ckArToLat(rawBody) : rawBody;
-    if (isLatin || !isArabicSource) {
-      orig.setAttribute('dir', 'ltr');
-      orig.style.fontFamily = '';
-      orig.style.textAlign = 'left';
-    } else {
+
+    // Original (Arabic-script) — always shown if source is rtl.
+    orig.textContent = rawBody;
+    if (isArabicSource) {
       orig.setAttribute('dir', 'rtl');
       orig.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
       orig.style.textAlign = 'right';
+    } else {
+      orig.setAttribute('dir', 'ltr');
+      orig.style.fontFamily = '';
+      orig.style.textAlign = 'left';
+    }
+    orig.style.display = '';
+
+    // Latin transliteration — shown alongside the original for rtl poems.
+    if (latin) {
+      if (isArabicSource) {
+        latin.textContent = capLinesLat(ckArToLat(rawBody));
+        latin.setAttribute('dir', 'ltr');
+        latin.style.display = '';
+      } else {
+        latin.textContent = '';
+        latin.style.display = 'none';
+      }
     }
 
+    // Translation (English) — shown if available; falls back to title.
     if (p.translation) {
       trans.textContent = p.translation;
       trans.setAttribute('dir', 'ltr');
@@ -536,15 +665,16 @@
       trans.style.textAlign = 'left';
       trans.style.display = '';
     } else if (p.title) {
-      trans.textContent = isLatin ? ckArToLat(p.title) : p.title;
-      if (isLatin) {
-        trans.setAttribute('dir', 'ltr');
-        trans.style.fontFamily = '';
-        trans.style.textAlign = 'left';
-      } else {
+      const isArabicMode = script() === 'two';
+      trans.textContent = isArabicMode ? p.title : titleCaseLat(ckArToLat(p.title));
+      if (isArabicMode) {
         trans.setAttribute('dir', 'rtl');
         trans.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
         trans.style.textAlign = 'right';
+      } else {
+        trans.setAttribute('dir', 'ltr');
+        trans.style.fontFamily = '';
+        trans.style.textAlign = 'left';
       }
       trans.style.display = '';
     } else {
@@ -925,6 +1055,7 @@
       renderPoemBody();
       renderPoemActions();
       renderSavedList();
+      applyScriptLabels();
     });
   });
 
@@ -1004,6 +1135,7 @@
   // Poem actions (delegated): bookmark, expand
   document.getElementById('poem-attr').addEventListener('click', (e) => {
     if (e.target.closest('.poem-bookmark')) toggleBookmark();
+    if (e.target.closest('.poem-share')) sharePoem();
     if (e.target.closest('.poem-expand')) togglePoemExpand();
   });
 
@@ -1030,6 +1162,7 @@
     });
   }
   renderSavedList();
+  applyScriptLabels();
 
   // Figures show-all toggle
   const figToggle = document.getElementById('figures-toggle');

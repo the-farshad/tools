@@ -339,6 +339,18 @@
 
 /* Per-poem direction is set inline via JS (poem.dir) */
 
+.poem-latin {
+  white-space: pre-line;
+  font-size: 0.98em;
+  line-height: 1.55;
+  padding-top: 10px;
+  margin-top: 4px;
+  border-top: 1px dotted var(--rule);
+  opacity: 0.92;
+  direction: ltr;
+  text-align: left;
+}
+
 .poem-trans {
   white-space: pre-line;
   font-style: italic;
@@ -347,6 +359,57 @@
   line-height: 1.5;
   padding-top: 8px;
   border-top: 1px dotted var(--rule);
+}
+
+/* Share menu */
+.poem-share-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.poem-share-menu {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 14px;
+  min-width: 240px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.poem-share-menu .poem-share-link {
+  display: block;
+  text-align: left;
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--fg);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+.poem-share-menu .poem-share-link:hover {
+  border-color: var(--fg);
+}
+.poem-share-menu .poem-share-close {
+  margin-top: 4px;
+  background: transparent;
+  border: 0;
+  color: var(--fg);
+  opacity: 0.7;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  align-self: flex-end;
+  padding: 4px 8px;
 }
 
 .poem-attr {

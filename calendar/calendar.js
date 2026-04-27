@@ -116,7 +116,7 @@
   // All entries link to Wikipedia where a page exists.
   const FIGURES = [
     // January
-    { m: 1,  d: 1,  type: 'b', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Kurdish novelist whose works revived modern literary Kurdish. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'مەهمەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'ڕۆماننووسی ناودار، نووسینەکانی ئەدەبیاتی هاوچەرخی کوردیی نوێی زیندوو کردەوە. زۆربەی ژیانی لە سوێد لە دوورخراوەییدا بەسەربرد.' },
+    { m: 1,  d: 1,  type: 'b', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Kurdish novelist whose works revived modern literary Kurdish. Lived much of his life in Swedish exile.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'محەممەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'ڕۆماننووسی ناودار، نووسینەکانی ئەدەبیاتی هاوچەرخی کوردیی نوێی زیندوو کردەوە. زۆربەی ژیانی لە سوێد لە دوورخراوەییدا بەسەربرد.' },
     { m: 1,  d: 9,  type: 'd', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK; assassinated in Paris in 2013.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z', name_ar: 'ساکینە جانسز', role_ar: 'چالاکی سیاسیی کورد', bio_ar: 'یەکێک لە دامەزرێنەرانی پکک؛ لە ٢٠١٣ لە پاریس تیرۆر کرا.' },
     { m: 1,  d: 15, type: 'b', name: 'Aram Tigran',                role: 'Kurdish musician',         years: '1934—2009', bio: 'Beloved singer who composed and performed in Kurdish, Armenian, Turkish, and Arabic.', wiki: 'https://en.wikipedia.org/wiki/Aram_Tigran', name_ar: 'ئارام تیگران', role_ar: 'موزیکژەنی کورد', bio_ar: 'گۆرانیبێژی خۆشەویست، بە کوردی، ئەرمەنی، تورکی و عەرەبی گۆرانی دەوت.' },
     { m: 1,  d: 31, type: 'd', name: 'Idris Barzani',              role: 'Kurdish leader',                    years: '1944—1987', bio: 'Son of Mustafa Barzani and joint leader of the KDP after his father; succeeded by his brother Massoud.', wiki: 'https://en.wikipedia.org/wiki/Idris_Barzani', name_ar: 'ئیدریس بارزانی', role_ar: 'سەرکردەی کورد', bio_ar: 'کوڕی مستەفا بارزانی و سەرکردەی هاوبەشی پارتی پاش باوکی؛ پاشان مەسعود جێی گرتەوە.' },
@@ -124,7 +124,7 @@
     // February
     { m: 2,  d: 12, type: 'b', name: 'Sakine Cansız',              role: 'Kurdish political activist',        years: '1958—2013', bio: 'Co-founder of the PKK and a long-time political prisoner.', wiki: 'https://en.wikipedia.org/wiki/Sakine_Cans%C4%B1z', name_ar: 'ساکینە جانسز', role_ar: 'چالاکی سیاسیی کورد', bio_ar: 'یەکێک لە دامەزرێنەرانی پکک و گرتووی سیاسیی درێژخایەن.' },
     { m: 2,  d: 22, type: 'd', name: 'Hejar Mukrîyanî',            role: 'Kurdish poet and translator',         years: '1920—1991', bio: 'Pen name of Abdurrahman Sharafkandi. Translator of the Quran and the Shahnameh into Kurdish.', wiki: 'https://en.wikipedia.org/wiki/Hejar', name_ar: 'هەژار موکریانی', role_ar: 'شاعیر و وەرگێڕی کورد', bio_ar: 'ناوی نهێنیی عبدالڕحمن شەرەفکەندی. وەرگێڕی قورئان و شاهنامە بۆ کوردی.' },
-    { m: 2,  d: 25, type: 'b', name: 'Sharaf Khan Bidlisi',        role: 'Historian, prince of Bitlis',       years: '1543—1603', bio: 'Author of the Sharafnama (1597), the first major historical chronicle of the Kurds.', wiki: 'https://en.wikipedia.org/wiki/Sharaf_Khan_Bidlisi', name_ar: 'شەرەف خانی بدلیسی', role_ar: 'مێژوونووس، میری بدلیس', bio_ar: 'نووسەری شەرەفنامە (١٥٩٧)، یەکەم کرۆنیکی مێژووییی گرنگ سەبارەت بە کورد.' },
+    { m: 2,  d: 25, type: 'b', name: 'Sharaf Khan Bidlisi',        role: 'Historian, prince of Bitlis',       years: '1543—1603', bio: 'Author of the Sharafnama (1597), the first major historical chronicle of the Kurds.', wiki: 'https://en.wikipedia.org/wiki/Sharaf_Khan_Bidlisi', name_ar: 'شەرەفخانی بدلیسی', role_ar: 'مێژوونووس، میری بدلیس', bio_ar: 'نووسەری شەرەفنامە (١٥٩٧)، یەکەم کرۆنیکی مێژووییی گرنگ سەبارەت بە کورد.' },
     { m: 2,  d: 28, type: 'd', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk; one of the great Turkish-language novelists of the 20th century, of Kurdish origin.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal', name_ar: 'یاشار کەمال', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'نووسەری «مەحمەد، باژەکەم»؛ یەکێک لە ڕۆماننووسە مەزنەکانی سەدەی بیستەمی زمانی تورکی، بنەچەی کوردی.' },
 
     // March
@@ -135,7 +135,7 @@
     { m: 3,  d: 31, type: 'd', name: 'Qazi Muhammad',              role: 'President of the Republic of Kurdistan', years: '1893—1947', bio: 'Founder and only president of the short-lived Republic of Kurdistan (1946). Executed in 1947 in the same square where he proclaimed the republic.', wiki: 'https://en.wikipedia.org/wiki/Qazi_Muhammad', name_ar: 'قازی محەممەد', role_ar: 'سەرۆکی کۆماری کوردستان', bio_ar: 'دامەزرێنەر و تاکە سەرۆکی کۆماری کوردستان (١٩٤٦). لە ١٩٤٧ لەسێدارە درا، لەو گۆڕەپانەی کۆمارەکەی تێیدا ڕاگەیاند.' },
 
     // April
-    { m: 4,  d: 1,  type: 'b', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (Palme d\'Or, 1982); one of the most acclaimed filmmakers of his generation.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'یلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (پاڵمەی زێڕین، ١٩٨٢)؛ یەکێک لە دەرهێنەرە بەناوبانگەکانی نەوەی خۆی.' },
+    { m: 4,  d: 1,  type: 'b', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (Palme d\'Or, 1982); one of the most acclaimed filmmakers of his generation.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'ییلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (پاڵمەی زێڕین، ١٩٨٢)؛ یەکێک لە دەرهێنەرە بەناوبانگەکانی نەوەی خۆی.' },
     { m: 4,  d: 4,  type: 'b', name: 'Abdullah Öcalan',            role: 'Founder of the PKK',                years: 'b. 1948',   bio: 'Co-founder of the PKK and one of the most influential — and controversial — figures in modern Kurdish politics. Imprisoned in Turkey since 1999.', wiki: 'https://en.wikipedia.org/wiki/Abdullah_%C3%96calan', name_ar: 'عەبدوڵڵا ئۆجالان', role_ar: 'دامەزرێنەری پکک', bio_ar: 'هاوبەشی دامەزرێنەری پکک و یەکێک لە کاریگەرترین — و دژبەرترین — کەسایەتیی سیاسەتی کوردیی هاوچەرخ. لە ١٩٩٩ەوە لە تورکیا گیراوە.' },
     { m: 4,  d: 18, type: 'd', name: 'Hêmin Mukrîyanî',            role: 'Kurdish poet',                       years: '1921—1986', bio: 'Pen name of Mohammad Amin Sheikhalislami. One of the leading Kurdish poets of the 20th century.', wiki: 'https://en.wikipedia.org/wiki/H%C3%AAmin', name_ar: 'هێمن موکریانی', role_ar: 'شاعیری کورد', bio_ar: 'ناوی نهێنیی محمد ئەمین شێخ‌الئسلامی. یەکێک لە سەرۆک شاعیرانی کوردیی سەدەی بیستەم.' },
 
@@ -151,7 +151,7 @@
     { m: 6,  d: 29, type: 'd', name: 'Sheikh Said',                role: 'Religious leader, rebellion of 1925',years: '1865—1925', bio: 'Naqshbandi sheikh who led the 1925 Kurdish uprising in Turkey; executed with 46 others in Diyarbakır.', wiki: 'https://en.wikipedia.org/wiki/Sheikh_Said', name_ar: 'شێخ سەعید', role_ar: 'پێشەوای ئایینی، ڕاپەڕینی ١٩٢٥', bio_ar: 'مامۆستای نەقشبەندی کە سەرکردایەتیی ڕاپەڕینی ١٩٢٥ی کوردی لە تورکیای کرد؛ لەگەڵ ٤٦ کەسی تردا لە دیاربەکر لەسێدارە درا.' },
 
     // July
-    { m: 7,  d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Long-time leader of KDPI. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عبدول ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'سەرۆکی درێژخایەنی پارتی دیموکراتی کوردستانی ئێران. لە ڤیەننا لە دانوستاندنی ئاشتیدا لەلایەن کارمەندانی ئێرانەوە تیرۆر کرا.' },
+    { m: 7,  d: 13, type: 'd', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Long-time leader of KDPI. Assassinated in Vienna during peace talks with Iranian agents.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عەبدوڵ ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'سەرۆکی درێژخایەنی پارتی دیموکراتی کوردستانی ئێران. لە ڤیەننا لە دانوستاندنی ئاشتیدا لەلایەن کارمەندانی ئێرانەوە تیرۆر کرا.' },
 
     // August
     { m: 8,  d: 4,  type: 'd', name: 'Şêrko Bêkes',                role: 'Kurdish poet',                       years: '1940—2013', bio: 'Death anniversary of one of the giants of modern Kurdish poetry.', wiki: 'https://en.wikipedia.org/wiki/Sherko_Bekas', name_ar: 'شێرکۆ بێکەس', role_ar: 'شاعیری کورد', bio_ar: 'یادی کۆچی دوایی یەکێک لە کۆلۆسەکانی شیعری کوردیی نوێ.' },
@@ -159,14 +159,14 @@
     { m: 8,  d: 16, type: 'b', name: 'Massoud Barzani',            role: 'KDP leader, former president of KRI',years: 'b. 1946',   bio: 'Son of Mustafa Barzani; led the KDP from 1979 and served as President of the Kurdistan Region (2005–2017).', wiki: 'https://en.wikipedia.org/wiki/Massoud_Barzani', name_ar: 'مەسعود بارزانی', role_ar: 'سەرکردەی پارتی، سەرۆکی پێشووی هەرێمی کوردستان', bio_ar: 'کوڕی مستەفا بارزانی؛ لە ١٩٧٩ەوە سەرکردایەتیی پارتیی کرد و سەرۆکایەتیی هەرێمی کوردستانی کرد (٢٠٠٥–٢٠١٧).' },
 
     // September
-    { m: 9,  d: 9,  type: 'd', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (1982); won the Palme d\'Or while in exile in France.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'یلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (١٩٨٢)؛ پاڵمەی زێڕینی بەدەستهێنا کاتێک لە فەڕەنسا لە دوورخراوەییدا بوو.' },
+    { m: 9,  d: 9,  type: 'd', name: 'Yılmaz Güney',               role: 'Kurdish filmmaker',         years: '1937—1984', bio: 'Director of "Yol" (1982); won the Palme d\'Or while in exile in France.', wiki: 'https://en.wikipedia.org/wiki/Y%C4%B1lmaz_G%C3%BCney', name_ar: 'ییلماز گونەی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «یۆل» (١٩٨٢)؛ پاڵمەی زێڕینی بەدەستهێنا کاتێک لە فەڕەنسا لە دوورخراوەییدا بوو.' },
     { m: 9,  d: 17, type: 'd', name: 'Sadegh Sharafkandi',         role: 'Successor of Ghassemlou (KDPI)',     years: '1938—1992', bio: 'Secretary-general of KDPI after Ghassemlou. Assassinated at the Mykonos restaurant in Berlin.', wiki: 'https://en.wikipedia.org/wiki/Sadegh_Sharafkandi', name_ar: 'سادق شەرەفکەندی', role_ar: 'جێگری قاسملۆ (پارتی دیموکراتی کوردستانی ئێران)', bio_ar: 'سکرتێری گشتیی پارتی دیموکراتی کوردستانی ئێران پاش قاسملۆ. لە چێشتخانەی میکۆنۆس لە بەرلین تیرۆر کرا.' },
 
     // October
     { m: 10, d: 3,  type: 'd', name: 'Jalal Talabani',             role: 'Co-founder of PUK, President of Iraq', years: '1933—2017', bio: 'Founding leader of the PUK and President of Iraq (2005–2014); the first non-Arab president of an Arab-majority state in modern history.', wiki: 'https://en.wikipedia.org/wiki/Jalal_Talabani', name_ar: 'جەلال تاڵەبانی', role_ar: 'هاوبەشی دامەزرێنەری یەکێتی، سەرۆکی عێراق', bio_ar: 'دامەزرێنەری یەکێتی نیشتمانیی کوردستان و سەرۆکی عێراق (٢٠٠٥–٢٠١٤)؛ یەکەم سەرۆکی نا‌عەرەب لە دەوڵەتێکی زۆرینەی عەرەبدا لە مێژووی نوێدا.' },
     { m: 10, d: 6,  type: 'b', name: 'Yaşar Kemal',                role: 'Kurdish novelist',          years: '1923—2015', bio: 'Author of Memed, My Hawk and the İnce Memed cycle.', wiki: 'https://en.wikipedia.org/wiki/Ya%C5%9Far_Kemal', name_ar: 'یاشار کەمال', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'نووسەری «مەحمەد، باژەکەم» و چەرخەی «ئینجە مەحمەد».' },
-    { m: 10, d: 9,  type: 'd', name: 'Sheikh Mahmud Barzanji',     role: 'King of Kurdistan (1922—1924)',     years: '1878—1956', bio: 'Led several uprisings against British control of southern Kurdistan; briefly proclaimed himself King of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mahmud_Barzanji', name_ar: 'شێخ مەحمود بەرزنجی', role_ar: 'پاشای کوردستان (١٩٢٢—١٩٢٤)', bio_ar: 'چەند ڕاپەڕینی لە دژی کۆنترۆڵی بەریتانی بۆ کوردستانی باشوور سەرکردایەتی کرد؛ بۆ ماوەیەکی کورت خۆی بە پاشای کوردستان ڕاگەیاند.' },
-    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurdish literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'مەهمەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'یادی کۆچی دوایی نووسەرێک کە ئەدەبیاتی نوێی کوردی هێنایە بەرچاوی جیهان.' },
+    { m: 10, d: 9,  type: 'd', name: 'Sheikh Mahmud Barzanji',     role: 'King of Kurdistan (1922—1924)',     years: '1878—1956', bio: 'Led several uprisings against British control of southern Kurdistan; briefly proclaimed himself King of Kurdistan.', wiki: 'https://en.wikipedia.org/wiki/Mahmud_Barzanji', name_ar: 'شێخ مەحموودی بەرزنجی', role_ar: 'پاشای کوردستان (١٩٢٢—١٩٢٤)', bio_ar: 'چەند ڕاپەڕینی لە دژی کۆنترۆڵی بەریتانی بۆ کوردستانی باشوور سەرکردایەتی کرد؛ بۆ ماوەیەکی کورت خۆی بە پاشای کوردستان ڕاگەیاند.' },
+    { m: 10, d: 11, type: 'd', name: 'Mehmed Uzun',                role: 'Kurdish novelist',                  years: '1953—2007', bio: 'Death anniversary of the writer who brought modern Kurdish literature to a wider audience.', wiki: 'https://en.wikipedia.org/wiki/Mehmed_Uzun', name_ar: 'محەممەد ئوزون', role_ar: 'ڕۆماننووسی کورد', bio_ar: 'یادی کۆچی دوایی نووسەرێک کە ئەدەبیاتی نوێی کوردی هێنایە بەرچاوی جیهان.' },
     { m: 10, d: 12, type: 'd', name: 'Hevrîn Xelef',               role: 'Kurdish politician',         years: '1984—2019', bio: 'Secretary-general of the Future Syria Party; assassinated in northern Syria during the 2019 Turkish offensive.', wiki: 'https://en.wikipedia.org/wiki/Hevrin_Khalaf', name_ar: 'هەڤرین خەلەف', role_ar: 'سیاسەتمەداری کورد', bio_ar: 'سکرتێری گشتیی پارتی داهاتووی سوریا؛ لە ٢٠١٩ لە سەرکردایەتی هێرشی تورکیای سەر باکوری سوریا تیرۆر کرا.' },
     { m: 10, d: 22, type: 'd', name: 'Cegerxwîn',                  role: 'Kurdish poet',                     years: '1903—1984', bio: 'Pen name of Şêx Mûs Hesen. One of the most influential Kurdish poets; his verse was central to 20th-century Kurdish national consciousness.', wiki: 'https://en.wikipedia.org/wiki/Cegerxw%C3%AEn', name_ar: 'جگەرخوین', role_ar: 'شاعیری کورد', bio_ar: 'ناوی نهێنیی شێخ موسی حەسەن. یەکێک لە کاریگەرترین شاعیرانی کوردی؛ شیعرەکانی لە بزووتنەوەی نیشتمانیی کوردیی سەدەی بیستەمدا گرنگ بوون.' },
 
@@ -180,7 +180,7 @@
     // December
     { m: 12, d: 16, type: 'd', name: 'Mihemed Mamlê',              role: 'Kurdish singer',                    years: '1925—1999', bio: 'Iconic singer of Kurdish folk and patriotic songs from Mukriyan; long held a near-monopoly on Iran-state Kurdish broadcasting.', wiki: 'https://en.wikipedia.org/wiki/Mohammad_Mamle', name_ar: 'محەممەد ماملێ', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'گۆرانیبێژی نمادینی گۆرانی فۆلکلۆری و نیشتمانیی کوردی لە موکریان؛ ماوەیەکی درێژ بەشی کوردیی ڕادیۆی ئێرانی هەڵگرتبوو.' },
     { m: 12, d: 18, type: 'd', name: 'Eyşe Şan',                   role: 'Kurdish singer',                    years: '1938—1996', bio: 'Pioneering Kurdish woman singer from Diyarbakır; defied bans on Kurdish-language song.', wiki: 'https://en.wikipedia.org/wiki/Ay%C5%9Fe_%C5%9Fan', name_ar: 'عەیشە شان', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'پێشەنگی گۆرانیبێژیی ژنانی کورد لە دیاربەکر؛ لە دژی قەدەغەکانی گۆرانی بە زمانی کوردی وەستایەوە.' },
-    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عبدول ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'لە ورمێ لەدایک بوو. دوو دەیە سەرۆکایەتیی پارتی دیموکراتی کوردستانی ئێرانی کرد.' },
+    { m: 12, d: 22, type: 'b', name: 'Abdul Rahman Ghassemlou',    role: 'Leader of KDPI',                    years: '1930—1989', bio: 'Born in Urmia. Led the Democratic Party of Iranian Kurdistan for two decades.', wiki: 'https://en.wikipedia.org/wiki/Abdul_Rahman_Ghassemlou', name_ar: 'عەبدوڵ ڕەحمان قاسملۆ', role_ar: 'سەرکردەی پارتی دیموکراتی کوردستانی ئێران', bio_ar: 'لە ورمێ لەدایک بوو. دوو دەیە سەرۆکایەتیی پارتی دیموکراتی کوردستانی ئێرانی کرد.' },
     { m: 12, d: 23, type: 'b', name: 'Şivan Perwer',               role: 'Kurdish singer',                    years: 'b. 1955',   bio: 'One of the most beloved Kurdish musicians; his songs are central to modern Kurdish popular culture.', wiki: 'https://en.wikipedia.org/wiki/%C5%9Eivan_Perwer', name_ar: 'شیڤان پەروەر', role_ar: 'گۆرانیبێژی کورد', bio_ar: 'یەکێک لە موزیکژەنە خۆشەویستەکانی کورد؛ گۆرانیەکانی لە کلتووری کوردیی نوێ گرنگن.' },
 
     // ---- Round 2 of figures research ----
@@ -199,7 +199,7 @@
     { m: 2,  d: 1,  type: 'b', name: 'Bahman Ghobadi',             role: 'Kurdish filmmaker',                 years: 'b. 1969',   bio: 'Director of A Time for Drunken Horses, Turtles Can Fly, and No One Knows About Persian Cats; one of the most internationally recognized Kurdish filmmakers.', wiki: 'https://en.wikipedia.org/wiki/Bahman_Ghobadi', name_ar: 'بەهمەن قوبادی', role_ar: 'فیلمسازی کورد', bio_ar: 'دەرهێنەری «کاتێک بۆ ئەسپە سەرخۆشەکان»، «کیسەڵەکان دەتوانن بفڕن» و «کەس لە پشیلە فارسییەکان نازانێ»؛ یەکێک لە بەناوبانگترین فیلمسازە کوردەکان.' },
 
     // Activists / contemporary politics
-    { m: 3,  d: 10, type: 'b', name: 'Nadia Murad',                role: 'Yezîdî activist, Nobel laureate',    years: 'b. 1993',   bio: 'Yezîdî survivor of the 2014 ISIS attacks; awarded the 2018 Nobel Peace Prize for her work documenting genocide and assisting survivors.', wiki: 'https://en.wikipedia.org/wiki/Nadia_Murad', name_ar: 'نادیە مراد', role_ar: 'چالاکی ئێزدی، نازناوبەخشی نۆبڵی ئاشتی', bio_ar: 'ڕزگاربووی ئێزدی هێرشەکانی داعش لە ٢٠١٤؛ بە نازناوی نۆبڵی ئاشتیی ٢٠١٨ بەخشرا بە دامەزراندنی جینۆساید و یارمەتی ڕزگاربووان.' },
+    { m: 3,  d: 10, type: 'b', name: 'Nadia Murad',                role: 'Yezîdî activist, Nobel laureate',    years: 'b. 1993',   bio: 'Yezîdî survivor of the 2014 ISIS attacks; awarded the 2018 Nobel Peace Prize for her work documenting genocide and assisting survivors.', wiki: 'https://en.wikipedia.org/wiki/Nadia_Murad', name_ar: 'نادیە موراد', role_ar: 'چالاکی ئێزدی، نازناوبەخشی نۆبڵی ئاشتی', bio_ar: 'ڕزگاربووی ئێزدی هێرشەکانی داعش لە ٢٠١٤؛ بە نازناوی نۆبڵی ئاشتیی ٢٠١٨ بەخشرا بە دامەزراندنی جینۆساید و یارمەتی ڕزگاربووان.' },
     { m: 4,  d: 10, type: 'b', name: 'Selahattin Demirtaş',        role: 'Kurdish politician',         years: 'b. 1973',   bio: 'Former co-chair of the HDP; presidential candidate in Turkey; imprisoned since 2016.', wiki: 'https://en.wikipedia.org/wiki/Selahattin_Demirta%C5%9F', name_ar: 'سەلاحەتین دەمیرتاش', role_ar: 'سیاسەتمەداری کورد', bio_ar: 'سەرۆکی پێشووی هاوبەشی هدپ؛ کاندیدای سەرۆکایەتیی تورکیا؛ لە ٢٠١٦ەوە لە زیندانە.' },
     { m: 5,  d: 22, type: 'd', name: 'Mîr Bedirxan',               role: 'Kurdish prince',                    years: '1803—1869', bio: 'Last semi-autonomous emir of Cizîre-Botan; led one of the major 19th-century Kurdish revolts against Ottoman centralization.', wiki: 'https://en.wikipedia.org/wiki/Bedir_Khan_Beg', name_ar: 'میر بەدرخان', role_ar: 'میری کورد', bio_ar: 'دواین میری ئازادی نیمچە‌خۆبەڕێوەبەری جزیرە‌بۆتان؛ یەکێک لە ڕاپەڕینە گەورەکانی کوردیی سەدەی نۆزدەی لە دژی ناوەندی عوسمانی سەرکردایەتی کرد.' },
 
@@ -411,7 +411,9 @@
   const POEM_BASE = 'https://raw.githubusercontent.com/the-farshad/poems/master/شیعرەکان/';
   const POEM_VIEW = 'https://github.com/the-farshad/poems/blob/master/شیعرەکان/';
 
-  const POEM_INDEX = [
+  // Hardcoded fallback list. The full pool is fetched dynamically from the
+  // GitHub tree API at startup so every poem in the repo is represented.
+  let POEM_INDEX = [
     // Şêrko Bêkes — Trifey Helbest
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/١١. تەنیا',
     'شێرکۆ بێکەس/تریفەی ھەڵبەست/٨. بێ تۆ',
@@ -435,6 +437,30 @@
     'عەبدوڵڵا گۆران/بەهەشت و یادگار/١٢. هەڵبەستی ڕەنجاو',
     'عەبدوڵڵا گۆران/بەهەشت و یادگار/٦. سکاڵا',
   ];
+
+  // Asynchronously fetch the full list of poems from the GitHub tree API so
+  // the random pool always matches the repo's contents. Falls back to the
+  // hardcoded POEM_INDEX above if the API call fails (rate-limit, network).
+  function loadFullPoemIndex() {
+    const folder = 'شیعرەکان/';
+    const apiUrls = [
+      'https://api.github.com/repos/the-farshad/poems/git/trees/master?recursive=1',
+      'https://api.github.com/repos/the-farshad/poems/git/trees/main?recursive=1',
+    ];
+    const tryNext = (i) => {
+      if (i >= apiUrls.length) return Promise.reject(new Error('all branches failed'));
+      return fetch(apiUrls[i])
+        .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
+        .catch(() => tryNext(i + 1));
+    };
+    return tryNext(0).then(data => {
+      if (!data || !Array.isArray(data.tree)) return;
+      const paths = data.tree
+        .filter(it => it.type === 'blob' && it.path.startsWith(folder) && !it.path.endsWith('.en'))
+        .map(it => it.path.slice(folder.length));
+      if (paths.length) POEM_INDEX = paths;
+    }).catch(() => { /* silent fallback */ });
+  }
 
   function parseAllekok(text) {
     // Format: lines of `key: value` for header (شاعیر, کتێب, سەرناو), blank line, then body.
@@ -650,46 +676,28 @@
   }
 
   function renderPoemActions() {
-    const attr = document.getElementById('poem-attr');
-    if (!attr || !currentPoem) return;
-    const linkStyle = 'color:var(--fg);text-decoration:underline;text-decoration-style:dotted;cursor:pointer;background:none;border:0;padding:0;font:inherit';
+    const row = document.getElementById('poem-actions');
+    if (!row || !currentPoem) return;
     const translateUrl = 'https://translate.google.com/?sl=ckb&tl=en&text=' + encodeURIComponent(currentPoem.fullBody || currentPoem.body || '');
     const saved = isBookmarked(currentPoem.path);
     const star = saved ? '★' : '☆';
+    const hasFull = currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body;
     const expandLabel = poemExpanded ? t('showLess') : t('viewFull');
-    const poetAr = currentPoem.poet || '';
-    const bookAr = currentPoem.book || '';
-    const poetLat = titleCaseLat(ckArToLat(poetAr));
-    const bookLat = titleCaseLat(ckArToLat(bookAr));
-    const arFont = "'Vazirmatn','Tahoma',sans-serif";
 
-    // Show the poet/book in BOTH scripts so they're always visible regardless
-    // of the active toggle. Arabic line first (if a real poet name exists),
-    // then the Latin transliteration on a second line.
-    const arBlock = poetAr
-      ? '<span dir="rtl" style="display:block;font-family:' + arFont + '">— ' + escapeHtml(poetAr) +
-        (bookAr ? '  ·  <span style="opacity:.75">' + escapeHtml(bookAr) + '</span>' : '') +
-        '</span>'
-      : '';
-    const latBlock = poetLat
-      ? '<span dir="ltr" style="display:block;opacity:.85">— ' + escapeHtml(poetLat) +
-        (bookLat ? '  ·  <span style="opacity:.75">' + escapeHtml(bookLat) + '</span>' : '') +
-        '</span>'
-      : '';
-
-    attr.style.fontFamily = '';
-    attr.innerHTML =
-      '<span class="poem-attr-names" style="display:flex;flex-direction:column;gap:2px;flex:1 1 auto;min-width:0">' +
-        arBlock + latBlock +
-      '</span>' +
-      '<span dir="ltr" style="opacity:.9;font-family:inherit;display:inline-flex;gap:10px;align-items:baseline;flex-wrap:wrap">' +
-        '<button type="button" class="poem-bookmark" title="' + (saved ? t('removeBookmark') : t('bookmark')) + '" style="' + linkStyle + ';opacity:' + (saved ? 1 : 0.7) + '">' + star + '</button>' +
-        '<button type="button" class="poem-share" title="' + t('share') + '" style="' + linkStyle + '">' + t('share') + ' &#x2197;</button>' +
-        (currentPoem.fullBody && currentPoem.fullBody !== currentPoem.body && !poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + expandLabel + '</button>' : '') +
-        (poemExpanded ? '<button type="button" class="poem-expand" style="' + linkStyle + '">' + t('showLess') + '</button>' : '') +
-        (currentPoem.viewUrl ? '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">' + t('onGitHub') + ' &#x2197;</a>' : '') +
-        ((currentPoem.fullBody || currentPoem.body) ? '<a href="' + translateUrl + '" target="_blank" rel="noopener" style="' + linkStyle + '">' + t('translate') + ' &#x2197;</a>' : '') +
-      '</span>';
+    let html = '';
+    html += '<button type="button" class="poem-bookmark" title="' + (saved ? t('removeBookmark') : t('bookmark')) + '">' + star + '</button>';
+    html += '<button type="button" class="poem-share" title="' + t('share') + '">' + t('share') + ' &#x2197;</button>';
+    if (hasFull || poemExpanded) {
+      html += '<button type="button" class="poem-expand">' + expandLabel + '</button>';
+    }
+    if (currentPoem.viewUrl) {
+      html += '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener">' + t('onGitHub') + ' &#x2197;</a>';
+    }
+    if (currentPoem.fullBody || currentPoem.body) {
+      html += '<a href="' + translateUrl + '" target="_blank" rel="noopener">' + t('translate') + ' &#x2197;</a>';
+    }
+    row.innerHTML = html;
+    row.style.display = currentPoem.poet ? '' : 'none';
   }
 
   async function sharePoem() {
@@ -755,67 +763,65 @@
   function renderPoemBody() {
     if (!currentPoem) return;
     const p = currentPoem;
+    const blockAr = document.getElementById('poem-block-ar');
+    const blockLat = document.getElementById('poem-block-lat');
     const titleAr = document.getElementById('poem-title');
     const titleLat = document.getElementById('poem-title-lat');
     const orig = document.getElementById('poem-orig');
     const latin = document.getElementById('poem-latin');
+    const attrAr = document.getElementById('poem-attr-ar');
+    const attrLat = document.getElementById('poem-attr-lat');
     const trans = document.getElementById('poem-trans');
     const sourceDir = p.dir || 'rtl';
     const isArabicSource = sourceDir === 'rtl';
     const rawBody = poemExpanded && p.fullBody ? p.fullBody : p.body;
 
-    // Title (poem name): shown both in Arabic script and Latin transliteration.
-    if (titleAr) {
-      if (isArabicSource && p.title) {
-        titleAr.textContent = p.title;
-        titleAr.setAttribute('dir', 'rtl');
-        titleAr.style.display = '';
-      } else {
-        titleAr.style.display = 'none';
-      }
-    }
-    if (titleLat) {
-      if (isArabicSource && p.title) {
-        titleLat.textContent = titleCaseLat(ckArToLat(p.title));
-        titleLat.setAttribute('dir', 'ltr');
-        titleLat.style.display = '';
-      } else {
-        titleLat.style.display = 'none';
-      }
-    }
-
-    // Original (Arabic-script) — always shown if source is rtl.
-    orig.textContent = rawBody;
+    // ---- Arabic block: title → body → attribution ----
     if (isArabicSource) {
+      blockAr.style.display = '';
+      blockAr.setAttribute('dir', 'rtl');
+      titleAr.textContent = p.title || '';
+      orig.textContent = rawBody;
       orig.setAttribute('dir', 'rtl');
-      orig.style.fontFamily = "'Vazirmatn','Tahoma',sans-serif";
       orig.style.textAlign = 'right';
+      const attrParts = [];
+      if (p.poet) attrParts.push('— ' + p.poet);
+      if (p.book) attrParts.push(p.book);
+      attrAr.textContent = attrParts.join('  ·  ');
+      attrAr.style.display = attrParts.length ? '' : 'none';
     } else {
+      blockAr.style.display = 'none';
+    }
+
+    // ---- Latin block: transliterated title → body → attribution ----
+    if (isArabicSource) {
+      blockLat.style.display = '';
+      blockLat.setAttribute('dir', 'ltr');
+      titleLat.textContent = titleCaseLat(ckArToLat(p.title || ''));
+      latin.textContent = capLinesLat(ckArToLat(rawBody));
+      latin.setAttribute('dir', 'ltr');
+      const poetLat = titleCaseLat(ckArToLat(p.poet || ''));
+      const bookLat = titleCaseLat(ckArToLat(p.book || ''));
+      const attrParts = [];
+      if (poetLat) attrParts.push('— ' + poetLat);
+      if (bookLat) attrParts.push(bookLat);
+      attrLat.textContent = attrParts.join('  ·  ');
+      attrLat.style.display = attrParts.length ? '' : 'none';
+    } else {
+      // Loading / error state — show body in poem-orig as plain LTR.
+      blockAr.style.display = '';
+      blockAr.removeAttribute('dir');
+      titleAr.textContent = '';
+      orig.textContent = rawBody;
       orig.setAttribute('dir', 'ltr');
-      orig.style.fontFamily = '';
       orig.style.textAlign = 'left';
-    }
-    orig.style.display = '';
-
-    // Latin transliteration — shown alongside the original for rtl poems.
-    if (latin) {
-      if (isArabicSource) {
-        latin.textContent = capLinesLat(ckArToLat(rawBody));
-        latin.setAttribute('dir', 'ltr');
-        latin.style.display = '';
-      } else {
-        latin.textContent = '';
-        latin.style.display = 'none';
-      }
+      attrAr.style.display = 'none';
+      blockLat.style.display = 'none';
     }
 
-    // Translation (English) — shown if available. Title is now rendered separately
-    // above the body in both Arabic and Latin, so we don't fall back to it here.
+    // ---- Translation (English) ----
     if (p.translation) {
       trans.textContent = p.translation;
-      trans.setAttribute('dir', 'ltr');
-      trans.style.fontFamily = '';
-      trans.style.textAlign = 'left';
       trans.style.display = '';
     } else {
       trans.style.display = 'none';
@@ -1111,6 +1117,8 @@
     renderFigures();
     renderConverter();
     renderPoem();
+    // Refresh the random pool from the repo, then pick a fresh poem.
+    loadFullPoemIndex().then(() => { if (POEM_INDEX.length) renderPoem(); });
   }
 
   // ---------- Figures section ----------
@@ -1305,7 +1313,7 @@
   document.getElementById('poem-shuffle').addEventListener('click', renderPoem);
 
   // Poem actions (delegated): bookmark, expand
-  document.getElementById('poem-attr').addEventListener('click', (e) => {
+  document.getElementById('poem-actions').addEventListener('click', (e) => {
     if (e.target.closest('.poem-bookmark')) toggleBookmark();
     if (e.target.closest('.poem-share')) sharePoem();
     if (e.target.closest('.poem-expand')) togglePoemExpand();

@@ -140,12 +140,22 @@
       </div>
       <ul class="cal-poem-saved" id="poem-saved" hidden></ul>
       <article class="cal-poem" id="poem">
-        <div class="poem-title" id="poem-title"></div>
-        <div class="poem-title-lat" id="poem-title-lat"></div>
-        <div class="poem-orig" id="poem-orig"></div>
-        <div class="poem-latin" id="poem-latin"></div>
-        <div class="poem-trans" id="poem-trans"></div>
-        <div class="poem-attr" id="poem-attr"></div>
+        <!-- Arabic-script block: title → body → attribution, all RTL/Vazirmatn -->
+        <section class="poem-block kurd-ar" id="poem-block-ar" dir="rtl" lang="ckb">
+          <h3 class="poem-title" id="poem-title"></h3>
+          <div class="poem-orig" id="poem-orig"></div>
+          <div class="poem-attr-ar" id="poem-attr-ar"></div>
+        </section>
+        <!-- Latin transliteration block: title → body → attribution, all LTR -->
+        <section class="poem-block" id="poem-block-lat" dir="ltr">
+          <h3 class="poem-title-lat" id="poem-title-lat"></h3>
+          <div class="poem-latin" id="poem-latin"></div>
+          <div class="poem-attr-lat" id="poem-attr-lat"></div>
+        </section>
+        <!-- English translation, when available -->
+        <div class="poem-trans" id="poem-trans" dir="ltr"></div>
+        <!-- Action buttons row -->
+        <div class="poem-actions" id="poem-actions" dir="ltr"></div>
       </article>
     </section>
 

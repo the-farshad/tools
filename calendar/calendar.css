@@ -320,48 +320,18 @@
 .cal-search::placeholder { opacity: 0.6; }
 .cal-search:focus { outline: 1px dashed var(--btn-border); outline-offset: 1px; }
 
-/* In کوردی mode, force Vazirmatn for the whole page (including buttons and
-   inputs which would otherwise stay on the user's chosen Latin font).
-   Keeping --base-size unchanged so visual sizing is preserved across toggle. */
-html[data-kurd-script="two"] { --font: 'Vazirmatn', 'Tahoma', sans-serif; }
-html[data-kurd-script="two"] input,
-html[data-kurd-script="two"] button,
-html[data-kurd-script="two"] select,
-html[data-kurd-script="two"] textarea {
+/* Vazirmatn is used ONLY for elements that contain Arabic-script Kurdish.
+   It renders ~5% physically larger than Inter/Lora at the same numeric
+   font-size, so we ship a small downscale to keep visual sizes matched. */
+.kurd-ar {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-}
-
-/* Apply RTL flow to the page in کوردی mode, with targeted LTR overrides
-   for content that is intrinsically LTR (form pickers, calendar grid,
-   Latin-script transliterations, GitHub/translate links). */
-html[data-kurd-script="two"] body { direction: rtl; }
-html[data-kurd-script="two"] .cal-grid,
-html[data-kurd-script="two"] .conv-row,
-html[data-kurd-script="two"] input[type="date"],
-html[data-kurd-script="two"] .cal-search,
-html[data-kurd-script="two"] .poem-latin,
-html[data-kurd-script="two"] .poem-title-lat,
-html[data-kurd-script="two"] .poem-trans,
-html[data-kurd-script="two"] .seg,
-html[data-kurd-script="two"] .reader-controls,
-html[data-kurd-script="two"] .cal-month-head .cal-nav {
-  direction: ltr;
-}
-/* Each card stays as a row of LTR/RTL according to its content; just keep
-   their flex layout consistent regardless of page direction. */
-html[data-kurd-script="two"] .cal-today-grid,
-html[data-kurd-script="two"] .conv-out {
-  direction: ltr; /* row container — children render with their own dir */
-}
-html[data-kurd-script="two"] .cal-today-card,
-html[data-kurd-script="two"] .conv-card {
+  font-size: 0.95em;
   direction: rtl;
   text-align: right;
 }
-html[data-kurd-script="two"] .cal-today-card .cal-today-label,
-html[data-kurd-script="two"] .conv-card .conv-label,
-html[data-kurd-script="two"] .cal-today-card .cal-today-date,
-html[data-kurd-script="two"] .conv-card .conv-value { text-align: right; }
+.kurd-ar .cal-day-sub,
+.kurd-ar .fig-when,
+.kurd-ar .fig-mark { font-size: inherit; }
 
 /* Unified control heights — buttons, search inputs, date input, and selects
    in the calendar all sit on the same baseline. */
@@ -400,35 +370,47 @@ html[data-kurd-script="two"] .conv-card .conv-value { text-align: right; }
 
 /* .cal-poem-section + .cal-poem sizing come from the shared rule above */
 
-.poem-title {
+/* Each poem renders as two sibling blocks (Arabic, then Latin transliteration),
+   each block being: title → body → attribution. */
+.poem-block { margin: 0 0 14px; }
+.poem-block + .poem-block {
+  padding-top: 14px;
+  border-top: 1px dotted var(--rule);
+}
+
+.poem-title,
+.poem-title-lat {
   font-weight: 700;
-  font-size: 1.3em;
-  margin: 0 0 2px;
-  font-family: 'Vazirmatn','Tahoma',sans-serif;
-  text-align: right;
-  direction: rtl;
+  margin: 0 0 8px;
   line-height: 1.3;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 6px;
+}
+.poem-title {
+  font-size: 1.25em;
+  font-family: 'Vazirmatn','Tahoma',sans-serif;
+  /* Inherit dir/text-align from the .kurd-ar parent block */
 }
 .poem-title-lat {
-  font-weight: 600;
-  font-size: 1.05em;
-  margin: 0 0 12px;
-  opacity: 0.9;
-  direction: ltr;
+  font-size: 1.1em;
   text-align: left;
-  line-height: 1.3;
+  direction: ltr;
 }
 .poem-title:empty,
-.poem-title-lat:empty { display: none; border: 0; padding: 0; margin: 0; }
+.poem-title-lat:empty { display: none; }
 
 .poem-orig {
   white-space: pre-line;
-  font-size: 1.05em;
-  line-height: 1.5;
-  margin-bottom: 10px;
+  font-size: 1em;
+  line-height: 1.6;
+  margin: 0 0 8px;
 }
+
+.poem-attr-ar,
+.poem-attr-lat {
+  font-size: 0.85em;
+  opacity: 0.85;
+  margin: 0;
+}
+.poem-attr-ar { font-family: 'Vazirmatn','Tahoma',sans-serif; }
 
 /* Per-poem direction is set inline via JS (poem.dir) */
 
@@ -516,15 +498,36 @@ html[data-kurd-script="two"] .conv-card .conv-value { text-align: right; }
   opacity: 0.85;
 }
 
-.poem-attr .poem-bookmark {
-  font-size: 1.2em;
+/* Action buttons row, separate from attribution */
+.poem-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dotted var(--rule);
+  font-size: 0.85em;
+}
+.poem-actions button,
+.poem-actions a {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: pointer;
+}
+.poem-actions a:hover,
+.poem-actions button:hover { opacity: 1; color: var(--accent); }
+.poem-actions .poem-bookmark {
+  font-size: 1.25em;
   line-height: 1;
+  text-decoration: none;
 }
-
-.poem-attr .poem-bookmark:hover {
-  opacity: 1 !important;
-  color: var(--accent);
-}
+.poem-actions .poem-bookmark:hover { color: var(--accent); }
 
 .cal-poem-saved {
   list-style: none;

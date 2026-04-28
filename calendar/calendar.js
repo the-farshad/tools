@@ -429,6 +429,236 @@
     else renderConverterG2K(document.getElementById('conv-input').value);
   }
 
+  // ---------- Sun & Time card ----------
+  // List of cities — sorted into Kurdistan first, then world-major.
+  // Each entry: id, name (Latin), name_ar (Sorani), lat, lon, IANA timezone.
+  const SUN_CITIES = [
+    // Kurdistan
+    { id:'hewler',     name:'Hewlêr (Erbil)',  name_ar:'هەولێر',      lat:36.19,  lon:43.99,   tz:'Asia/Baghdad',   group:'kurd' },
+    { id:'silemani',   name:'Silêmanî',         name_ar:'سلێمانی',     lat:35.56,  lon:45.43,   tz:'Asia/Baghdad',   group:'kurd' },
+    { id:'duhok',      name:'Dihok',            name_ar:'دهۆک',        lat:36.86,  lon:42.99,   tz:'Asia/Baghdad',   group:'kurd' },
+    { id:'kirkuk',     name:'Kirkuk',           name_ar:'کەرکوک',      lat:35.47,  lon:44.39,   tz:'Asia/Baghdad',   group:'kurd' },
+    { id:'halabja',    name:'Halabja',          name_ar:'هەڵەبجە',     lat:35.18,  lon:45.99,   tz:'Asia/Baghdad',   group:'kurd' },
+    { id:'amed',       name:'Diyarbakır (Amed)',name_ar:'ئامەد',       lat:37.91,  lon:40.24,   tz:'Europe/Istanbul',group:'kurd' },
+    { id:'mahabad',    name:'Mahabad',          name_ar:'مەهاباد',     lat:36.76,  lon:45.72,   tz:'Asia/Tehran',    group:'kurd' },
+    { id:'sanandaj',   name:'Sanandaj (Sine)',  name_ar:'سنە',         lat:35.31,  lon:46.99,   tz:'Asia/Tehran',    group:'kurd' },
+    { id:'shno',       name:'Şino',             name_ar:'شنۆ',         lat:37.04,  lon:45.09,   tz:'Asia/Tehran',    group:'kurd' },
+    { id:'qamishlo',   name:'Qamişlo',          name_ar:'قامیشلۆ',     lat:37.05,  lon:41.23,   tz:'Asia/Damascus',  group:'kurd' },
+    { id:'kobane',     name:'Kobanî',           name_ar:'کۆبانی',      lat:36.89,  lon:38.36,   tz:'Asia/Damascus',  group:'kurd' },
+    // World-major
+    { id:'tehran',     name:'Tehran',           name_ar:'تەهران',      lat:35.69,  lon:51.39,   tz:'Asia/Tehran',    group:'world' },
+    { id:'baghdad',    name:'Baghdad',          name_ar:'بەغدا',       lat:33.31,  lon:44.36,   tz:'Asia/Baghdad',   group:'world' },
+    { id:'istanbul',   name:'Istanbul',         name_ar:'ئیستەنبوڵ',   lat:41.01,  lon:28.98,   tz:'Europe/Istanbul',group:'world' },
+    { id:'damascus',   name:'Damascus',         name_ar:'دیمەشق',      lat:33.51,  lon:36.29,   tz:'Asia/Damascus',  group:'world' },
+    { id:'dubai',      name:'Dubai',            name_ar:'دوبەی',       lat:25.20,  lon:55.27,   tz:'Asia/Dubai',     group:'world' },
+    { id:'cairo',      name:'Cairo',            name_ar:'قاهیرە',      lat:30.04,  lon:31.24,   tz:'Africa/Cairo',   group:'world' },
+    { id:'london',     name:'London',           name_ar:'لەندەن',      lat:51.51,  lon:-0.13,   tz:'Europe/London',  group:'world' },
+    { id:'paris',      name:'Paris',            name_ar:'پاریس',       lat:48.86,  lon:2.35,    tz:'Europe/Paris',   group:'world' },
+    { id:'moscow',     name:'Moscow',           name_ar:'مۆسکۆ',       lat:55.76,  lon:37.62,   tz:'Europe/Moscow',  group:'world' },
+    { id:'newyork',    name:'New York',         name_ar:'نیویۆرک',     lat:40.71,  lon:-74.01,  tz:'America/New_York', group:'world' },
+    { id:'laramie',    name:'Laramie',          name_ar:'لارامی',      lat:41.31,  lon:-105.59, tz:'America/Denver', group:'world' },
+    { id:'mexicocity', name:'Mexico City',      name_ar:'مێکسیکۆ سیتی',lat:19.43,  lon:-99.13,  tz:'America/Mexico_City', group:'world' },
+    { id:'tokyo',      name:'Tokyo',            name_ar:'تۆکیۆ',       lat:35.68,  lon:139.69,  tz:'Asia/Tokyo',     group:'world' },
+    { id:'beijing',    name:'Beijing',          name_ar:'بەیجینگ',     lat:39.90,  lon:116.40,  tz:'Asia/Shanghai',  group:'world' },
+    { id:'mumbai',     name:'Mumbai',           name_ar:'موومبای',     lat:19.08,  lon:72.88,   tz:'Asia/Kolkata',   group:'world' },
+    { id:'sydney',     name:'Sydney',           name_ar:'سیدنی',       lat:-33.87, lon:151.21,  tz:'Australia/Sydney', group:'world' },
+  ];
+  const SUNCARD_KEY = 'cal-suncity';
+  let suncardCity = (function () {
+    try { return localStorage.getItem(SUNCARD_KEY) || 'hewler'; }
+    catch { return 'hewler'; }
+  })();
+
+  // NOAA-style sunrise/sunset approximation. Returns Date objects in UTC.
+  function sunTimes(date, lat, lon) {
+    const rad = Math.PI / 180;
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 86400000);
+    // Solar declination
+    const decl = -23.44 * Math.cos(rad * (360 / 365) * (dayOfYear + 10));
+    // Hour angle (degrees) — uses standard altitude of -0.83° (refraction + half-disc)
+    const cosH = (Math.sin(-0.83 * rad) - Math.sin(lat * rad) * Math.sin(decl * rad)) /
+                 (Math.cos(lat * rad) * Math.cos(decl * rad));
+    if (cosH > 1)  return { sunrise: null, sunset: null, noon: null, polar: 'night' };
+    if (cosH < -1) return { sunrise: null, sunset: null, noon: null, polar: 'day' };
+    const H = Math.acos(cosH) / rad;       // degrees
+    const noonUtcHrs = 12 - lon / 15;       // UTC hours
+    const riseUtcHrs = noonUtcHrs - H / 15;
+    const setUtcHrs  = noonUtcHrs + H / 15;
+    function toUtcDate(hrs) {
+      const d = new Date(date);
+      d.setUTCHours(0, 0, 0, 0);
+      d.setUTCMilliseconds(hrs * 3600 * 1000);
+      return d;
+    }
+    return {
+      sunrise: toUtcDate(riseUtcHrs),
+      sunset:  toUtcDate(setUtcHrs),
+      noon:    toUtcDate(noonUtcHrs),
+      polar:   null,
+    };
+  }
+
+  function fmtTimeInTz(date, tz, withSeconds) {
+    if (!date) return '—';
+    const opts = { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false };
+    if (withSeconds) opts.second = '2-digit';
+    return new Intl.DateTimeFormat('en-GB', opts).format(date);
+  }
+  function tzAbbrev(tz) {
+    try {
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' }).formatToParts(new Date());
+      const p = parts.find(x => x.type === 'timeZoneName');
+      return p ? p.value : tz;
+    } catch { return tz; }
+  }
+
+  function populateSuncardCities() {
+    const sel = document.getElementById('suncard-city');
+    if (!sel) return;
+    sel.innerHTML = '';
+    const isAr = script() === 'two';
+    const groupKurd = document.createElement('optgroup');
+    groupKurd.label = isAr ? 'کوردستان' : 'Kurdistan';
+    const groupWorld = document.createElement('optgroup');
+    groupWorld.label = isAr ? 'جیهان' : 'World';
+    for (const c of SUN_CITIES) {
+      const o = document.createElement('option');
+      o.value = c.id;
+      o.textContent = isAr ? c.name_ar : c.name;
+      if (c.id === suncardCity) o.selected = true;
+      (c.group === 'kurd' ? groupKurd : groupWorld).appendChild(o);
+    }
+    sel.appendChild(groupKurd);
+    sel.appendChild(groupWorld);
+  }
+
+  function renderSuncard() {
+    const city = SUN_CITIES.find(c => c.id === suncardCity) || SUN_CITIES[0];
+    const now = new Date();
+    const sun = sunTimes(now, city.lat, city.lon);
+    const sc = script();
+    const isAr = sc === 'two';
+
+    // ---- Clock ----
+    const clock = document.getElementById('suncard-time');
+    const zone  = document.getElementById('suncard-zone');
+    if (clock) {
+      const t = fmtTimeInTz(now, city.tz, true);
+      clock.textContent = isAr ? digits(t, 'two') : t;
+    }
+    if (zone) zone.textContent = (isAr ? city.name_ar : city.name) + '  ·  ' + tzAbbrev(city.tz);
+
+    // ---- Sunrise / noon / sunset / day length ----
+    const set = (id, date) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const t = fmtTimeInTz(date, city.tz);
+      el.textContent = isAr ? digits(t, 'two') : t;
+    };
+    set('suncard-sunrise', sun.sunrise);
+    set('suncard-noon',    sun.noon);
+    set('suncard-sunset',  sun.sunset);
+    const lenEl = document.getElementById('suncard-daylen');
+    if (lenEl) {
+      if (!sun.sunrise || !sun.sunset) {
+        lenEl.textContent = sun.polar === 'day' ? (isAr ? 'ڕۆژی هەمیشە' : 'Polar day') :
+                           sun.polar === 'night' ? (isAr ? 'شەوی هەمیشە' : 'Polar night') : '—';
+      } else {
+        const ms = sun.sunset - sun.sunrise;
+        const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+        const s = (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+        lenEl.textContent = isAr ? digits(s, 'two') : s;
+      }
+    }
+
+    // ---- Sun/moon marker on the arc ----
+    const marker = document.getElementById('suncard-marker');
+    if (marker) {
+      // Arc geometry: x from 20 to 300, peak at (160, ~10), end at (300, 120)
+      const X0 = 20, X1 = 300, Y_BASE = 120, Y_PEAK = 12;
+      let pos; // 0 = sunrise, 0.5 = noon, 1 = sunset, <0 night before, >1 night after
+      let isDay = false;
+      if (sun.sunrise && sun.sunset) {
+        const dayMs = sun.sunset - sun.sunrise;
+        if (dayMs > 0) {
+          pos = (now - sun.sunrise) / dayMs;
+          isDay = pos >= 0 && pos <= 1;
+        }
+      }
+      if (sun.polar === 'day')   { isDay = true;  pos = 0.5; }
+      if (sun.polar === 'night') { isDay = false; pos = 0.5; }
+      // Clamp pos for night display: show moon arc reflected
+      const cx = X0 + ((isDay ? pos : 1 - Math.abs(pos > 1 ? pos - 1 : -pos)) * (X1 - X0));
+      // Parabola y for arc
+      const t = (cx - X0) / (X1 - X0);
+      const cy = Y_BASE - (Y_BASE - Y_PEAK) * 4 * t * (1 - t);
+
+      marker.innerHTML = '';
+      if (isDay) {
+        // Sun: golden disc with rays
+        const rays = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        rays.setAttribute('stroke', '#e8a93c');
+        rays.setAttribute('stroke-width', '1.5');
+        rays.setAttribute('stroke-linecap', 'round');
+        const R = 12, r = 7;
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2;
+          const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          ln.setAttribute('x1', cx + Math.cos(a) * (r + 1));
+          ln.setAttribute('y1', cy + Math.sin(a) * (r + 1));
+          ln.setAttribute('x2', cx + Math.cos(a) * R);
+          ln.setAttribute('y2', cy + Math.sin(a) * R);
+          rays.appendChild(ln);
+        }
+        marker.appendChild(rays);
+        const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        halo.setAttribute('cx', cx); halo.setAttribute('cy', cy); halo.setAttribute('r', 14);
+        halo.setAttribute('fill', 'rgba(232,169,60,0.18)');
+        marker.appendChild(halo);
+        const sun = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        sun.setAttribute('cx', cx); sun.setAttribute('cy', cy); sun.setAttribute('r', 7);
+        sun.setAttribute('fill', '#ffc94a');
+        sun.setAttribute('class', 'sun-body');
+        marker.appendChild(sun);
+      } else {
+        // Moon: crescent. Position it slightly off-arc when before sunrise / after sunset.
+        const moonX = isDay ? cx : (X0 + X1) / 2;
+        const moonY = isDay ? cy : Y_PEAK + 4;
+        const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        halo.setAttribute('cx', moonX); halo.setAttribute('cy', moonY); halo.setAttribute('r', 12);
+        halo.setAttribute('fill', 'rgba(200,210,230,0.20)');
+        marker.appendChild(halo);
+        const disc = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        disc.setAttribute('cx', moonX); disc.setAttribute('cy', moonY); disc.setAttribute('r', 7);
+        disc.setAttribute('fill', '#e8e8ee');
+        marker.appendChild(disc);
+        // crescent shadow
+        const shade = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        shade.setAttribute('cx', moonX + 3); shade.setAttribute('cy', moonY - 1); shade.setAttribute('r', 6);
+        shade.setAttribute('fill', 'var(--bg)');
+        marker.appendChild(shade);
+        // a couple of stars
+        for (let i = 0; i < 4; i++) {
+          const sx = X0 + 25 + i * 70 + (i % 2) * 15;
+          const sy = 30 + (i % 2) * 18;
+          if (Math.abs(sx - moonX) < 18) continue;
+          const star = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          star.setAttribute('cx', sx); star.setAttribute('cy', sy); star.setAttribute('r', 0.9);
+          star.setAttribute('fill', 'rgba(255,255,255,0.7)');
+          marker.appendChild(star);
+        }
+      }
+    }
+  }
+
+  let suncardTimer = null;
+  function startSuncardClock() {
+    if (suncardTimer) clearInterval(suncardTimer);
+    renderSuncard();
+    suncardTimer = setInterval(renderSuncard, 1000);
+  }
+
+
   // ---------- Poems ----------
   // Fetched live from your fork: github.com/the-farshad/poems
   // (originally allekok-poems, public domain).
@@ -1321,6 +1551,8 @@
     renderFigures();
     renderConverter();
     renderPoem();
+    populateSuncardCities();
+    startSuncardClock();
     // Refresh the random pool from the repo, then pick a fresh poem.
     loadFullPoemIndex().then(() => { if (POEM_INDEX.length) renderPoem(); });
   }
@@ -1440,6 +1672,8 @@
       renderPoemBody();
       renderPoemActions();
       renderSavedList();
+      populateSuncardCities();
+      renderSuncard();
       applyScriptLabels();
     });
   });
@@ -1501,6 +1735,16 @@
     [yEl, mEl, dEl].forEach(el => el.addEventListener('change', renderConverter));
   }
   populateJalaliPickers();
+
+  // Sun & Time card: city change persists in localStorage.
+  const suncardSelect = document.getElementById('suncard-city');
+  if (suncardSelect) {
+    suncardSelect.addEventListener('change', () => {
+      suncardCity = suncardSelect.value;
+      try { localStorage.setItem(SUNCARD_KEY, suncardCity); } catch (e) {}
+      renderSuncard();
+    });
+  }
 
   function applyConvDir(dir) {
     convDir = dir;

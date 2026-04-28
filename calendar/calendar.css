@@ -254,9 +254,20 @@
   .cal-today-sub { font-size: 0.82em; }
 
   /* converter heading — toggle wraps under the title */
-  .cal-converter { padding: 12px 12px; }
+  .cal-converter {
+    padding: 12px 12px;
+    overflow: hidden;          /* prevent any child from overshooting the card */
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #conv-mode-g2k, #conv-mode-k2g { max-width: 100%; box-sizing: border-box; }
   .cal-converter .conv-out { grid-template-columns: 1fr; gap: 8px; }
   .cal-converter .conv-card { padding: 8px 10px; max-width: 100%; box-sizing: border-box; }
+  /* Strip OS-supplied min widths from the date input on iOS Safari & Android */
+  .cal-converter input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
   .cal-converter .conv-value { font-size: 1em; word-break: break-word; }
   .cal-converter .conv-row {
     flex-direction: column;
@@ -358,6 +369,83 @@
   margin-left: 6px;
   font-size: 0.85em;
 }
+
+/* ---------- Sun & Time card ------------------------------------------- */
+.cal-suncard {
+  padding: var(--cal-card-pad);
+  border: 1px dashed var(--btn-border);
+  border-radius: 6px;
+  margin-bottom: var(--cal-section-gap, 18px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(135, 165, 200, 0.06), transparent 60%);
+}
+.suncard-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.suncard-head .cal-section-title { flex: 1 1 auto; margin: 0; }
+.suncard-city {
+  font-family: inherit;
+  font-size: 0.9em;
+  background: var(--btn-bg);
+  color: var(--fg);
+  border: 1px solid var(--btn-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  height: 34px;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.suncard-arc-wrap {
+  width: 100%;
+  max-width: 360px;
+  margin: 4px auto 0;
+}
+.suncard-arc { width: 100%; height: auto; display: block; }
+#suncard-marker .sun-body { transition: cx 1s linear, cy 1s linear; }
+.suncard-clock {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.suncard-time {
+  font-size: 1.4em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.suncard-zone { font-size: 0.78em; opacity: 0.7; }
+.suncard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.suncard-cell {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+.suncard-cell-label { font-size: 0.78em; opacity: 0.7; }
+.suncard-cell-value { font-size: 1em; font-variant-numeric: tabular-nums; }
+@media (max-width: 460px) {
+  .suncard-grid { grid-template-columns: 1fr 1fr; }
+  .suncard-cell-value { font-size: 0.9em; }
+}
+
+/* In کوردی mode the suncard contents flow RTL; the arc itself stays LTR
+   so sunrise (east) is on the left and sunset (west) on the right —
+   astronomically correct regardless of script. */
+[data-kurd-script="two"] .cal-suncard,
+[data-kurd-script="two"] .suncard-head,
+[data-kurd-script="two"] .suncard-grid,
+[data-kurd-script="two"] .suncard-cell { direction: rtl; text-align: right; }
+[data-kurd-script="two"] .suncard-arc-wrap { direction: ltr; }
 
 /* .cal-converter sizing comes from the shared card rule above */
 

@@ -122,6 +122,42 @@
       </div>
     </section>
 
+    <section class="cal-suncard">
+      <div class="suncard-head">
+        <h2 class="cal-section-title" data-ar="کات و خۆر">Time &amp; Sun</h2>
+        <select id="suncard-city" class="suncard-city" aria-label="City"></select>
+      </div>
+      <div class="suncard-arc-wrap">
+        <svg class="suncard-arc" viewBox="0 0 320 130" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+          <path id="suncard-path" d="M 20 120 Q 160 -20 300 120" fill="none" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="3 5"></path>
+          <line x1="20" y1="120" x2="300" y2="120" stroke="var(--rule)" stroke-width="1"></line>
+          <g id="suncard-marker"></g>
+        </svg>
+      </div>
+      <div class="suncard-clock">
+        <div class="suncard-time" id="suncard-time">--:--:--</div>
+        <div class="suncard-zone" id="suncard-zone">&mdash;</div>
+      </div>
+      <div class="suncard-grid">
+        <div class="suncard-cell">
+          <div class="suncard-cell-label" data-ar="هەڵاتنی خۆر">Sunrise</div>
+          <div class="suncard-cell-value" id="suncard-sunrise">&mdash;</div>
+        </div>
+        <div class="suncard-cell">
+          <div class="suncard-cell-label" data-ar="نیوەڕۆ">Solar noon</div>
+          <div class="suncard-cell-value" id="suncard-noon">&mdash;</div>
+        </div>
+        <div class="suncard-cell">
+          <div class="suncard-cell-label" data-ar="ئاوابوون">Sunset</div>
+          <div class="suncard-cell-value" id="suncard-sunset">&mdash;</div>
+        </div>
+        <div class="suncard-cell">
+          <div class="suncard-cell-label" data-ar="درێژایی ڕۆژ">Day length</div>
+          <div class="suncard-cell-value" id="suncard-daylen">&mdash;</div>
+        </div>
+      </div>
+    </section>
+
     <section class="cal-month-section">
       <div class="cal-month-head">
         <button type="button" class="btn cal-nav" id="prev-month">&larr;</button>

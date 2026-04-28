@@ -172,6 +172,14 @@
 [data-kurd-script="two"] .cal-day-when,
 [data-kurd-script="two"] .cal-day-name { text-align: right; }
 
+/* (4a-2) Section heads for ڕۆژە گرنگەکان and کەسایەتییەکان: in کوردی mode
+        the title sits on the right and search/toggle/export move to the
+        left, matching natural RTL reading order. */
+[data-kurd-script="two"] .cal-days-section > .cal-month-head,
+[data-kurd-script="two"] .cal-figures-section > .cal-month-head {
+  direction: rtl;
+}
+
 /* (4) Figures section in کوردی mode:
        - Whole row flips to RTL so the date sits on the right, name in the
          middle, and title (role) on the left — reading right-to-left:

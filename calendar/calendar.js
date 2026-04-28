@@ -779,7 +779,8 @@
   async function autoTranslateCurrent(fallbackUrl) {
     if (!currentPoem) return;
     const trans = document.getElementById('poem-trans');
-    const text = currentPoem.fullBody || currentPoem.body || '';
+    // Translate whatever is currently visible: truncated body or full version.
+    const text = (poemExpanded && currentPoem.fullBody) ? currentPoem.fullBody : (currentPoem.body || '');
     if (!trans || !text) return;
     trans.textContent = t('translating');
     trans.setAttribute('dir', 'ltr');
@@ -861,6 +862,14 @@
     poemExpanded = false;
     renderPoemBody();
     renderPoemActions();
+    // If the poem doesn't already have a manual English translation
+    // (a sibling .en file in the GitHub repo), auto-fetch a machine
+    // translation so the user sees English in the poem section without
+    // having to click anything. Cached, so re-renders are instant.
+    const isArabicSource = (p.dir || 'rtl') === 'rtl';
+    if (isArabicSource && !p.translation && (p.body || p.fullBody)) {
+      autoTranslateCurrent();
+    }
   }
 
   function renderPoemBody() {
@@ -936,6 +945,8 @@
     poemExpanded = !poemExpanded;
     renderPoemBody();
     renderPoemActions();
+    // Re-fetch translation to match the now-visible body length.
+    if (!currentPoem.translation) autoTranslateCurrent();
   }
 
   function escapeHtml(s) {

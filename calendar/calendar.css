@@ -256,14 +256,39 @@
   /* converter heading — toggle wraps under the title */
   .cal-converter { padding: 12px 12px; }
   .cal-converter .conv-out { grid-template-columns: 1fr; gap: 8px; }
-  .cal-converter .conv-card { padding: 8px 10px; }
-  .cal-converter .conv-value { font-size: 1em; }
-  .cal-converter .conv-row { flex-direction: column; align-items: stretch; gap: 6px; }
+  .cal-converter .conv-card { padding: 8px 10px; max-width: 100%; box-sizing: border-box; }
+  .cal-converter .conv-value { font-size: 1em; word-break: break-word; }
+  .cal-converter .conv-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
   .cal-converter .conv-row label { margin-bottom: 2px; }
   .cal-converter select,
-  .cal-converter input[type="date"] { padding: 8px 10px; font-size: 1em; width: 100%; box-sizing: border-box; }
-  #conv-mode-k2g .conv-row { flex-direction: row; flex-wrap: wrap; gap: 6px; }
-  #conv-mode-k2g select { flex: 1 1 100px; min-width: 100px; }
+  .cal-converter input[type="date"] {
+    padding: 8px 10px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  /* K2G three-picker row: let the year/month/day selects shrink as small as
+     they need to so they all fit the row instead of overflowing the card. */
+  #conv-mode-k2g .conv-row {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+    overflow: hidden;
+  }
+  #conv-mode-k2g select {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    padding: 8px 6px;
+  }
 
   /* month grid */
   .cal-month-section { margin-bottom: 18px; }

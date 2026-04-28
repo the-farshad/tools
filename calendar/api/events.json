@@ -8,7 +8,7 @@
       "name": "Republic of Kurdistan",
       "sub": "Founding in Mahabad (1946)",
       "name_ar": "کۆماری کوردستان",
-      "sub_ar": "دامەزراندن لە مەهاباد (١٩٤٦)",
+      "sub_ar": "دامەزراندن لە مەھاباد (١٩٤٦)",
       "slug": "mahabad"
     },
     {
@@ -34,7 +34,7 @@
       "d": 16,
       "name": "Halabja Memorial",
       "sub": "Chemical attack remembrance (1988)",
-      "name_ar": "یادی هەڵەبجە",
+      "name_ar": "یادی ھەڵەبجە",
       "sub_ar": "یادی هێرشی کیمیایی (١٩٨٨)",
       "slug": "halabja"
     },
@@ -134,7 +134,7 @@
       "name": "Fall of the Republic of Kurdistan",
       "sub": "Mahabad re-occupied by Iranian forces (1946)",
       "name_ar": "کەوتنی کۆماری کوردستان",
-      "sub_ar": "داگیرکردنەوەی مەهاباد لەلایەن هێزە ئێرانییەکان (١٩٤٦)",
+      "sub_ar": "داگیرکردنەوەی مەھاباد لەلایەن هێزە ئێرانییەکان (١٩٤٦)",
       "slug": "mahabad-fall"
     },
     {
@@ -205,7 +205,7 @@
       "d": 16,
       "name": "Iraqi forces re-take Kirkuk",
       "sub": "2017 — aftermath of the independence referendum",
-      "name_ar": "گرتنەوەی کەرکوک لەلایەن هێزە عێراقییەکان",
+      "name_ar": "گرتنەوەی کەرکووک لەلایەن هێزە عێراقییەکان",
       "sub_ar": "٢٠١٧ — پاش ڕیفراندۆم",
       "slug": "kirkuk-2017"
     },

@@ -47,10 +47,10 @@
   var AR_DIGITS = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
 
   var EVENTS = [
-    { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                name_ar: 'کۆماری کوردستان', sub_ar: 'دامەزراندن لە مەهاباد (١٩٤٦)', slug: 'mahabad' },
+    { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                name_ar: 'کۆماری کوردستان', sub_ar: 'دامەزراندن لە مەھاباد (١٩٤٦)', slug: 'mahabad' },
     { m: 1,  d: 26, name: 'Liberation of Kobanê',                     sub: 'End of the ISIS siege (2015)',              name_ar: 'ڕزگاربوونی کۆبانی', sub_ar: 'کۆتایی گەمارۆی داعش (٢٠١٥)', slug: 'kobane-liberation' },
     { m: 2,  d: 21, name: 'Mother Language Day',                      sub: 'International',                             name_ar: 'ڕۆژی زمانی دایک', sub_ar: 'نێودەوڵەتی', slug: 'mother-language' },
-    { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',        name_ar: 'یادی هەڵەبجە', sub_ar: 'یادی هێرشی کیمیایی (١٩٨٨)', slug: 'halabja' },
+    { m: 3,  d: 16, name: 'Halabja Memorial',                         sub: 'Chemical attack remembrance (1988)',        name_ar: 'یادی ھەڵەبجە', sub_ar: 'یادی هێرشی کیمیایی (١٩٨٨)', slug: 'halabja' },
     { m: 3,  d: 21, name: 'Newroz',                                   sub: 'Kurdish New Year',                          name_ar: 'نەورۆز', sub_ar: 'سەری ساڵی کوردی', slug: 'newroz' },
     { m: 3,  d: 31, name: 'Execution of the Republic of Kurdistan leaders', sub: 'Qazi Muhammad and others (1947)',     name_ar: 'لەسێدارەدانی سەرکردایەتی کۆماری کوردستان', sub_ar: 'قازی محەممەد و چەند کەسی تر (١٩٤٧)', slug: 'mahabad-execution' },
     { m: 4,  d: 14, name: 'Anfal Memorial',                           sub: 'Anfal campaign remembrance',                name_ar: 'یادی ئەنفال', sub_ar: 'یادی شاڵاوی ئەنفال', slug: 'anfal' },
@@ -61,7 +61,7 @@
     { m: 8,  d: 16, name: 'Founding of the KDP',                      sub: 'Kurdistan Democratic Party (1946)',         name_ar: 'دامەزراندنی پارتی', sub_ar: 'پارتیی دیموکراتیی کوردستان (١٩٤٦)', slug: 'kdp-founding' },
     { m: 9,  d: 25, name: 'Kurdistan Independence Referendum',        sub: '2017',                                      name_ar: 'ڕیفراندۆمی سەربەخۆیی کوردستان', sub_ar: '٢٠١٧', slug: 'referendum' },
     { m: 9,  d: 13, name: 'Beginning of the Siege of Kobanê',         sub: 'ISIS attack on Kobanê (2014)',              name_ar: 'دەستپێکی گەمارۆی کۆبانی', sub_ar: 'هێرشی داعش بۆ کۆبانی (٢٠١٤)', slug: 'kobane-siege' },
-    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          name_ar: 'کەوتنی کۆماری کوردستان', sub_ar: 'داگیرکردنەوەی مەهاباد لەلایەن هێزە ئێرانییەکان (١٩٤٦)', slug: 'mahabad-fall' },
+    { m: 12, d: 16, name: 'Fall of the Republic of Kurdistan',        sub: 'Mahabad re-occupied by Iranian forces (1946)',          name_ar: 'کەوتنی کۆماری کوردستان', sub_ar: 'داگیرکردنەوەی مەھاباد لەلایەن هێزە ئێرانییەکان (١٩٤٦)', slug: 'mahabad-fall' },
     { m: 12, d: 17, name: 'Kurdish Flag Day',                         sub: 'Adopted in Kurdistan Region (1999)',                    name_ar: 'ڕۆژی ئاڵای کوردستان', sub_ar: 'پەسەندکراوە لە هەرێمی کوردستان (١٩٩٩)', slug: 'flag-day' },
     // Treaties and major historical turning points
     { m: 8,  d: 23, name: 'Battle of Chaldiran',                      sub: '1514 — Ottoman-Safavid war; Kurdistan split between two empires', name_ar: 'جەنگی چاڵدێران', sub_ar: '١٥١٤ — جەنگی عوسمانی-سەفەوی؛ کوردستان دابەش بوو', slug: 'chaldiran' },
@@ -70,7 +70,7 @@
     { m: 7,  d: 24, name: 'Treaty of Lausanne',                       sub: '1923 — replaced Sèvres; partitioned Kurdistan',         name_ar: 'پەیماننامەی لۆزان', sub_ar: '١٩٢٣ — جێگری سێڤر؛ پارچەکردنی کوردستان', slug: 'lausanne' },
     { m: 4,  d: 7,  name: 'Establishment of the No-Fly Zone',         sub: '1991 — protected Iraqi Kurdistan after the uprising',   name_ar: 'دامەزراندنی ناوچەی نەفڕین', sub_ar: '١٩٩١ — پاراستنی کوردستانی عێراق پاش ڕاپەڕین', slug: 'no-fly-zone' },
     { m: 5,  d: 19, name: 'First Kurdistan Region elections',         sub: '1992 — first parliamentary vote in Iraqi Kurdistan',    name_ar: 'یەکەم هەڵبژاردنی هەرێمی کوردستان', sub_ar: '١٩٩٢ — یەکەم دەنگدانی پەرلەمانی لە کوردستانی عێراق', slug: 'kri-elections' },
-    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       name_ar: 'گرتنەوەی کەرکوک لەلایەن هێزە عێراقییەکان', sub_ar: '٢٠١٧ — پاش ڕیفراندۆم', slug: 'kirkuk-2017' },
+    { m: 10, d: 16, name: 'Iraqi forces re-take Kirkuk',              sub: '2017 — aftermath of the independence referendum',       name_ar: 'گرتنەوەی کەرکووک لەلایەن هێزە عێراقییەکان', sub_ar: '٢٠١٧ — پاش ڕیفراندۆم', slug: 'kirkuk-2017' },
     // Major uprisings
     { m: 2,  d: 13, name: 'Beginning of the Sheikh Said rebellion',   sub: '1925 — Kurdish uprising in Turkey',                     name_ar: 'دەستپێکی ڕاپەڕینی شێخ سەعید', sub_ar: '١٩٢٥ — ڕاپەڕینی کورد لە تورکیا', slug: 'sheikh-said-rebellion' },
     { m: 3,  d: 5,  name: 'Beginning of the 1991 Kurdish uprising',   sub: 'Iraqi Kurds rise after the Gulf War',                   name_ar: 'دەستپێکی ڕاپەڕینی ١٩٩١', sub_ar: 'کوردانی عێراق هەستان پاش جەنگی کەنداو', slug: '1991-uprising' },

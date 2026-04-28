@@ -458,6 +458,27 @@
   ].sort((a, b) => a.name.localeCompare(b.name));
 
   const SUN_CITIES_WORLD = [
+    // United States cities (visible at the top of the World group when sorted)
+    { id:'anchorage',     name:'Anchorage, AK',     name_ar:'ئانکۆرێج',     lat:61.22, lon:-149.90, tz:'America/Anchorage' },
+    { id:'atlanta',       name:'Atlanta, GA',       name_ar:'ئاتلانتا',     lat:33.75, lon:-84.39,  tz:'America/New_York' },
+    { id:'austin',        name:'Austin, TX',        name_ar:'ئۆستن',         lat:30.27, lon:-97.74,  tz:'America/Chicago' },
+    { id:'boston',        name:'Boston, MA',        name_ar:'بۆستن',         lat:42.36, lon:-71.06,  tz:'America/New_York' },
+    { id:'dallas',        name:'Dallas, TX',        name_ar:'داڵاس',         lat:32.78, lon:-96.80,  tz:'America/Chicago' },
+    { id:'denver',        name:'Denver, CO',        name_ar:'دێنڤەر',        lat:39.74, lon:-104.99, tz:'America/Denver' },
+    { id:'detroit',       name:'Detroit, MI',       name_ar:'دیترۆیت',       lat:42.33, lon:-83.05,  tz:'America/Detroit' },
+    { id:'honolulu',      name:'Honolulu, HI',      name_ar:'ھۆنۆلولو',      lat:21.31, lon:-157.86, tz:'Pacific/Honolulu' },
+    { id:'houston',       name:'Houston, TX',       name_ar:'ھیوستن',        lat:29.76, lon:-95.37,  tz:'America/Chicago' },
+    { id:'lasvegas',      name:'Las Vegas, NV',     name_ar:'لاس ڤیگاس',     lat:36.17, lon:-115.14, tz:'America/Los_Angeles' },
+    { id:'miami',         name:'Miami, FL',         name_ar:'میامی',         lat:25.76, lon:-80.19,  tz:'America/New_York' },
+    { id:'minneapolis',   name:'Minneapolis, MN',   name_ar:'مینیاپۆلیس',    lat:44.98, lon:-93.27,  tz:'America/Chicago' },
+    { id:'nashville',     name:'Nashville, TN',     name_ar:'ناشڤیل',        lat:36.16, lon:-86.78,  tz:'America/Chicago' },
+    { id:'philadelphia',  name:'Philadelphia, PA',  name_ar:'فیلادێلفیا',    lat:39.95, lon:-75.16,  tz:'America/New_York' },
+    { id:'phoenix',       name:'Phoenix, AZ',       name_ar:'فینکس',         lat:33.45, lon:-112.07, tz:'America/Phoenix' },
+    { id:'portland',      name:'Portland, OR',      name_ar:'پۆرتلاند',      lat:45.52, lon:-122.68, tz:'America/Los_Angeles' },
+    { id:'sandiego',      name:'San Diego, CA',     name_ar:'سان دیێگۆ',     lat:32.72, lon:-117.16, tz:'America/Los_Angeles' },
+    { id:'seattle',       name:'Seattle, WA',       name_ar:'سیاتڵ',         lat:47.61, lon:-122.33, tz:'America/Los_Angeles' },
+    { id:'washingtondc',  name:'Washington, DC',    name_ar:'واشنگتن',       lat:38.91, lon:-77.04,  tz:'America/New_York' },
+    // Other world cities
     { id:'amsterdam', name:'Amsterdam',     name_ar:'ئامستردام',  lat:52.37,  lon:4.90,    tz:'Europe/Amsterdam' },
     { id:'athens',    name:'Athens',        name_ar:'ئەسینا',     lat:37.98,  lon:23.73,   tz:'Europe/Athens' },
     { id:'baghdad',   name:'Baghdad',       name_ar:'بەغدا',      lat:33.31,  lon:44.36,   tz:'Asia/Baghdad' },
@@ -467,7 +488,7 @@
     { id:'buenosaires',name:'Buenos Aires', name_ar:'بوێنۆس ئایرێس',lat:-34.61,lon:-58.38, tz:'America/Argentina/Buenos_Aires' },
     { id:'cairo',     name:'Cairo',         name_ar:'قاھیرە',     lat:30.04,  lon:31.24,   tz:'Africa/Cairo' },
     { id:'capetown',  name:'Cape Town',     name_ar:'کەیپ تاون',  lat:-33.92, lon:18.42,   tz:'Africa/Johannesburg' },
-    { id:'chicago',   name:'Chicago',       name_ar:'شیکاگۆ',     lat:41.88,  lon:-87.63,  tz:'America/Chicago' },
+    { id:'chicago',   name:'Chicago, IL',       name_ar:'شیکاگۆ',     lat:41.88,  lon:-87.63,  tz:'America/Chicago' },
     { id:'damascus',  name:'Damascus',      name_ar:'دیمەشق',     lat:33.51,  lon:36.29,   tz:'Asia/Damascus' },
     { id:'dohaqatar', name:'Doha',          name_ar:'دۆحە',       lat:25.29,  lon:51.53,   tz:'Asia/Qatar' },
     { id:'dubai',     name:'Dubai',         name_ar:'دوبەی',      lat:25.20,  lon:55.27,   tz:'Asia/Dubai' },
@@ -478,21 +499,21 @@
     { id:'johannesburg',name:'Johannesburg',name_ar:'یۆهانسبۆرگ', lat:-26.20, lon:28.05,   tz:'Africa/Johannesburg' },
     { id:'karachi',   name:'Karachi',       name_ar:'کەراچی',     lat:24.86,  lon:67.01,   tz:'Asia/Karachi' },
     { id:'lagos',     name:'Lagos',         name_ar:'لاگۆس',      lat:6.52,   lon:3.38,    tz:'Africa/Lagos' },
-    { id:'laramie',   name:'Laramie',       name_ar:'لارامی',     lat:41.31,  lon:-105.59, tz:'America/Denver' },
+    { id:'laramie',   name:'Laramie, WY',       name_ar:'لارامی',     lat:41.31,  lon:-105.59, tz:'America/Denver' },
     { id:'lima',      name:'Lima',          name_ar:'لیما',       lat:-12.05, lon:-77.04,  tz:'America/Lima' },
     { id:'london',    name:'London',        name_ar:'لەندەن',     lat:51.51,  lon:-0.13,   tz:'Europe/London' },
-    { id:'losangeles',name:'Los Angeles',   name_ar:'لۆس ئانجیلس',lat:34.05,  lon:-118.24, tz:'America/Los_Angeles' },
+    { id:'losangeles',name:'Los Angeles, CA',   name_ar:'لۆس ئانجیلس',lat:34.05,  lon:-118.24, tz:'America/Los_Angeles' },
     { id:'madrid',    name:'Madrid',        name_ar:'مەدرید',     lat:40.42,  lon:-3.70,   tz:'Europe/Madrid' },
     { id:'manila',    name:'Manila',        name_ar:'مانیلا',     lat:14.60,  lon:120.98,  tz:'Asia/Manila' },
     { id:'mexicocity',name:'Mexico City',   name_ar:'مێکسیکۆ سیتی',lat:19.43, lon:-99.13,  tz:'America/Mexico_City' },
     { id:'moscow',    name:'Moscow',        name_ar:'مۆسکۆ',      lat:55.76,  lon:37.62,   tz:'Europe/Moscow' },
     { id:'mumbai',    name:'Mumbai',        name_ar:'موومبای',    lat:19.08,  lon:72.88,   tz:'Asia/Kolkata' },
-    { id:'newyork',   name:'New York',      name_ar:'نیوویۆرک',    lat:40.71,  lon:-74.01,  tz:'America/New_York' },
+    { id:'newyork',   name:'New York, NY',      name_ar:'نیوویۆرک',    lat:40.71,  lon:-74.01,  tz:'America/New_York' },
     { id:'paris',     name:'Paris',         name_ar:'پاریس',      lat:48.86,  lon:2.35,    tz:'Europe/Paris' },
     { id:'rio',       name:'Rio de Janeiro',name_ar:'ڕیۆ دی ژانێیرۆ',lat:-22.91,lon:-43.17,tz:'America/Sao_Paulo' },
     { id:'riyadh',    name:'Riyadh',        name_ar:'ڕیاد',       lat:24.71,  lon:46.68,   tz:'Asia/Riyadh' },
     { id:'rome',      name:'Rome',          name_ar:'ڕۆما',       lat:41.90,  lon:12.50,   tz:'Europe/Rome' },
-    { id:'sanfrancisco',name:'San Francisco',name_ar:'سان فرانسیسکۆ',lat:37.77,lon:-122.42, tz:'America/Los_Angeles' },
+    { id:'sanfrancisco',name:'San Francisco, CA',name_ar:'سان فرانسیسکۆ',lat:37.77,lon:-122.42, tz:'America/Los_Angeles' },
     { id:'saopaulo',  name:'São Paulo',     name_ar:'ساو پاولۆ',  lat:-23.55, lon:-46.63,  tz:'America/Sao_Paulo' },
     { id:'seoul',     name:'Seoul',         name_ar:'سیئوول',     lat:37.57,  lon:126.98,  tz:'Asia/Seoul' },
     { id:'singapore', name:'Singapore',     name_ar:'سینگاپۆر',   lat:1.35,   lon:103.82,  tz:'Asia/Singapore' },
@@ -578,40 +599,95 @@
     } catch { return tz; }
   }
 
-  function populateSuncardCities() {
-    const sel = document.getElementById('suncard-city');
-    if (!sel) return;
-    sel.innerHTML = '';
+  // ---- Searchable city combobox (replaces native <select>) ----
+  // Supports keyboard navigation (↑↓ Enter Esc) and matches both Latin and
+  // Sorani names. Filterable as you type.
+  let suncardCityActive = -1;     // index in suncardCityOptions
+  let suncardCityOptions = [];
+
+  function suncardCityLabel(c) { return script() === 'two' ? c.name_ar : c.name; }
+
+  function buildCityList(query) {
+    const list = document.getElementById('suncard-city-list');
+    if (!list) return;
+    list.innerHTML = '';
+    suncardCityOptions = [];
     const isAr = script() === 'two';
-
-    // Local time is the very first option (default for new visitors).
-    const local = localCity();
-    const oLocal = document.createElement('option');
-    oLocal.value = 'local';
-    oLocal.textContent = isAr ? local.name_ar : local.name;
-    if (suncardCity === 'local') oLocal.selected = true;
-    sel.appendChild(oLocal);
-
-    const groupKurd  = document.createElement('optgroup');
-    groupKurd.label  = isAr ? 'کوردستان' : 'Kurdistan';
-    const groupWorld = document.createElement('optgroup');
-    groupWorld.label = isAr ? 'جیهان' : 'World';
-    for (const c of SUN_CITIES_KURD) {
-      const o = document.createElement('option');
-      o.value = c.id;
-      o.textContent = isAr ? c.name_ar : c.name;
-      if (c.id === suncardCity) o.selected = true;
-      groupKurd.appendChild(o);
+    const q = (query || '').trim().toLowerCase();
+    const matches = (c) => !q ||
+      (c.name || '').toLowerCase().includes(q) ||
+      (c.name_ar || '').includes(q) ||
+      (c.id || '').toLowerCase().includes(q);
+    function group(label, cities) {
+      const filtered = cities.filter(matches);
+      if (!filtered.length) return;
+      const head = document.createElement('li');
+      head.className = 'group-label';
+      head.textContent = label;
+      list.appendChild(head);
+      for (const c of filtered) {
+        const li = document.createElement('li');
+        li.className = 'opt';
+        li.dataset.id = c.id;
+        li.textContent = suncardCityLabel(c);
+        if (c.id === suncardCity) li.setAttribute('aria-selected', 'true');
+        list.appendChild(li);
+        suncardCityOptions.push({ el: li, city: c });
+      }
     }
-    for (const c of SUN_CITIES_WORLD) {
-      const o = document.createElement('option');
-      o.value = c.id;
-      o.textContent = isAr ? c.name_ar : c.name;
-      if (c.id === suncardCity) o.selected = true;
-      groupWorld.appendChild(o);
+    group(isAr ? 'کاتی خۆجێیی' : 'Local',     [localCity()]);
+    group(isAr ? 'کوردستان'    : 'Kurdistan', SUN_CITIES_KURD);
+    group(isAr ? 'جیهان'        : 'World',     SUN_CITIES_WORLD);
+    if (!suncardCityOptions.length) {
+      const li = document.createElement('li');
+      li.className = 'empty';
+      li.textContent = isAr ? 'هیچ شارێک نەدۆزرایەوە' : 'No matches';
+      list.appendChild(li);
     }
-    sel.appendChild(groupKurd);
-    sel.appendChild(groupWorld);
+    suncardCityActive = -1;
+  }
+
+  function openCityList() {
+    const list = document.getElementById('suncard-city-list');
+    const inp  = document.getElementById('suncard-city-input');
+    if (!list || !inp) return;
+    buildCityList(inp.value === suncardCityLabel(findCity(suncardCity)) ? '' : inp.value);
+    list.hidden = false;
+    inp.setAttribute('aria-expanded', 'true');
+    const sel = list.querySelector('[aria-selected="true"]');
+    if (sel) sel.scrollIntoView({ block: 'nearest' });
+  }
+  function closeCityList() {
+    const list = document.getElementById('suncard-city-list');
+    const inp  = document.getElementById('suncard-city-input');
+    if (list) list.hidden = true;
+    if (inp)  inp.setAttribute('aria-expanded', 'false');
+    suncardCityActive = -1;
+  }
+  function pickCity(id) {
+    suncardCity = id;
+    try { localStorage.setItem(SUNCARD_KEY, id); } catch (e) {}
+    const inp = document.getElementById('suncard-city-input');
+    if (inp) inp.value = suncardCityLabel(findCity(id));
+    closeCityList();
+    renderSuncard();
+  }
+  function setCityActive(idx) {
+    if (!suncardCityOptions.length) return;
+    if (idx < 0) idx = suncardCityOptions.length - 1;
+    if (idx >= suncardCityOptions.length) idx = 0;
+    if (suncardCityActive >= 0 && suncardCityOptions[suncardCityActive])
+      suncardCityOptions[suncardCityActive].el.classList.remove('is-active');
+    suncardCityActive = idx;
+    const opt = suncardCityOptions[idx];
+    opt.el.classList.add('is-active');
+    opt.el.scrollIntoView({ block: 'nearest' });
+  }
+
+  function populateSuncardCities() {
+    // Sync the input's display value with the currently-selected city.
+    const inp = document.getElementById('suncard-city-input');
+    if (inp) inp.value = suncardCityLabel(findCity(suncardCity));
   }
 
   function findCity(id) {
@@ -1829,15 +1905,49 @@
   }
   populateJalaliPickers();
 
-  // Sun & Time card: city change persists in localStorage.
-  const suncardSelect = document.getElementById('suncard-city');
-  if (suncardSelect) {
-    suncardSelect.addEventListener('change', () => {
-      suncardCity = suncardSelect.value;
-      try { localStorage.setItem(SUNCARD_KEY, suncardCity); } catch (e) {}
-      renderSuncard();
+  // Sun & Time card — searchable combobox with keyboard navigation.
+  (function () {
+    const inp  = document.getElementById('suncard-city-input');
+    const list = document.getElementById('suncard-city-list');
+    if (!inp || !list) return;
+    inp.addEventListener('focus', () => { inp.select(); openCityList(); });
+    inp.addEventListener('input', () => {
+      buildCityList(inp.value);
+      const ll = document.getElementById('suncard-city-list');
+      if (ll) ll.hidden = false;
+      inp.setAttribute('aria-expanded', 'true');
     });
-  }
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (list.hidden) openCityList(); setCityActive(suncardCityActive + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (list.hidden) openCityList(); setCityActive(suncardCityActive - 1); }
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (suncardCityActive >= 0) pickCity(suncardCityOptions[suncardCityActive].city.id);
+        else if (suncardCityOptions.length === 1) pickCity(suncardCityOptions[0].city.id);
+      }
+      else if (e.key === 'Escape') { closeCityList(); inp.value = suncardCityLabel(findCity(suncardCity)); inp.blur(); }
+    });
+    list.addEventListener('mousedown', (e) => {
+      // mousedown not click — fires before input loses focus
+      const opt = e.target.closest('.opt');
+      if (!opt) return;
+      e.preventDefault();
+      pickCity(opt.dataset.id);
+    });
+    document.addEventListener('mousedown', (e) => {
+      if (!e.target.closest('.suncard-city-wrap')) closeCityList();
+    });
+    inp.addEventListener('blur', () => {
+      // delay so click on list item registers first
+      setTimeout(() => {
+        if (document.activeElement !== inp) {
+          // restore the input value to the selected city's label
+          inp.value = suncardCityLabel(findCity(suncardCity));
+          closeCityList();
+        }
+      }, 150);
+    });
+  }());
 
   function applyConvDir(dir) {
     convDir = dir;

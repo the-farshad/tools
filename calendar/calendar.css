@@ -401,6 +401,46 @@
   min-width: 0;
   box-sizing: border-box;
 }
+.suncard-city-wrap {
+  position: relative;
+  flex: 0 1 240px;
+  min-width: 0;
+}
+.suncard-city-wrap .suncard-city { width: 100%; }
+.suncard-city-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border: 1px solid var(--btn-border);
+  border-radius: 4px;
+  max-height: 280px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  z-index: 50;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+.suncard-city-list .group-label {
+  font-size: 0.75em;
+  opacity: 0.55;
+  padding: 6px 12px 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.suncard-city-list .group-label:not(:first-child) { border-top: 1px dashed var(--rule); margin-top: 4px; }
+.suncard-city-list li.opt {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.92em;
+}
+.suncard-city-list li.opt:hover,
+.suncard-city-list li.opt[aria-selected="true"] { background: var(--btn-bg-strong, var(--btn-bg)); }
+.suncard-city-list li.opt.is-active { background: var(--btn-bg-strong, var(--btn-bg)); outline: 1px dashed var(--btn-border); outline-offset: -3px; }
+.suncard-city-list .empty { padding: 10px 12px; opacity: 0.6; font-size: 0.88em; }
 .suncard-arc-wrap {
   width: 100%;
   max-width: 360px;
@@ -451,9 +491,11 @@
 [data-kurd-script="two"] .suncard-cell-label,
 [data-kurd-script="two"] .suncard-cell-value,
 [data-kurd-script="two"] .suncard-city,
-[data-kurd-script="two"] .suncard-city option {
+[data-kurd-script="two"] .suncard-city-list,
+[data-kurd-script="two"] .suncard-city-list * {
   font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
 }
+[data-kurd-script="two"] .suncard-city-list { direction: rtl; text-align: right; }
 [data-kurd-script="two"] .cal-suncard,
 [data-kurd-script="two"] .suncard-head,
 [data-kurd-script="two"] .suncard-grid,

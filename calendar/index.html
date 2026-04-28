@@ -125,7 +125,10 @@
     <section class="cal-suncard">
       <div class="suncard-head">
         <h2 class="cal-section-title" data-ar="کات و خۆر">Time &amp; Sun</h2>
-        <select id="suncard-city" class="suncard-city" aria-label="City"></select>
+        <div class="suncard-city-wrap">
+          <input type="text" id="suncard-city-input" class="suncard-city" placeholder="Search city…" data-ar-placeholder="گەڕانی شار…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suncard-city-list" />
+          <ul id="suncard-city-list" class="suncard-city-list" hidden role="listbox"></ul>
+        </div>
       </div>
       <div class="suncard-arc-wrap">
         <svg class="suncard-arc" viewBox="0 0 320 130" preserveAspectRatio="xMidYMax meet" aria-hidden="true">

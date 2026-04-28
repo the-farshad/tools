@@ -1118,7 +1118,11 @@
     });
 
     const btn = document.getElementById('days-toggle');
-    if (btn) btn.textContent = (daysShowAll || q) ? (t('showOnly') + ' ' + gMonth(curMonth - 1)) : t('showAll');
+    if (btn) btn.textContent = (daysShowAll || q)
+      ? (script() === 'two'
+          ? ('تەنیا ' + gMonth(curMonth - 1) + ' پیشان بدە')
+          : ('Show only ' + gMonth(curMonth - 1)))
+      : t('showAll');
   }
 
   function renderAll() {
@@ -1205,7 +1209,11 @@
     });
 
     const btn = document.getElementById('figures-toggle');
-    if (btn) btn.textContent = (figuresShowAll || q) ? (t('showOnly') + ' ' + gMonth(curMonth - 1)) : t('showAll');
+    if (btn) btn.textContent = (figuresShowAll || q)
+      ? (script() === 'two'
+          ? ('تەنیا ' + gMonth(curMonth - 1) + ' پیشان بدە')
+          : ('Show only ' + gMonth(curMonth - 1)))
+      : t('showAll');
   }
 
   // ---------- nav ----------

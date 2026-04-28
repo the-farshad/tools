@@ -163,6 +163,15 @@
   font-size: 0.88em;
 }
 
+/* (4a) Important days list in کوردی mode: date on the right, title on
+       the left. The 86px/1fr grid columns reverse with direction: rtl. */
+[data-kurd-script="two"] .cal-days-list li {
+  direction: rtl;
+  text-align: right;
+}
+[data-kurd-script="two"] .cal-day-when,
+[data-kurd-script="two"] .cal-day-name { text-align: right; }
+
 /* (4) Figures section in کوردی mode:
        - Whole row flips to RTL so the date sits on the right, name in the
          middle, and title (role) on the left — reading right-to-left:

@@ -494,279 +494,306 @@
   }
 
   // ---------- effect: anfalCandles ---------------------------------------
-  // Anfal Memorial: a quiet row of candles in the dark; periodic high winds
-  // blow them out one by one, leaving smoke trails. Daffodils (the Kurdish
-  // narcissus) stand alongside, witnessing the loss.
+  // Anfal Memorial: a single solitary candle. The flame burns calmly at
+  // first, the wind gradually picks up over minutes, the flame flickers
+  // and dances, smoke wisps drift, then the wind extinguishes it. Wax
+  // drips, the candle casts a soft shadow, and the smoke lingers.
   function anfalCandles() {
     document.body.style.transition = 'filter 8s ease-in';
     requestAnimationFrame(() => {
       document.body.style.filter = 'grayscale(0.55) brightness(0.92)';
     });
 
-    // Candles laid out in a single row near the bottom-third of the page.
-    const candles = [];
-    function plantCandles() {
-      candles.length = 0;
-      const N = Math.max(7, Math.min(12, Math.floor(W() / 110)));
-      for (let i = 0; i < N; i++) {
-        candles.push({
-          x: (W() / (N + 1)) * (i + 1),
-          y: H() * 0.78,
-          height: 38 + Math.random() * 14,
-          flame: 1,        // 1 = burning, 0 = out
-          flicker: Math.random() * Math.PI * 2,
-          extinguishedAt: 0,
-          smoke: [],
-        });
-      }
+    // ---- single candle, centered horizontally, lower-third vertically ----
+    let candle = null;
+    function placeCandle() {
+      candle = {
+        x: W() / 2,
+        y: H() * 0.78,
+        height: 110,
+        width: 22,
+        flame: 1,                 // 0 (out) … 1 (full burn)
+        flicker: 0,
+        wax: [],                  // dripping wax beads
+        smoke: [],
+        out: false,
+        outAt: 0,
+      };
     }
-    plantCandles();
-    window.addEventListener('resize', plantCandles);
+    placeCandle();
+    window.addEventListener('resize', placeCandle);
 
-    // Daffodils between/around the candles
-    const flowers = [];
-    function plantFlowers() {
-      flowers.length = 0;
-      const N = 16;
-      for (let i = 0; i < N; i++) {
-        flowers.push({
-          x: 24 + (i / N) * (W() - 48) + (Math.random() - 0.5) * 20,
-          y: H() * 0.88 + Math.random() * H() * 0.06,
-          bloom: 6 + Math.random() * 3,
-          stemH: 24 + Math.random() * 14,
-          tilt: 0,
-          tiltTarget: 0,
-        });
-      }
-    }
-    plantFlowers();
-    window.addEventListener('resize', plantFlowers);
+    // ---- wind: a slowly building force, with calm pauses and gusts ----
+    let wind = 0;             // current wind strength, 0 … 1
+    let windTarget = 0;       // smoothed target the wind walks toward
+    let phase = 'calm';       // 'calm' → 'rising' → 'gust' → 'calm' …
+    let phaseT = 0;           // time within current phase (frames)
+    const PHASE_LEN = {       // ~60fps
+      calm:    420,           // ~7s of stillness
+      rising:  720,           // ~12s of gradual rise
+      gust:    300,           // ~5s of strong wind
+    };
 
-    // Wind gusts — strong horizontal pulses that traverse the screen
-    const gusts = [];
-    let gustTimer = 90;
-    function spawnGust() {
-      const dir = Math.random() < 0.5 ? 1 : -1;
-      gusts.push({
-        dir: dir,
-        x: dir > 0 ? -120 : W() + 120,
-        speed: 7 + Math.random() * 4,
-        strength: 0.85 + Math.random() * 0.4,
-        width: 220 + Math.random() * 120,
-      });
-    }
-
-    // Floating dust streaks that ride the wind
+    // ---- visible airflow streaks that ride the wind ----
     const streaks = [];
 
-    function drawCandle(c, t) {
-      ctx.save();
-      ctx.translate(c.x, c.y);
-      // base shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.28)';
-      ctx.beginPath();
-      ctx.ellipse(0, 4, 10, 3, 0, 0, Math.PI * 2);
-      ctx.fill();
-      // body
-      const grad = ctx.createLinearGradient(-6, 0, 6, 0);
-      grad.addColorStop(0, '#d8c89e');
-      grad.addColorStop(0.5, '#f3e6bd');
-      grad.addColorStop(1, '#b89c64');
+    function drawShadow() {
+      // soft elliptical shadow on the ground, lengthens and bends with wind
+      const sx = candle.x + wind * 28;
+      const sy = candle.y + 6;
+      const len = 40 + wind * 35;
+      const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, len);
+      grad.addColorStop(0, 'rgba(0,0,0,0.35)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = grad;
-      ctx.fillRect(-6, -c.height, 12, c.height);
-      // top dripping wax line
-      ctx.fillStyle = 'rgba(0,0,0,0.14)';
-      ctx.fillRect(-6, -c.height, 12, 2);
-      // wick
-      ctx.fillStyle = '#3a2a1a';
-      ctx.fillRect(-0.7, -c.height - 6, 1.4, 6);
-      // flame (only if burning)
-      if (c.flame > 0.05) {
-        c.flicker += 0.18 + Math.random() * 0.05;
-        const sway = Math.sin(c.flicker) * 1.2;
-        const tall = 13 * c.flame + Math.sin(c.flicker * 2) * 1.5;
-        // outer halo
-        const halo = ctx.createRadialGradient(0, -c.height - 8, 0, 0, -c.height - 8, 18 * c.flame);
-        halo.addColorStop(0, 'rgba(255,210,120,' + (0.45 * c.flame) + ')');
-        halo.addColorStop(1, 'rgba(255,210,120,0)');
-        ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.ellipse(sx, sy, len, 6 + wind * 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawCandleBody() {
+      const w = candle.width;
+      const h = candle.height;
+      const x = candle.x;
+      const yTop = candle.y - h;
+
+      // body — vertical gradient with subtle melting curvature
+      const grad = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0);
+      grad.addColorStop(0,    '#a8946a');
+      grad.addColorStop(0.18, '#d6c389');
+      grad.addColorStop(0.5,  '#f3e6bd');
+      grad.addColorStop(0.82, '#c8b074');
+      grad.addColorStop(1,    '#8e7a52');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(x - w / 2, yTop + 4);
+      ctx.quadraticCurveTo(x - w / 2 - 1, candle.y, x - w / 2, candle.y);
+      ctx.lineTo(x + w / 2, candle.y);
+      ctx.quadraticCurveTo(x + w / 2 + 1, candle.y, x + w / 2, yTop + 4);
+      ctx.closePath();
+      ctx.fill();
+
+      // melting top rim — slightly uneven
+      ctx.fillStyle = 'rgba(0,0,0,0.18)';
+      ctx.beginPath();
+      ctx.ellipse(x, yTop + 1, w / 2, 3, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,240,200,0.5)';
+      ctx.beginPath();
+      ctx.ellipse(x, yTop, w / 2 - 2, 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // a couple of static drips on the side
+      ctx.fillStyle = 'rgba(220,200,150,0.85)';
+      ctx.beginPath();
+      ctx.moveTo(x - w / 2 + 2, yTop + 6);
+      ctx.quadraticCurveTo(x - w / 2 - 1, yTop + 16, x - w / 2 + 1, yTop + 30);
+      ctx.quadraticCurveTo(x - w / 2 + 4, yTop + 24, x - w / 2 + 4, yTop + 8);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = 'rgba(220,200,150,0.7)';
+      ctx.beginPath();
+      ctx.moveTo(x + w / 2 - 2, yTop + 12);
+      ctx.quadraticCurveTo(x + w / 2 + 2, yTop + 22, x + w / 2 - 1, yTop + 38);
+      ctx.quadraticCurveTo(x + w / 2 - 4, yTop + 30, x + w / 2 - 4, yTop + 14);
+      ctx.closePath();
+      ctx.fill();
+
+      // wick stub
+      ctx.fillStyle = '#231b10';
+      ctx.fillRect(x - 0.8, yTop - 7, 1.6, 7);
+      // glowing ember at tip when burning
+      if (candle.flame > 0.05) {
+        ctx.fillStyle = 'rgba(255, 80, 30, ' + (0.6 * candle.flame) + ')';
         ctx.beginPath();
-        ctx.arc(0, -c.height - 8, 18 * c.flame, 0, Math.PI * 2);
-        ctx.fill();
-        // flame body
-        ctx.fillStyle = '#ff9b3a';
-        ctx.beginPath();
-        ctx.moveTo(-3 + sway * 0.4, -c.height - 2);
-        ctx.quadraticCurveTo(-2 + sway, -c.height - tall * 0.6, sway, -c.height - tall);
-        ctx.quadraticCurveTo(2 + sway, -c.height - tall * 0.6, 3 + sway * 0.4, -c.height - 2);
-        ctx.closePath();
-        ctx.fill();
-        // inner blue core
-        ctx.fillStyle = 'rgba(120, 180, 255, 0.5)';
-        ctx.beginPath();
-        ctx.ellipse(sway * 0.3, -c.height - 4, 1.3, 2.5, 0, 0, Math.PI * 2);
+        ctx.arc(x, yTop - 6, 1.4, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.restore();
+    }
 
-      // Smoke wisps for recently extinguished candles
-      for (let i = c.smoke.length - 1; i >= 0; i--) {
-        const s = c.smoke[i];
-        s.y -= s.vy;
+    function drawFlame() {
+      if (candle.flame <= 0.05) return;
+      const x = candle.x;
+      const yWick = candle.y - candle.height;
+      candle.flicker += 0.18 + Math.random() * 0.06;
+      // sway from wind + tiny natural flicker
+      const sway = wind * 14 + Math.sin(candle.flicker * 1.3) * 1.5 + Math.sin(candle.flicker * 0.5) * 0.6;
+      const tilt = wind * 0.45;
+      const tall = (16 + Math.sin(candle.flicker * 2) * 1.8) * candle.flame * (1 - wind * 0.15);
+      const baseW = 4.4;
+      const tipX = x + sway;
+      const tipY = yWick - tall - 4;
+
+      // 1) outer halo — soft gold light
+      const haloR = 26 * candle.flame;
+      const halo = ctx.createRadialGradient(x + sway * 0.5, yWick - 8, 0, x + sway * 0.5, yWick - 8, haloR);
+      halo.addColorStop(0,    'rgba(255, 220, 130,' + (0.55 * candle.flame) + ')');
+      halo.addColorStop(0.4,  'rgba(255, 175,  80,' + (0.30 * candle.flame) + ')');
+      halo.addColorStop(1,    'rgba(255, 175,  80, 0)');
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(x + sway * 0.5, yWick - 8, haloR, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 2) outer flame — soft orange teardrop
+      const outer = ctx.createRadialGradient(tipX, tipY, 0, tipX, (yWick + tipY) / 2, tall);
+      outer.addColorStop(0,   'rgba(255, 240, 180, 0.95)');
+      outer.addColorStop(0.5, 'rgba(255, 150,  60, 0.85)');
+      outer.addColorStop(1,   'rgba(255,  90,  20, 0.0)');
+      ctx.fillStyle = outer;
+      ctx.beginPath();
+      ctx.moveTo(x - baseW / 2, yWick - 1);
+      ctx.bezierCurveTo(
+        x - baseW * 0.9 + sway * 0.1,  yWick - tall * 0.55,
+        tipX  - 1.1,                     tipY + tall * 0.35,
+        tipX,                            tipY
+      );
+      ctx.bezierCurveTo(
+        tipX  + 1.1,                     tipY + tall * 0.35,
+        x + baseW * 0.9 + sway * 0.1,  yWick - tall * 0.55,
+        x + baseW / 2,                   yWick - 1
+      );
+      ctx.closePath();
+      ctx.fill();
+
+      // 3) inner blue cone (the hottest part near wick base)
+      ctx.fillStyle = 'rgba(120, 180, 255, ' + (0.55 * candle.flame) + ')';
+      ctx.beginPath();
+      ctx.ellipse(x + sway * 0.3, yWick - 3, 1.4, 4, tilt, 0, Math.PI * 2);
+      ctx.fill();
+      // 4) tiny white-hot core
+      ctx.fillStyle = 'rgba(255, 255, 240, ' + (0.85 * candle.flame) + ')';
+      ctx.beginPath();
+      ctx.ellipse(x + sway * 0.4, yWick - 4, 0.9, 2.4, tilt, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawStreaks() {
+      // wind streaks
+      for (let i = streaks.length - 1; i >= 0; i--) {
+        const s = streaks[i];
         s.x += s.vx;
+        s.life--;
+        s.opacity *= 0.985;
+        if (s.life <= 0 || s.opacity < 0.01) { streaks.splice(i, 1); continue; }
+        ctx.strokeStyle = 'rgba(170, 160, 145, ' + s.opacity + ')';
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - s.vx * 6, s.y + Math.sin(s.x * 0.02) * 1.5);
+        ctx.stroke();
+      }
+    }
+
+    function drawSmoke() {
+      for (let i = candle.smoke.length - 1; i >= 0; i--) {
+        const s = candle.smoke[i];
+        s.y -= s.vy;
+        s.x += s.vx + wind * 0.6;
         s.r += 0.18;
-        s.a -= 0.005;
-        if (s.a <= 0) { c.smoke.splice(i, 1); continue; }
-        ctx.fillStyle = 'rgba(60,60,60,' + s.a + ')';
+        s.a -= 0.0035;
+        s.vx += (Math.random() - 0.5) * 0.03;
+        if (s.a <= 0) { candle.smoke.splice(i, 1); continue; }
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+        grad.addColorStop(0, 'rgba(80, 80, 80, ' + s.a + ')');
+        grad.addColorStop(1, 'rgba(80, 80, 80, 0)');
+        ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    function drawDaffodil(f) {
-      ctx.save();
-      ctx.translate(f.x, f.y);
-      // smooth tilt with current wind
-      f.tilt += (f.tiltTarget - f.tilt) * 0.08;
-      ctx.rotate(f.tilt);
-      const stemH = f.stemH;
-      // stem
-      ctx.strokeStyle = 'rgba(75, 95, 55, 0.78)';
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.quadraticCurveTo(2, -stemH * 0.5, 0, -stemH);
-      ctx.stroke();
-      // leaf
-      ctx.beginPath();
-      ctx.moveTo(0, -stemH * 0.55);
-      ctx.quadraticCurveTo(9, -stemH * 0.7, 4, -stemH * 0.95);
-      ctx.stroke();
-      // petals (6 cream-white)
-      const r = f.bloom;
-      ctx.globalAlpha = 0.92;
-      ctx.fillStyle = '#f5efd9';
-      for (let p = 0; p < 6; p++) {
-        const ang = (p / 6) * Math.PI * 2;
-        const px = Math.cos(ang) * r * 0.7;
-        const py = -stemH + Math.sin(ang) * r * 0.7;
-        ctx.beginPath();
-        ctx.ellipse(px, py, r * 0.6, r * 0.42, ang, 0, Math.PI * 2);
-        ctx.fill();
+    function spawnSmokePuff(strength) {
+      const yWick = candle.y - candle.height;
+      const n = strength === 'big' ? 14 : 1;
+      for (let k = 0; k < n; k++) {
+        candle.smoke.push({
+          x: candle.x + (Math.random() - 0.5) * 4 + wind * 6,
+          y: yWick - 8 - Math.random() * 4,
+          vx: (Math.random() - 0.5) * 0.4 + wind * 0.4,
+          vy: 0.45 + Math.random() * 0.5,
+          r: strength === 'big' ? 3 + Math.random() * 2 : 1.5 + Math.random() * 1,
+          a: strength === 'big' ? 0.55 : 0.18,
+        });
       }
-      // trumpet — daffodil's signature golden cup
-      ctx.fillStyle = '#e7a128';
-      ctx.beginPath();
-      ctx.ellipse(0, -stemH, r * 0.42, r * 0.36, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(180, 110, 30, 0.7)';
-      ctx.beginPath();
-      ctx.ellipse(0, -stemH + 1, r * 0.32, r * 0.18, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.globalAlpha = 1;
-      ctx.restore();
     }
 
     function tick() {
       ctx.clearRect(0, 0, overlay.width, overlay.height);
 
-      // Sky / atmosphere — soft dusk gradient
-      const sky = ctx.createLinearGradient(0, 0, 0, H());
-      sky.addColorStop(0, 'rgba(40, 35, 32, 0.18)');
-      sky.addColorStop(0.6, 'rgba(60, 50, 42, 0.12)');
-      sky.addColorStop(1, 'rgba(20, 15, 12, 0.10)');
+      // dim background gradient — feels like dusk indoors
+      const sky = ctx.createRadialGradient(W() / 2, candle.y - 80, 30, W() / 2, candle.y - 80, Math.max(W(), H()));
+      sky.addColorStop(0,   'rgba(90, 70, 50, 0.18)');
+      sky.addColorStop(0.5, 'rgba(35, 30, 25, 0.35)');
+      sky.addColorStop(1,   'rgba(8, 6, 5, 0.6)');
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, W(), H());
 
       // ground line
-      ctx.fillStyle = 'rgba(20, 15, 10, 0.22)';
-      ctx.fillRect(0, H() * 0.94, W(), 2);
+      ctx.fillStyle = 'rgba(20, 15, 10, 0.35)';
+      ctx.fillRect(0, candle.y + 4, W(), 2);
 
-      // Wind gust scheduling
-      gustTimer--;
-      if (gustTimer <= 0) {
-        spawnGust();
-        gustTimer = 220 + Math.random() * 220;
+      // wind state machine
+      phaseT++;
+      if (phase === 'calm' && phaseT >= PHASE_LEN.calm) {
+        phase = 'rising'; phaseT = 0;
+      } else if (phase === 'rising' && phaseT >= PHASE_LEN.rising) {
+        phase = 'gust'; phaseT = 0;
+      } else if (phase === 'gust' && phaseT >= PHASE_LEN.gust) {
+        phase = 'calm'; phaseT = 0;
+      }
+      if (phase === 'calm')   windTarget = 0.04 + Math.sin(phaseT * 0.01) * 0.03;
+      if (phase === 'rising') windTarget = (phaseT / PHASE_LEN.rising) * 0.5 + Math.sin(phaseT * 0.02) * 0.06;
+      if (phase === 'gust')   windTarget = 0.7 + Math.sin(phaseT * 0.05) * 0.18;
+      // smooth approach
+      wind += (windTarget - wind) * 0.03;
+
+      // streaks proportional to wind
+      const spawnRate = wind * 1.2;
+      if (Math.random() < spawnRate) {
+        streaks.push({
+          x: -20,
+          y: H() * (0.45 + Math.random() * 0.45),
+          vx: 2 + wind * 5 + Math.random() * 1.5,
+          life: 100,
+          opacity: 0.18 + Math.random() * 0.18,
+        });
       }
 
-      // Update gusts and streaks
-      for (let i = gusts.length - 1; i >= 0; i--) {
-        const g = gusts[i];
-        g.x += g.dir * g.speed;
-        // streaks ride the gust
-        if (Math.random() < 0.4) {
-          streaks.push({
-            x: g.x + (Math.random() - 0.5) * g.width,
-            y: H() * (0.55 + Math.random() * 0.35),
-            vx: g.dir * (g.speed * 0.85 + Math.random() * 1.5),
-            len: 30 + Math.random() * 50,
-            opacity: 0.16 + Math.random() * 0.18,
-            life: 60,
-          });
-        }
-        if ((g.dir > 0 && g.x > W() + 200) || (g.dir < 0 && g.x < -200)) {
-          gusts.splice(i, 1);
-        }
-      }
-
-      // Apply wind to flowers and candle flames
-      for (const f of flowers) {
-        let near = 0;
-        for (const g of gusts) {
-          const d = Math.abs(f.x - g.x);
-          if (d < g.width) near = Math.max(near, (1 - d / g.width) * g.strength);
-        }
-        f.tiltTarget = near * 0.85 * (gusts.length && gusts[0].dir < 0 ? -1 : 1);
-      }
-      for (const c of candles) {
-        if (c.flame <= 0.05) continue;
-        let near = 0, dir = 0;
-        for (const g of gusts) {
-          const d = Math.abs(c.x - g.x);
-          if (d < g.width) {
-            const f = (1 - d / g.width) * g.strength;
-            if (f > near) { near = f; dir = g.dir; }
+      // flame response to wind
+      if (!candle.out) {
+        // tiny smoke even when calm (spent wax fumes)
+        if (Math.random() < 0.08 + wind * 0.3) spawnSmokePuff('small');
+        // wind erodes the flame
+        if (wind > 0.55) {
+          candle.flame -= (wind - 0.55) * 0.012;
+          if (candle.flame <= 0.06) {
+            candle.flame = 0;
+            candle.out = true;
+            candle.outAt = performance.now();
+            spawnSmokePuff('big');
           }
+        } else {
+          // recover slowly when wind eases
+          candle.flame = Math.min(1, candle.flame + 0.0035);
         }
-        if (near > 0) {
-          // flicker wildly, then extinguish if exposed long enough
-          c.flame -= near * 0.018;
-          if (c.flame <= 0.06) {
-            c.flame = 0;
-            // produce a smoke puff
-            for (let k = 0; k < 8; k++) {
-              c.smoke.push({
-                x: c.x + (Math.random() - 0.5) * 4,
-                y: c.y - c.height - 8,
-                vx: dir * 0.4 + (Math.random() - 0.5) * 0.3,
-                vy: 0.4 + Math.random() * 0.4,
-                r: 2 + Math.random() * 2,
-                a: 0.55,
-              });
-            }
-          }
+      } else {
+        // after extinguish, the embers pulse for a few seconds
+        const since = performance.now() - candle.outAt;
+        if (since > 16000) {
+          // very long pause then relight to allow loop
+          candle.flame = 0.4;
+          candle.out = false;
+          phase = 'calm'; phaseT = 0;
         }
       }
 
-      // draw streaks (wind visualization)
-      for (let i = streaks.length - 1; i >= 0; i--) {
-        const s = streaks[i];
-        s.x += s.vx;
-        s.life--;
-        if (s.life <= 0) { streaks.splice(i, 1); continue; }
-        ctx.strokeStyle = 'rgba(170, 160, 140, ' + s.opacity + ')';
-        ctx.lineWidth = 1.1;
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(s.x - Math.sign(s.vx) * s.len, s.y);
-        ctx.stroke();
-      }
-
-      // draw flowers behind candles
-      for (const f of flowers) drawDaffodil(f);
-      // draw candles
-      for (const c of candles) drawCandle(c, performance.now());
+      drawStreaks();
+      drawShadow();
+      drawCandleBody();
+      drawFlame();
+      drawSmoke();
 
       requestAnimationFrame(tick);
     }
@@ -778,107 +805,176 @@
   // across; as it passes, every flower it touches loses its colour and
   // turns gray. After all are gray, fresh ones slowly grow and the cycle
   // repeats.
+  // ---------- effect: halabjaGray ---------------------------------------
+  // Halabja Memorial: a field of bright daffodils. A toxic yellow-green
+  // wind sweeps across; flowers it touches lose their colour and turn
+  // gray. Once all are gray, fresh ones grow back and the cycle repeats.
   function halabjaGray() {
     document.body.style.transition = 'filter 8s ease-in';
     requestAnimationFrame(() => {
-      document.body.style.filter = 'brightness(0.95)';
+      document.body.style.filter = 'sepia(0.06) brightness(0.96)';
     });
 
+    // ---- field of daffodils ----
     const flowers = [];
     function plantFlowers(reset) {
       if (reset) flowers.length = 0;
-      const N = 26;
+      const N = Math.max(18, Math.min(34, Math.floor(W() / 36)));
       for (let i = 0; i < N; i++) {
         flowers.push({
           x: 18 + (i / N) * (W() - 36) + (Math.random() - 0.5) * 18,
           y: H() * 0.82 + Math.random() * H() * 0.10,
           bloom: 0,
-          targetBloom: 6 + Math.random() * 3,
-          stemH: 22 + Math.random() * 14,
+          targetBloom: 6.5 + Math.random() * 2.5,
+          stemH: 26 + Math.random() * 14,
           gray: 0,
           tilt: 0,
           tiltTarget: 0,
+          rotation: (Math.random() - 0.5) * 0.06,  // a little natural lean
+          headTilt: 0.1 + Math.random() * 0.15,    // daffodil heads droop forward
         });
       }
     }
     plantFlowers(true);
     window.addEventListener('resize', () => plantFlowers(true));
 
-    // Gray wind: a single travelling band moves across the screen,
-    // desaturating any flowers it passes over.
-    const wind = { active: false, dir: 1, x: -200, speed: 1.7, width: 180 };
+    // ---- toxic wind: a single travelling band, with curling cloud ----
+    const wind = { active: false, dir: 1, x: -200, speed: 1.8, width: 220 };
     let windTimer = 80;
 
-    // Gray dust particles ride the wind
+    // Toxic dust particles ride the wind
     const dust = [];
+    // Curling vapor wisps near ground level
+    const wisps = [];
+
+    function lerpColor(a, b, t) {
+      const ar = parseInt(a.slice(1, 3), 16),
+            ag = parseInt(a.slice(3, 5), 16),
+            ab = parseInt(a.slice(5, 7), 16);
+      const br = parseInt(b.slice(1, 3), 16),
+            bg = parseInt(b.slice(3, 5), 16),
+            bb = parseInt(b.slice(5, 7), 16);
+      return 'rgb(' +
+        Math.round(ar + (br - ar) * t) + ',' +
+        Math.round(ag + (bg - ag) * t) + ',' +
+        Math.round(ab + (bb - ab) * t) + ')';
+    }
 
     function drawDaffodil(f) {
       ctx.save();
       ctx.translate(f.x, f.y);
-      f.tilt += (f.tiltTarget - f.tilt) * 0.08;
-      ctx.rotate(f.tilt);
+      f.tilt += (f.tiltTarget - f.tilt) * 0.06;
+      ctx.rotate(f.tilt + f.rotation);
+
       const stemH = f.stemH;
+      const r = f.bloom;
       const g = f.gray;
-      // stem — green when alive, gray when wind-touched
-      const stemColor = g >= 1
-        ? 'rgba(110, 110, 110, 0.7)'
-        : 'rgba(' + Math.round(75 + g * 35) + ',' + Math.round(95 + g * 15) + ',' + Math.round(55 + g * 55) + ', 0.78)';
-      ctx.strokeStyle = stemColor;
-      ctx.lineWidth = 1.6;
+      const stemAlive = 'rgba(82, 110, 60, 0.85)';
+      const stemDead  = 'rgba(115, 115, 115, 0.7)';
+
+      // ---- stem with subtle curve ----
+      ctx.strokeStyle = g >= 1 ? stemDead : (g > 0 ? lerpColorRgba(stemAlive, stemDead, g) : stemAlive);
+      ctx.lineWidth = 1.7;
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.quadraticCurveTo(2, -stemH * 0.5, 0, -stemH);
       ctx.stroke();
-      // leaf
+
+      // ---- long arching leaf ----
       ctx.beginPath();
       ctx.moveTo(0, -stemH * 0.55);
-      ctx.quadraticCurveTo(9, -stemH * 0.7, 4, -stemH * 0.95);
+      ctx.bezierCurveTo(8, -stemH * 0.6, 11, -stemH * 0.78, 5, -stemH * 0.95);
       ctx.stroke();
-      // petals — daffodil cream-white in life, dull gray in death
-      const r = f.bloom;
-      const petalAlive = '#f5efd9';
-      const petalDead = '#9c9c9c';
-      ctx.globalAlpha = 0.92;
-      ctx.fillStyle = lerpColor(petalAlive, petalDead, g);
-      for (let p = 0; p < 6; p++) {
-        const ang = (p / 6) * Math.PI * 2;
-        const px = Math.cos(ang) * r * 0.7;
-        const py = -stemH + Math.sin(ang) * r * 0.7;
+      ctx.beginPath();
+      ctx.moveTo(0, -stemH * 0.4);
+      ctx.bezierCurveTo(-7, -stemH * 0.45, -10, -stemH * 0.62, -4, -stemH * 0.78);
+      ctx.stroke();
+
+      // ---- flower head: tilted forward like real daffodils ----
+      ctx.save();
+      ctx.translate(0, -stemH);
+      ctx.rotate(-f.headTilt);
+
+      // 6 petals (perianth) — cream-white in life, dull gray when poisoned
+      const petalAlive = '#f6efd5';
+      const petalDead  = '#9c9c9c';
+      ctx.globalAlpha = 0.94;
+      const petalColor = g >= 1 ? petalDead : lerpColor(petalAlive, petalDead, g);
+      ctx.fillStyle = petalColor;
+      // back petals (3, behind the trumpet)
+      for (let p = 0; p < 6; p += 2) {
+        const ang = (p / 6) * Math.PI * 2 + Math.PI / 6;
+        const px = Math.cos(ang) * r * 0.78;
+        const py = Math.sin(ang) * r * 0.78;
         ctx.beginPath();
-        ctx.ellipse(px, py, r * 0.6, r * 0.42, ang, 0, Math.PI * 2);
+        ctx.ellipse(px, py, r * 0.62, r * 0.42, ang, 0, Math.PI * 2);
         ctx.fill();
       }
-      // trumpet — golden in life, dark gray when dead
-      const trumpetAlive = '#e7a128';
-      const trumpetDead = '#6c6c6c';
-      ctx.fillStyle = lerpColor(trumpetAlive, trumpetDead, g);
+      // front petals (3, in front)
+      for (let p = 1; p < 6; p += 2) {
+        const ang = (p / 6) * Math.PI * 2 + Math.PI / 6;
+        const px = Math.cos(ang) * r * 0.78;
+        const py = Math.sin(ang) * r * 0.78;
+        ctx.beginPath();
+        ctx.ellipse(px, py, r * 0.62, r * 0.42, ang, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // trumpet (corona) — golden cup with frilled edge
+      const cupAlive = '#e7a128';
+      const cupDead  = '#6b6b6b';
+      const cupColor = g >= 1 ? cupDead : lerpColor(cupAlive, cupDead, g);
+      ctx.fillStyle = cupColor;
       ctx.beginPath();
-      ctx.ellipse(0, -stemH, r * 0.42, r * 0.36, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, r * 0.5, r * 0.45, 0, 0, Math.PI * 2);
       ctx.fill();
+      // shaded inside of cup
+      const cupDarkAlive = 'rgba(180, 105, 25, 0.85)';
+      const cupDarkDead  = 'rgba(60, 60, 60, 0.85)';
+      ctx.fillStyle = g >= 1 ? cupDarkDead : lerpColorRgba(cupDarkAlive, cupDarkDead, g);
+      ctx.beginPath();
+      ctx.ellipse(0, r * 0.05, r * 0.36, r * 0.22, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // tiny stamens at center
+      if (g < 0.6) {
+        ctx.fillStyle = 'rgba(255, 230, 170, 0.85)';
+        for (let s = 0; s < 3; s++) {
+          ctx.beginPath();
+          ctx.arc((s - 1) * 1.1, r * 0.05, 0.7, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
       ctx.globalAlpha = 1;
+      ctx.restore();
       ctx.restore();
     }
 
-    function lerpColor(a, b, t) {
-      const ar = parseInt(a.slice(1, 3), 16), ag = parseInt(a.slice(3, 5), 16), ab = parseInt(a.slice(5, 7), 16);
-      const br = parseInt(b.slice(1, 3), 16), bg = parseInt(b.slice(3, 5), 16), bb = parseInt(b.slice(5, 7), 16);
-      const r = Math.round(ar + (br - ar) * t), g = Math.round(ag + (bg - ag) * t), bl = Math.round(ab + (bb - ab) * t);
-      return 'rgb(' + r + ',' + g + ',' + bl + ')';
+    function lerpColorRgba(a, b, t) {
+      // lerp between two rgba(...) strings
+      const re = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/;
+      const A = a.match(re), B = b.match(re);
+      if (!A || !B) return a;
+      const r = Math.round(+A[1] + (+B[1] - +A[1]) * t);
+      const g = Math.round(+A[2] + (+B[2] - +A[2]) * t);
+      const bl = Math.round(+A[3] + (+B[3] - +A[3]) * t);
+      const al = (A[4] ? +A[4] : 1) + ((B[4] ? +B[4] : 1) - (A[4] ? +A[4] : 1)) * t;
+      return 'rgba(' + r + ',' + g + ',' + bl + ',' + al.toFixed(3) + ')';
     }
 
     function tick() {
       ctx.clearRect(0, 0, overlay.width, overlay.height);
 
-      // soft sky
+      // Sky: pale, slightly sickly
       const sky = ctx.createLinearGradient(0, 0, 0, H());
-      sky.addColorStop(0, 'rgba(150, 150, 150, 0.06)');
-      sky.addColorStop(1, 'rgba(140, 140, 140, 0.10)');
+      sky.addColorStop(0,   'rgba(170, 175, 130, 0.06)');
+      sky.addColorStop(0.6, 'rgba(180, 185, 130, 0.10)');
+      sky.addColorStop(1,   'rgba(150, 160, 110, 0.16)');
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, W(), H());
 
       // grow flowers gradually
       for (const f of flowers) {
-        if (f.bloom < f.targetBloom) f.bloom += 0.08;
+        if (f.bloom < f.targetBloom) f.bloom += 0.05;
       }
 
       // schedule wind
@@ -888,47 +984,79 @@
           wind.active = true;
           wind.dir = Math.random() < 0.5 ? 1 : -1;
           wind.x = wind.dir > 0 ? -wind.width : W() + wind.width;
-          wind.speed = 1.5 + Math.random() * 0.8;
+          wind.speed = 1.4 + Math.random() * 0.7;
         }
       } else {
         wind.x += wind.dir * wind.speed;
-        // spawn dust particles within the wind band
-        for (let k = 0; k < 4; k++) {
+        // spawn dust streaks within the wind band
+        for (let k = 0; k < 6; k++) {
           dust.push({
             x: wind.x + (Math.random() - 0.5) * wind.width,
-            y: H() * (0.55 + Math.random() * 0.4),
-            vx: wind.dir * (wind.speed * 0.9 + Math.random() * 1.5),
-            vy: -0.2 + Math.random() * 0.3,
-            r: 0.7 + Math.random() * 1.3,
-            a: 0.16 + Math.random() * 0.18,
-            life: 100,
+            y: H() * (0.5 + Math.random() * 0.4),
+            vx: wind.dir * (wind.speed * 0.95 + Math.random() * 1.6),
+            vy: -0.15 + Math.random() * 0.3,
+            r: 0.7 + Math.random() * 1.6,
+            a: 0.16 + Math.random() * 0.22,
+            life: 110,
+            tone: Math.random() < 0.7 ? 'toxic' : 'gray',
           });
         }
-        // tilt + gray flowers within the wind
+        // curling vapor wisps
+        if (Math.random() < 0.5) {
+          wisps.push({
+            x: wind.x + (Math.random() - 0.5) * wind.width * 0.7,
+            y: H() * (0.7 + Math.random() * 0.22),
+            vx: wind.dir * wind.speed * 0.7,
+            vy: -0.15 - Math.random() * 0.15,
+            r: 14 + Math.random() * 18,
+            a: 0.16 + Math.random() * 0.12,
+            life: 240,
+            phase: Math.random() * Math.PI * 2,
+          });
+        }
+        // tilt + gray flowers within the wind band
         for (const f of flowers) {
           const d = Math.abs(f.x - wind.x);
           if (d < wind.width) {
             const intensity = (1 - d / wind.width);
-            f.tiltTarget = wind.dir * intensity * 0.55;
+            f.tiltTarget = wind.dir * intensity * 0.6;
             // permanent graying
             f.gray = Math.min(1, f.gray + intensity * 0.012);
           } else {
-            f.tiltTarget *= 0.9;
+            f.tiltTarget *= 0.92;
           }
         }
         // wind exits the screen
         if ((wind.dir > 0 && wind.x > W() + wind.width) ||
             (wind.dir < 0 && wind.x < -wind.width)) {
           wind.active = false;
-          // if all gray, schedule a regrow + reset
           if (flowers.every(f => f.gray >= 0.95)) {
-            windTimer = 600 + Math.random() * 400; // long pause
-            // gradually replant
-            setTimeout(() => plantFlowers(true), 4000);
+            // long pause, then regrow
+            windTimer = 700 + Math.random() * 500;
+            setTimeout(() => plantFlowers(true), 4500);
           } else {
             windTimer = 280 + Math.random() * 220;
           }
         }
+      }
+
+      // draw curling vapor wisps (behind flowers)
+      for (let i = wisps.length - 1; i >= 0; i--) {
+        const w = wisps[i];
+        w.x += w.vx;
+        w.y += w.vy + Math.sin(w.phase + w.life * 0.05) * 0.08;
+        w.r += 0.22;
+        w.a *= 0.992;
+        w.life--;
+        if (w.life <= 0 || w.a < 0.01) { wisps.splice(i, 1); continue; }
+        const grad = ctx.createRadialGradient(w.x, w.y, 0, w.x, w.y, w.r);
+        grad.addColorStop(0,   'rgba(190, 205, 90, ' + (w.a * 0.55) + ')');
+        grad.addColorStop(0.6, 'rgba(150, 170, 70, ' + (w.a * 0.30) + ')');
+        grad.addColorStop(1,   'rgba(120, 140, 60, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       // draw dust streaks
@@ -938,7 +1066,9 @@
         d.y += d.vy;
         d.life--;
         if (d.life <= 0) { dust.splice(i, 1); continue; }
-        ctx.fillStyle = 'rgba(160, 158, 155, ' + d.a + ')';
+        ctx.fillStyle = d.tone === 'toxic'
+          ? 'rgba(190, 205, 80, ' + d.a + ')'
+          : 'rgba(160, 158, 150, ' + d.a + ')';
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
         ctx.fill();

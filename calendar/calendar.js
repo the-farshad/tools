@@ -753,13 +753,19 @@
   // in a new tab as a fallback.
   const translationCache = {};
   async function translateChunk(s) {
-    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(s) +
-                '&langpair=ckb-IR%7Cen-US&de=tools.thefarshad.com';
+    // Anonymous tier — no `de=` param. (MyMemory's `de=` field expects an
+    // email address; passing a domain triggers "INVALID EMAIL PROVIDED".)
+    const url = 'https://api.mymemory.translated.net/get?q=' +
+                encodeURIComponent(s) + '&langpair=ckb-IR%7Cen-US';
     const r = await fetch(url);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const d = await r.json();
     const out = d && d.responseData && d.responseData.translatedText;
-    if (!out || /MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(out)) throw new Error(out || 'no translation');
+    // MyMemory returns errors AS the translated text — guard against them all.
+    if (!out ||
+        /MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID|MAX(?:IMUM)? QUERY|YOU USED ALL/i.test(out)) {
+      throw new Error(out || 'no translation');
+    }
     return out;
   }
   async function fetchTranslation(text) {

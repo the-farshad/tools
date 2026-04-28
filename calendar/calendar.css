@@ -438,9 +438,22 @@
   .suncard-cell-value { font-size: 0.9em; }
 }
 
-/* In کوردی mode the suncard contents flow RTL; the arc itself stays LTR
-   so sunrise (east) is on the left and sunset (west) on the right —
-   astronomically correct regardless of script. */
+/* In کوردی mode the suncard contents flow RTL with Vazirmatn font; the
+   arc itself stays LTR so sunrise (east) is on the left and sunset (west)
+   on the right — astronomically correct regardless of script. */
+[data-kurd-script="two"] .cal-suncard,
+[data-kurd-script="two"] .suncard-head,
+[data-kurd-script="two"] .suncard-grid,
+[data-kurd-script="two"] .suncard-cell,
+[data-kurd-script="two"] .suncard-clock,
+[data-kurd-script="two"] .suncard-time,
+[data-kurd-script="two"] .suncard-zone,
+[data-kurd-script="two"] .suncard-cell-label,
+[data-kurd-script="two"] .suncard-cell-value,
+[data-kurd-script="two"] .suncard-city,
+[data-kurd-script="two"] .suncard-city option {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
+}
 [data-kurd-script="two"] .cal-suncard,
 [data-kurd-script="two"] .suncard-head,
 [data-kurd-script="two"] .suncard-grid,

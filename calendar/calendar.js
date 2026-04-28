@@ -432,41 +432,107 @@
   // ---------- Sun & Time card ----------
   // List of cities — sorted into Kurdistan first, then world-major.
   // Each entry: id, name (Latin), name_ar (Sorani), lat, lon, IANA timezone.
-  const SUN_CITIES = [
-    // Kurdistan
-    { id:'hewler',     name:'Hewlêr (Erbil)',  name_ar:'هەولێر',      lat:36.19,  lon:43.99,   tz:'Asia/Baghdad',   group:'kurd' },
-    { id:'silemani',   name:'Silêmanî',         name_ar:'سلێمانی',     lat:35.56,  lon:45.43,   tz:'Asia/Baghdad',   group:'kurd' },
-    { id:'duhok',      name:'Dihok',            name_ar:'دهۆک',        lat:36.86,  lon:42.99,   tz:'Asia/Baghdad',   group:'kurd' },
-    { id:'kirkuk',     name:'Kirkuk',           name_ar:'کەرکوک',      lat:35.47,  lon:44.39,   tz:'Asia/Baghdad',   group:'kurd' },
-    { id:'halabja',    name:'Halabja',          name_ar:'هەڵەبجە',     lat:35.18,  lon:45.99,   tz:'Asia/Baghdad',   group:'kurd' },
-    { id:'amed',       name:'Diyarbakır (Amed)',name_ar:'ئامەد',       lat:37.91,  lon:40.24,   tz:'Europe/Istanbul',group:'kurd' },
-    { id:'mahabad',    name:'Mahabad',          name_ar:'مەهاباد',     lat:36.76,  lon:45.72,   tz:'Asia/Tehran',    group:'kurd' },
-    { id:'sanandaj',   name:'Sanandaj (Sine)',  name_ar:'سنە',         lat:35.31,  lon:46.99,   tz:'Asia/Tehran',    group:'kurd' },
-    { id:'shno',       name:'Şino',             name_ar:'شنۆ',         lat:37.04,  lon:45.09,   tz:'Asia/Tehran',    group:'kurd' },
-    { id:'qamishlo',   name:'Qamişlo',          name_ar:'قامیشلۆ',     lat:37.05,  lon:41.23,   tz:'Asia/Damascus',  group:'kurd' },
-    { id:'kobane',     name:'Kobanî',           name_ar:'کۆبانی',      lat:36.89,  lon:38.36,   tz:'Asia/Damascus',  group:'kurd' },
-    // World-major
-    { id:'tehran',     name:'Tehran',           name_ar:'تەهران',      lat:35.69,  lon:51.39,   tz:'Asia/Tehran',    group:'world' },
-    { id:'baghdad',    name:'Baghdad',          name_ar:'بەغدا',       lat:33.31,  lon:44.36,   tz:'Asia/Baghdad',   group:'world' },
-    { id:'istanbul',   name:'Istanbul',         name_ar:'ئیستەنبوڵ',   lat:41.01,  lon:28.98,   tz:'Europe/Istanbul',group:'world' },
-    { id:'damascus',   name:'Damascus',         name_ar:'دیمەشق',      lat:33.51,  lon:36.29,   tz:'Asia/Damascus',  group:'world' },
-    { id:'dubai',      name:'Dubai',            name_ar:'دوبەی',       lat:25.20,  lon:55.27,   tz:'Asia/Dubai',     group:'world' },
-    { id:'cairo',      name:'Cairo',            name_ar:'قاهیرە',      lat:30.04,  lon:31.24,   tz:'Africa/Cairo',   group:'world' },
-    { id:'london',     name:'London',           name_ar:'لەندەن',      lat:51.51,  lon:-0.13,   tz:'Europe/London',  group:'world' },
-    { id:'paris',      name:'Paris',            name_ar:'پاریس',       lat:48.86,  lon:2.35,    tz:'Europe/Paris',   group:'world' },
-    { id:'moscow',     name:'Moscow',           name_ar:'مۆسکۆ',       lat:55.76,  lon:37.62,   tz:'Europe/Moscow',  group:'world' },
-    { id:'newyork',    name:'New York',         name_ar:'نیویۆرک',     lat:40.71,  lon:-74.01,  tz:'America/New_York', group:'world' },
-    { id:'laramie',    name:'Laramie',          name_ar:'لارامی',      lat:41.31,  lon:-105.59, tz:'America/Denver', group:'world' },
-    { id:'mexicocity', name:'Mexico City',      name_ar:'مێکسیکۆ سیتی',lat:19.43,  lon:-99.13,  tz:'America/Mexico_City', group:'world' },
-    { id:'tokyo',      name:'Tokyo',            name_ar:'تۆکیۆ',       lat:35.68,  lon:139.69,  tz:'Asia/Tokyo',     group:'world' },
-    { id:'beijing',    name:'Beijing',          name_ar:'بەیجینگ',     lat:39.90,  lon:116.40,  tz:'Asia/Shanghai',  group:'world' },
-    { id:'mumbai',     name:'Mumbai',           name_ar:'موومبای',     lat:19.08,  lon:72.88,   tz:'Asia/Kolkata',   group:'world' },
-    { id:'sydney',     name:'Sydney',           name_ar:'سیدنی',       lat:-33.87, lon:151.21,  tz:'Australia/Sydney', group:'world' },
-  ];
+  // Sorted alphabetically within each group.
+  const SUN_CITIES_KURD = [
+    { id:'amed',     name:'Diyarbakır (Amed)', name_ar:'ئامەد',    lat:37.91, lon:40.24, tz:'Europe/Istanbul' },
+    { id:'afrin',    name:'Afrîn',             name_ar:'عەفرین',    lat:36.51, lon:36.87, tz:'Asia/Damascus'   },
+    { id:'akre',     name:'Akrê',              name_ar:'ئاکرێ',     lat:36.74, lon:43.89, tz:'Asia/Baghdad'    },
+    { id:'bedlis',   name:'Bitlis (Bedlîs)',   name_ar:'بەدلیس',    lat:38.40, lon:42.10, tz:'Europe/Istanbul' },
+    { id:'colemerg', name:'Hakkari (Colemêrg)',name_ar:'جۆلەمێرگ',  lat:37.57, lon:43.74, tz:'Europe/Istanbul' },
+    { id:'duhok',    name:'Dihok',             name_ar:'دهۆک',      lat:36.86, lon:42.99, tz:'Asia/Baghdad'    },
+    { id:'halabja',  name:'Halabja',           name_ar:'هەڵەبجە',   lat:35.18, lon:45.99, tz:'Asia/Baghdad'    },
+    { id:'hewler',   name:'Hewlêr (Erbil)',    name_ar:'هەولێر',    lat:36.19, lon:43.99, tz:'Asia/Baghdad'    },
+    { id:'ilam',     name:'Ilam (Îlam)',       name_ar:'ئیلام',     lat:33.64, lon:46.42, tz:'Asia/Tehran'     },
+    { id:'kerman',   name:'Kermanshah',        name_ar:'کرماشان',   lat:34.31, lon:47.06, tz:'Asia/Tehran'     },
+    { id:'kirkuk',   name:'Kirkuk',            name_ar:'کەرکوک',    lat:35.47, lon:44.39, tz:'Asia/Baghdad'    },
+    { id:'kobane',   name:'Kobanî',            name_ar:'کۆبانی',    lat:36.89, lon:38.36, tz:'Asia/Damascus'   },
+    { id:'mahabad',  name:'Mahabad',           name_ar:'مەهاباد',   lat:36.76, lon:45.72, tz:'Asia/Tehran'     },
+    { id:'qamishlo', name:'Qamişlo',           name_ar:'قامیشلۆ',   lat:37.05, lon:41.23, tz:'Asia/Damascus'   },
+    { id:'rwanduz',  name:'Rewandiz',          name_ar:'ڕەواندز',   lat:36.61, lon:44.52, tz:'Asia/Baghdad'    },
+    { id:'sanandaj', name:'Sanandaj (Sine)',   name_ar:'سنە',       lat:35.31, lon:46.99, tz:'Asia/Tehran'     },
+    { id:'shingal',  name:'Şingal (Sinjar)',   name_ar:'شنگال',     lat:36.32, lon:41.86, tz:'Asia/Baghdad'    },
+    { id:'shno',     name:'Şino',              name_ar:'شنۆ',       lat:37.04, lon:45.09, tz:'Asia/Tehran'     },
+    { id:'silemani', name:'Silêmanî',          name_ar:'سلێمانی',   lat:35.56, lon:45.43, tz:'Asia/Baghdad'    },
+    { id:'wan',      name:'Van (Wan)',         name_ar:'وان',       lat:38.49, lon:43.41, tz:'Europe/Istanbul' },
+    { id:'zaxo',     name:'Zaxo',              name_ar:'زاخۆ',      lat:37.14, lon:42.69, tz:'Asia/Baghdad'    },
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  const SUN_CITIES_WORLD = [
+    { id:'amsterdam', name:'Amsterdam',     name_ar:'ئامستردام',  lat:52.37,  lon:4.90,    tz:'Europe/Amsterdam' },
+    { id:'athens',    name:'Athens',        name_ar:'ئەسینا',     lat:37.98,  lon:23.73,   tz:'Europe/Athens' },
+    { id:'baghdad',   name:'Baghdad',       name_ar:'بەغدا',      lat:33.31,  lon:44.36,   tz:'Asia/Baghdad' },
+    { id:'bangkok',   name:'Bangkok',       name_ar:'بانکۆک',     lat:13.76,  lon:100.50,  tz:'Asia/Bangkok' },
+    { id:'beijing',   name:'Beijing',       name_ar:'بەیجینگ',    lat:39.90,  lon:116.40,  tz:'Asia/Shanghai' },
+    { id:'berlin',    name:'Berlin',        name_ar:'بەرلین',     lat:52.52,  lon:13.40,   tz:'Europe/Berlin' },
+    { id:'buenosaires',name:'Buenos Aires', name_ar:'بوێنۆس ئایرێس',lat:-34.61,lon:-58.38, tz:'America/Argentina/Buenos_Aires' },
+    { id:'cairo',     name:'Cairo',         name_ar:'قاهیرە',     lat:30.04,  lon:31.24,   tz:'Africa/Cairo' },
+    { id:'capetown',  name:'Cape Town',     name_ar:'کەیپ تاون',  lat:-33.92, lon:18.42,   tz:'Africa/Johannesburg' },
+    { id:'chicago',   name:'Chicago',       name_ar:'شیکاگۆ',     lat:41.88,  lon:-87.63,  tz:'America/Chicago' },
+    { id:'damascus',  name:'Damascus',      name_ar:'دیمەشق',     lat:33.51,  lon:36.29,   tz:'Asia/Damascus' },
+    { id:'dohaqatar', name:'Doha',          name_ar:'دۆحە',       lat:25.29,  lon:51.53,   tz:'Asia/Qatar' },
+    { id:'dubai',     name:'Dubai',         name_ar:'دوبەی',      lat:25.20,  lon:55.27,   tz:'Asia/Dubai' },
+    { id:'dublin',    name:'Dublin',        name_ar:'دەبڵین',     lat:53.35,  lon:-6.26,   tz:'Europe/Dublin' },
+    { id:'hongkong',  name:'Hong Kong',     name_ar:'هۆنگ کۆنگ',  lat:22.32,  lon:114.17,  tz:'Asia/Hong_Kong' },
+    { id:'istanbul',  name:'Istanbul',      name_ar:'ئیستەنبوڵ',  lat:41.01,  lon:28.98,   tz:'Europe/Istanbul' },
+    { id:'jakarta',   name:'Jakarta',       name_ar:'جاکارتا',    lat:-6.20,  lon:106.85,  tz:'Asia/Jakarta' },
+    { id:'johannesburg',name:'Johannesburg',name_ar:'یۆهانسبۆرگ', lat:-26.20, lon:28.05,   tz:'Africa/Johannesburg' },
+    { id:'karachi',   name:'Karachi',       name_ar:'کەراچی',     lat:24.86,  lon:67.01,   tz:'Asia/Karachi' },
+    { id:'lagos',     name:'Lagos',         name_ar:'لاگۆس',      lat:6.52,   lon:3.38,    tz:'Africa/Lagos' },
+    { id:'laramie',   name:'Laramie',       name_ar:'لارامی',     lat:41.31,  lon:-105.59, tz:'America/Denver' },
+    { id:'lima',      name:'Lima',          name_ar:'لیما',       lat:-12.05, lon:-77.04,  tz:'America/Lima' },
+    { id:'london',    name:'London',        name_ar:'لەندەن',     lat:51.51,  lon:-0.13,   tz:'Europe/London' },
+    { id:'losangeles',name:'Los Angeles',   name_ar:'لۆس ئانجیلس',lat:34.05,  lon:-118.24, tz:'America/Los_Angeles' },
+    { id:'madrid',    name:'Madrid',        name_ar:'مەدرید',     lat:40.42,  lon:-3.70,   tz:'Europe/Madrid' },
+    { id:'manila',    name:'Manila',        name_ar:'مانیلا',     lat:14.60,  lon:120.98,  tz:'Asia/Manila' },
+    { id:'mexicocity',name:'Mexico City',   name_ar:'مێکسیکۆ سیتی',lat:19.43, lon:-99.13,  tz:'America/Mexico_City' },
+    { id:'moscow',    name:'Moscow',        name_ar:'مۆسکۆ',      lat:55.76,  lon:37.62,   tz:'Europe/Moscow' },
+    { id:'mumbai',    name:'Mumbai',        name_ar:'موومبای',    lat:19.08,  lon:72.88,   tz:'Asia/Kolkata' },
+    { id:'newyork',   name:'New York',      name_ar:'نیویۆرک',    lat:40.71,  lon:-74.01,  tz:'America/New_York' },
+    { id:'paris',     name:'Paris',         name_ar:'پاریس',      lat:48.86,  lon:2.35,    tz:'Europe/Paris' },
+    { id:'rio',       name:'Rio de Janeiro',name_ar:'ڕیۆ دی ژانێیرۆ',lat:-22.91,lon:-43.17,tz:'America/Sao_Paulo' },
+    { id:'riyadh',    name:'Riyadh',        name_ar:'ڕیاد',       lat:24.71,  lon:46.68,   tz:'Asia/Riyadh' },
+    { id:'rome',      name:'Rome',          name_ar:'ڕۆما',       lat:41.90,  lon:12.50,   tz:'Europe/Rome' },
+    { id:'sanfrancisco',name:'San Francisco',name_ar:'سان فرانسیسکۆ',lat:37.77,lon:-122.42, tz:'America/Los_Angeles' },
+    { id:'saopaulo',  name:'São Paulo',     name_ar:'ساو پاولۆ',  lat:-23.55, lon:-46.63,  tz:'America/Sao_Paulo' },
+    { id:'seoul',     name:'Seoul',         name_ar:'سیئوول',     lat:37.57,  lon:126.98,  tz:'Asia/Seoul' },
+    { id:'singapore', name:'Singapore',     name_ar:'سینگاپۆر',   lat:1.35,   lon:103.82,  tz:'Asia/Singapore' },
+    { id:'stockholm', name:'Stockholm',     name_ar:'ستۆکهۆڵم',   lat:59.33,  lon:18.07,   tz:'Europe/Stockholm' },
+    { id:'sydney',    name:'Sydney',        name_ar:'سیدنی',      lat:-33.87, lon:151.21,  tz:'Australia/Sydney' },
+    { id:'tehran',    name:'Tehran',        name_ar:'تەهران',     lat:35.69,  lon:51.39,   tz:'Asia/Tehran' },
+    { id:'telaviv',   name:'Tel Aviv',      name_ar:'تێل ئەڤیڤ',  lat:32.08,  lon:34.78,   tz:'Asia/Jerusalem' },
+    { id:'tokyo',     name:'Tokyo',         name_ar:'تۆکیۆ',      lat:35.68,  lon:139.69,  tz:'Asia/Tokyo' },
+    { id:'toronto',   name:'Toronto',       name_ar:'تۆرۆنتۆ',    lat:43.65,  lon:-79.38,  tz:'America/Toronto' },
+    { id:'vancouver', name:'Vancouver',     name_ar:'ڤانکوڤەر',   lat:49.28,  lon:-123.12, tz:'America/Vancouver' },
+    { id:'vienna',    name:'Vienna',        name_ar:'ڤیەنا',      lat:48.21,  lon:16.37,   tz:'Europe/Vienna' },
+    { id:'warsaw',    name:'Warsaw',        name_ar:'وارشۆ',      lat:52.23,  lon:21.01,   tz:'Europe/Warsaw' },
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  // Approximate lat/lon for the user's local timezone — coarse but enough
+  // to give a sunrise/sunset estimate when "Local" is selected.
+  function localCity() {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    // Try matching the local TZ to one of our known cities first.
+    const all = SUN_CITIES_KURD.concat(SUN_CITIES_WORLD);
+    const match = all.find(c => c.tz === tz);
+    return {
+      id: 'local',
+      name: 'Local time' + (match ? ' (' + match.name + ')' : ''),
+      name_ar: 'کاتی خۆجێیی' + (match ? ' (' + match.name_ar + ')' : ''),
+      lat: match ? match.lat : 0,
+      lon: match ? match.lon : 0,
+      tz: tz,
+      polarOnly: !match,   // if no coord match, we'll skip sun data
+    };
+  }
+  // Built each time we render so it picks up timezone changes.
+  function allCities() {
+    return [localCity()].concat(SUN_CITIES_KURD).concat(SUN_CITIES_WORLD);
+  }
+
   const SUNCARD_KEY = 'cal-suncity';
   let suncardCity = (function () {
-    try { return localStorage.getItem(SUNCARD_KEY) || 'hewler'; }
-    catch { return 'hewler'; }
+    try { return localStorage.getItem(SUNCARD_KEY) || 'local'; }
+    catch { return 'local'; }
   })();
 
   // NOAA-style sunrise/sunset approximation. Returns Date objects in UTC.
@@ -517,25 +583,52 @@
     if (!sel) return;
     sel.innerHTML = '';
     const isAr = script() === 'two';
-    const groupKurd = document.createElement('optgroup');
-    groupKurd.label = isAr ? 'کوردستان' : 'Kurdistan';
+
+    // Local time is the very first option (default for new visitors).
+    const local = localCity();
+    const oLocal = document.createElement('option');
+    oLocal.value = 'local';
+    oLocal.textContent = isAr ? local.name_ar : local.name;
+    if (suncardCity === 'local') oLocal.selected = true;
+    sel.appendChild(oLocal);
+
+    const groupKurd  = document.createElement('optgroup');
+    groupKurd.label  = isAr ? 'کوردستان' : 'Kurdistan';
     const groupWorld = document.createElement('optgroup');
     groupWorld.label = isAr ? 'جیهان' : 'World';
-    for (const c of SUN_CITIES) {
+    for (const c of SUN_CITIES_KURD) {
       const o = document.createElement('option');
       o.value = c.id;
       o.textContent = isAr ? c.name_ar : c.name;
       if (c.id === suncardCity) o.selected = true;
-      (c.group === 'kurd' ? groupKurd : groupWorld).appendChild(o);
+      groupKurd.appendChild(o);
+    }
+    for (const c of SUN_CITIES_WORLD) {
+      const o = document.createElement('option');
+      o.value = c.id;
+      o.textContent = isAr ? c.name_ar : c.name;
+      if (c.id === suncardCity) o.selected = true;
+      groupWorld.appendChild(o);
     }
     sel.appendChild(groupKurd);
     sel.appendChild(groupWorld);
   }
 
+  function findCity(id) {
+    if (id === 'local') return localCity();
+    return SUN_CITIES_KURD.find(c => c.id === id) ||
+           SUN_CITIES_WORLD.find(c => c.id === id) ||
+           localCity();
+  }
+
   function renderSuncard() {
-    const city = SUN_CITIES.find(c => c.id === suncardCity) || SUN_CITIES[0];
+    const city = findCity(suncardCity);
     const now = new Date();
-    const sun = sunTimes(now, city.lat, city.lon);
+    // If we're on "Local" but couldn't match the timezone to a known city,
+    // we don't have lat/lon — skip sun calculation, show clock only.
+    const sun = city.polarOnly
+      ? { sunrise: null, sunset: null, noon: null, polar: null }
+      : sunTimes(now, city.lat, city.lon);
     const sc = script();
     const isAr = sc === 'two';
 

@@ -369,7 +369,7 @@
     const g = new Date();
     const sc = script();
     document.getElementById('g-date').textContent =
-      gMonth(g.getMonth()) + ' ' + g.getDate() + ', ' + g.getFullYear();
+      fmtMonthDayYear(g.getMonth(), g.getDate(), g.getFullYear());
     document.getElementById('g-day').textContent = gDowLong(g.getDay());
 
     const p = gregToJalali(g.getFullYear(), g.getMonth() + 1, g.getDate());
@@ -399,7 +399,7 @@
     if (!y || !m || !d) { gEl.textContent = nkEl.textContent = '—'; ckEl.textContent = '—'; return; }
     const g = new Date(y, m - 1, d);
     const p = gregToJalali(y, m, d);
-    gEl.textContent = gMonth(m - 1) + ' ' + d + ', ' + y + '  ·  ' + gDowLong(g.getDay());
+    gEl.textContent = fmtMonthDayYear(m - 1, d, y) + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK(p, sc) + '  ·  ' + fmtCKDay(g, sc);
     nkEl.textContent = fmtNK(g, sc) + '  ·  ' + fmtNKDay(g, sc);
   }
@@ -414,7 +414,7 @@
     const nkEl = document.getElementById('conv-nk');
     if (!jy || !jm || !jd) { gEl.textContent = nkEl.textContent = '—'; ckEl.textContent = '—'; return; }
     const g = jalaliToGreg(jy, jm, jd);
-    gEl.textContent = gMonth(g.getMonth()) + ' ' + g.getDate() + ', ' + g.getFullYear() + '  ·  ' + gDowLong(g.getDay());
+    gEl.textContent = fmtMonthDayYear(g.getMonth(), g.getDate(), g.getFullYear()) + '  ·  ' + gDowLong(g.getDay());
     ckEl.textContent = fmtCK({ y: jy, m: jm, d: jd }, sc) + '  ·  ' + fmtCKDay(g, sc);
     nkEl.textContent = fmtNK(g, sc) + '  ·  ' + fmtNKDay(g, sc);
   }
@@ -1192,7 +1192,7 @@
         when.textContent = isAr ? ('لە ' + digits(e.daysAway, 'two') + ' ڕۆژدا') : ('in ' + e.daysAway + ' days');
         when.classList.add('upcoming');
       }
-      else when.textContent = gMonthShort(e.m - 1) + ' ' + (isAr ? digits(e.d, 'two') : e.d);
+      else when.textContent = fmtMonthDay(e.m - 1, e.d, { short: true });
 
       const name = document.createElement(e.slug ? 'a' : 'span');
       name.className = 'cal-day-name';
@@ -1273,7 +1273,7 @@
       li.id = 'fig-' + slug;
       li.className = 'fig-item';
       if (f.m === curMonth && f.d === curDay) li.classList.add('today');
-      const date = gMonthShort(f.m - 1) + ' ' + (isAr ? digits(f.d, 'two') : f.d);
+      const date = fmtMonthDay(f.m - 1, f.d, { short: true });
       const star = f.type === 'b' ? '★' : '✦';
       const summary = document.createElement('button');
       summary.type = 'button';

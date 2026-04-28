@@ -480,10 +480,21 @@
         .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
         .catch(() => tryNext(i + 1));
     };
+    // Skip non-poem files (HTML scaffolding, build artifacts, README, etc.)
+    // and translation siblings. Anything inside obvious infrastructure
+    // folders is also excluded.
+    const SKIP_EXT = /\.(html?|md|json|css|js|png|jpe?g|gif|svg|webp|ico|txt|yml|yaml|toml|ts)$/i;
+    const SKIP_PATH = /(^|\/)(\.|_|index|template|README|LICENSE|assets?|static|dist|build|node_modules)(\/|$)/i;
     return tryNext(0).then(data => {
       if (!data || !Array.isArray(data.tree)) return;
       const paths = data.tree
-        .filter(it => it.type === 'blob' && it.path.startsWith(folder) && !it.path.endsWith('.en'))
+        .filter(it =>
+          it.type === 'blob' &&
+          it.path.startsWith(folder) &&
+          !it.path.endsWith('.en') &&
+          !SKIP_EXT.test(it.path) &&
+          !SKIP_PATH.test(it.path.slice(folder.length))
+        )
         .map(it => it.path.slice(folder.length));
       if (paths.length) POEM_INDEX = paths;
     }).catch(() => { /* silent fallback */ });
@@ -518,7 +529,7 @@
     'س':'s','ش':'ş','ع':'','غ':'gh','ف':'f','ڤ':'v','ق':'q',
     'ک':'k','ك':'k','گ':'g','ل':'l','ڵ':'l','م':'m','ن':'n',
     'ھ':'h','ه':'h','ە':'e','ۆ':'o','ێ':'ê',
-    'ئ':'','ؤ':'','ء':'','ـ':'',
+    'ئ':'','ؤ':'','ء':'','ـ':'','أ':'a','إ':'i','ذ':'z','ث':'s','ص':'s','ض':'d','ط':'t','ظ':'z','ة':'h',
     '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
     '،':',','؛':';','؟':'?','«':'"','»':'"',
   };
@@ -534,8 +545,9 @@
     // Arabic Yeh) with ی (U+06CC Kurdish/Persian Yeh); without this step
     // those characters leak through (e.g. "Dengî يar meيo").
     s = String(s)
-      .replace(/[يى]/g, 'ی')   // ي / ى  → ی
-      .replace(/ك/g, 'ک');           // ك      → ک
+      .replace(/[ً-ٰٟۖ-ۭ]/g, '')  // strip Arabic diacritics / harakat / quranic marks
+      .replace(/[يى]/g, 'ی')                                     // ي / ى → ی
+      .replace(/ك/g, 'ک');                                          // ك → ک
     // Step 1 — letter-by-letter map. وو digraph → û. و and ی are contextual.
     s = s.replace(/وو/g, '');
     const chars = [...s];
@@ -966,6 +978,16 @@
       fetch(enUrl).then(r => r.ok ? r.text() : '').catch(() => ''),
     ])
       .then(([text, enText]) => {
+        // Safety net: if the fetched file is actually HTML scaffolding
+        // (some repos contain index.html / build outputs that slipped past
+        // the index filter), skip it and pick another random poem.
+        if (/^\s*<(!doctype|html|head|body|meta|script)/i.test(text) ||
+            text.indexOf('<!DOCTYPE') >= 0) {
+          // Drop this path from the pool and retry
+          POEM_INDEX = POEM_INDEX.filter(p => p !== path);
+          if (POEM_INDEX.length) return loadPoem(POEM_INDEX[Math.floor(Math.random() * POEM_INDEX.length)]);
+          throw new Error('skipped non-poem file');
+        }
         const parsed = parseAllekok(text);
         const truncated = truncateLines(parsed.body, 6);
         let translation = '';

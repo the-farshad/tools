@@ -172,11 +172,15 @@
 [data-kurd-script="two"] .cal-day-when,
 [data-kurd-script="two"] .cal-day-name { text-align: right; }
 
-/* (4a-2) Section heads for ڕۆژە گرنگەکان and کەسایەتییەکان: in کوردی mode
-        the title sits on the right and search/toggle/export move to the
-        left, matching natural RTL reading order. */
+/* (4a-2) Section heads in کوردی mode flow right-to-left across the board:
+        title on the right, controls on the left. Applied to every section
+        with a cal-month-head, plus the page header (back-link + h1). */
+[data-kurd-script="two"] .page-header,
 [data-kurd-script="two"] .cal-days-section > .cal-month-head,
-[data-kurd-script="two"] .cal-figures-section > .cal-month-head {
+[data-kurd-script="two"] .cal-figures-section > .cal-month-head,
+[data-kurd-script="two"] .cal-poem-section > .cal-month-head,
+[data-kurd-script="two"] .cal-converter > .cal-month-head,
+[data-kurd-script="two"] .cal-month-section > .cal-month-head {
   direction: rtl;
 }
 

@@ -78,8 +78,9 @@
       <code><a href="./events.json">events.json</a></code>
     </div>
     <p style="margin:0 0 14px;opacity:0.85;font-size:0.9em">
-      Static list of important days plus month names. Updated when the
-      curated list changes; always safe to cache.
+      Static list of important days plus month names. Each event now also
+      carries Sorani translations: <code>name_ar</code> and <code>sub_ar</code>.
+      Updated when the curated list changes; always safe to cache.
     </p>
 
     <div class="api-endpoint">
@@ -131,13 +132,25 @@
   const t = KurdishCalendar.today();
   console.log(t.central.formatted_arabic);                       // ٤ گوڵان ٢٧٢٦
   console.log(t.northern.month_name);                            // Nîsan
-  console.log(t.events);                                         // [] today, or matched events
 
-  // Transliterate Sorani Arabic-script Kurdish to Latin (Hawar conventions)
+  // Events and figures now carry bilingual fields:
+  for (const e of KurdishCalendar.events()) {
+    console.log(e.name, '/', e.name_ar);                         // English / کوردی
+    console.log(e.sub,  '/', e.sub_ar);
+  }
+  for (const f of KurdishCalendar.figures()) {
+    console.log(f.name, '/', f.name_ar);                         // 'Mehmed Uzun' / 'محەممەد ئوزون'
+    console.log(f.role, '/', f.role_ar);
+    console.log(f.bio,  '/', f.bio_ar);
+  }
+
+  // Transliterate Sorani Arabic-script Kurdish to Latin (Hawar conventions,
+  // contextual و/ی, schwa epenthesis, normalizes ي→ی and ك→ک).
   const lat = KurdishCalendar.arToLatin('هەژار موکریانی');       // 'hejar mukriyanî'
   console.log(KurdishCalendar.titleCaseLatin(lat));              // 'Hejar Mukriyanî'
   console.log(KurdishCalendar.arToLatin('ئاگر'));                // 'agir'
   console.log(KurdishCalendar.arToLatin('کوردستان'));            // 'kurdistan'
+  console.log(KurdishCalendar.arToLatin('دەنگی يار مەيۆ'));      // 'dengî yar meyo'
 &lt;/script&gt;</pre>
 
     <h3 style="font-weight:normal;font-size:1em;opacity:0.85">From the command line</h3>

@@ -1,35 +1,49 @@
 {
-  "generated_at": "2026-04-25",
-  "days_until_newroz": 330,
+  "generated_at": "2026-04-28",
+  "days_until_newroz": 327,
   "today": {
     "gregorian": {
       "year": 2026,
       "month": 4,
-      "day": 25,
-      "weekday": 6,
-      "iso": "2026-04-25"
+      "day": 28,
+      "weekday": 2,
+      "iso": "2026-04-28"
     },
     "central": {
       "jalali_year": 1405,
       "kurdish_year": 2726,
       "month": 2,
-      "day": 5,
+      "day": 8,
       "month_name_kurdi": "Gulan",
       "month_name_arabic": "گوڵان",
-      "day_name_kurdi": "Şemme",
-      "day_name_arabic": "شەممە",
-      "formatted_kurdi": "5 Gulan 2726",
-      "formatted_arabic": "٥ گوڵان ٢٧٢٦"
+      "day_name_kurdi": "Sêşemme",
+      "day_name_arabic": "سێشەممە",
+      "formatted_kurdi": "8 Gulan 2726",
+      "formatted_arabic": "٨ گوڵان ٢٧٢٦"
     },
     "northern": {
       "year": 2026,
       "month": 4,
-      "day": 25,
+      "day": 28,
       "month_name": "Nîsan",
-      "day_name": "Şemî",
-      "formatted": "25î Nîsana 2026ê"
+      "day_name": "Sêşem",
+      "formatted": "28î Nîsana 2026ê"
     },
     "events": [],
-    "figures": []
+    "figures": [
+      {
+        "m": 4,
+        "d": 28,
+        "type": "b",
+        "name": "Bextiyar Elî",
+        "role": "Kurdish novelist",
+        "years": "b. 1966",
+        "bio": "Major contemporary Kurdish novelist and poet; his fiction has been translated into many European languages.",
+        "wiki": "https://en.wikipedia.org/wiki/Bachtyar_Ali",
+        "name_ar": "بەختیار عەلی",
+        "role_ar": "ڕۆماننووسی کورد",
+        "bio_ar": "ڕۆماننووس و شاعیری هاوچەرخی گرنگی کوردی؛ ڕۆمانەکانی بۆ زۆر زمانی ئەوروپی وەرگێڕدراون."
+      }
+    ]
   }
 }

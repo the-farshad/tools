@@ -1331,7 +1331,7 @@
       const wikiLabel = isAr ? 'ویکیپیدیا' : 'Wikipedia';
       detail.innerHTML =
         '<p' + (isAr ? ' dir="rtl"' : '') + '>' + escapeHtml(dispBio) + '</p>' +
-        (f.wiki ? '<p><a href="' + f.wiki + '" target="_blank" rel="noopener">' + wikiLabel + ' &rarr;</a></p>' : '');
+        (f.wiki ? '<p' + (isAr ? ' dir="rtl"' : '') + '><a href="' + f.wiki + '" target="_blank" rel="noopener">' + wikiLabel + (isAr ? ' &larr;' : ' &rarr;') + '</a></p>' : '');
 
       li.appendChild(summary);
       li.appendChild(detail);

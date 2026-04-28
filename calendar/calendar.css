@@ -93,6 +93,8 @@
 [data-kurd-script="two"] .fig-name[dir="rtl"] *,
 [data-kurd-script="two"] .fig-role[dir="rtl"],
 [data-kurd-script="two"] .fig-role[dir="rtl"] *,
+[data-kurd-script="two"] .fig-detail,
+[data-kurd-script="two"] .fig-detail *,
 [data-kurd-script="two"] .fig-detail p[dir="rtl"],
 [data-kurd-script="two"] .fig-detail p[dir="rtl"] *,
 [data-kurd-script="two"] h1[data-ar],

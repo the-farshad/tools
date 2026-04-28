@@ -162,6 +162,27 @@
 [data-kurd-script="two"] .seg[data-control="conv-dir"] button {
   font-size: 0.88em;
 }
+
+/* (4) Figures section in کوردی mode:
+       - Whole row flips to RTL so the date sits on the right, name in the
+         middle, and title (role) on the left — reading right-to-left:
+         date → name → title.
+       - .fig-role's hard-coded text-align: right is overridden so the title
+         aligns naturally in RTL flow. */
+[data-kurd-script="two"] .fig-summary {
+  direction: rtl;
+  text-align: right;
+}
+[data-kurd-script="two"] .fig-when,
+[data-kurd-script="two"] .fig-name,
+[data-kurd-script="two"] .fig-role {
+  text-align: right;
+}
+[data-kurd-script="two"] .fig-mark { margin-right: 0; margin-left: 6px; }
+
+/* (5) Search inputs auto-detect direction based on what's typed —
+       so کورد flows right-to-left while "kurd" stays left-to-right. */
+.cal-search { unicode-bidi: plaintext; }
 /* Reset on nested elements so the 0.95em doesn't compound into children. */
 [data-kurd-script="two"] .cal-newroz-text [data-ar],
 [data-kurd-script="two"] .cal-newroz-text > *,

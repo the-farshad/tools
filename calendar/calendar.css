@@ -182,8 +182,18 @@
 [data-kurd-script="two"] .cal-figures-section > .cal-month-head,
 [data-kurd-script="two"] .cal-poem-section > .cal-month-head,
 [data-kurd-script="two"] .cal-converter > .cal-month-head,
-[data-kurd-script="two"] .cal-month-section > .cal-month-head {
+[data-kurd-script="two"] .cal-month-section > .cal-month-head,
+/* Date-picker rows (Pick a Gregorian / Kurdish Calendar date) — label on
+   right, picker on left in کوردی mode. */
+[data-kurd-script="two"] .conv-row {
   direction: rtl;
+}
+
+/* Force Vazirmatn on <select> elements in کوردی mode — the closed/selected
+   display normally falls back to the system default; this overrides it. */
+[data-kurd-script="two"] select,
+[data-kurd-script="two"] select option {
+  font-family: 'Vazirmatn', 'Tahoma', sans-serif !important;
 }
 
 /* (4) Figures section in کوردی mode:

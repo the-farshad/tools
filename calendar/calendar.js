@@ -324,6 +324,11 @@
     translating:    { en: 'Translating…',                             ar: 'وەرگێڕان…' },
     translateFailed:{ en: 'Auto-translate failed; opened Google Translate.', ar: 'وەرگێڕانی خۆکار سەرنەکەوت؛ Google Translate کرایەوە.' },
     autoTranslated: { en: 'machine-translated',                       ar: 'وەرگێڕانی خۆکار' },
+    showEnglish:    { en: 'Show machine translation',                 ar: 'وەرگێڕانی خۆکار پیشان بدە' },
+    translationDisclaimer: {
+      en: 'Note: machine-translated. Sorani auto-translation is unreliable for poetry — meaning may be wrong or distorted.',
+      ar: 'تێبینی: وەرگێڕانی خۆکارە. وەرگێڕانی سۆرانی بۆ شیعر متمانەپێکراو نییە — لەوانەیە مانا هەڵە یان شێواو بێت.',
+    },
   };
   function t(key) {
     const e = I18N[key];
@@ -528,7 +533,7 @@
     'ح':'h','خ':'x','د':'d','ر':'r','ڕ':'rr','ز':'z','ژ':'j',
     'س':'s','ش':'ş','ع':'','غ':'gh','ف':'f','ڤ':'v','ق':'q',
     'ک':'k','ك':'k','گ':'g','ل':'l','ڵ':'l','م':'m','ن':'n',
-    'ھ':'h','ه':'h','ە':'e','ۆ':'o','ێ':'ê',
+    'ھ':'h','ه':'h','ە':'e','ۆ':'o','ێ':'ê','ۇ':'u','ۈ':'û','ۉ':'û','ۊ':'û','ۋ':'v','ۏ':'v','ٱ':'a',
     'ئ':'','ؤ':'','ء':'','ـ':'','أ':'a','إ':'i','ذ':'z','ث':'s','ص':'s','ض':'d','ط':'t','ظ':'z','ة':'h',
     '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
     '،':',','؛':';','؟':'?','«':'"','»':'"',
@@ -797,24 +802,56 @@
   async function autoTranslateCurrent(fallbackUrl) {
     if (!currentPoem) return;
     const trans = document.getElementById('poem-trans');
+    const p = currentPoem;
     // Translate whatever is currently visible: truncated body or full version.
-    const text = (poemExpanded && currentPoem.fullBody) ? currentPoem.fullBody : (currentPoem.body || '');
-    if (!trans || !text) return;
+    const bodyText = (poemExpanded && p.fullBody) ? p.fullBody : (p.body || '');
+    if (!trans || !bodyText) return;
     trans.textContent = t('translating');
     trans.setAttribute('dir', 'ltr');
     trans.style.fontFamily = '';
     trans.style.textAlign = 'left';
     trans.style.display = '';
     try {
-      const result = await fetchTranslation(text);
+      // Translate the title (via MyMemory) and the body in parallel; cached.
+      // Names (poet/book) are NOT machine-translated — names should stay as
+      // names. Use the Latin transliteration we already produce instead.
+      const [titleEn, bodyEn] = await Promise.all([
+        p.title ? fetchTranslation(p.title) : Promise.resolve(''),
+        fetchTranslation(bodyText),
+      ]);
+      const poetLat = titleCaseLat(ckArToLat(p.poet || ''));
+      const bookLat = titleCaseLat(ckArToLat(p.book || ''));
+
       trans.innerHTML = '';
+      trans.dataset.autoTranslated = '1';
+      // Title heading (English) — bold, slightly larger
+      if (titleEn) {
+        const titleEl = document.createElement('h3');
+        titleEl.style.cssText = 'font-weight:700;font-size:1.1em;margin:0 0 8px;line-height:1.3';
+        titleEl.textContent = titleCaseLat(titleEn);  // capitalize first letter of words
+        trans.appendChild(titleEl);
+      }
+      // Body
       const body = document.createElement('div');
-      body.style.whiteSpace = 'pre-line';
-      body.textContent = result;
-      const tag = document.createElement('div');
-      tag.style.cssText = 'font-size:0.78em;opacity:0.6;margin-top:6px';
-      tag.textContent = '— ' + t('autoTranslated') + ' (MyMemory)';
+      body.style.cssText = 'white-space:pre-line;line-height:1.55';
+      body.textContent = bodyEn;
       trans.appendChild(body);
+      // Attribution (use Latin transliteration of poet + book)
+      if (poetLat) {
+        const attr = document.createElement('div');
+        attr.style.cssText = 'margin-top:10px;font-size:0.88em;opacity:0.85';
+        attr.textContent = '— ' + poetLat + (bookLat ? '  ·  ' + bookLat : '');
+        trans.appendChild(attr);
+      }
+      // Auto-translation credit — Kurdish text in Vazirmatn, the rest in inherit
+      const tag = document.createElement('div');
+      tag.style.cssText = 'font-size:0.78em;opacity:0.6;margin-top:8px;padding-top:6px;border-top:1px dotted var(--rule)';
+      const kurdSpan = document.createElement('span');
+      kurdSpan.textContent = t('autoTranslated');
+      kurdSpan.style.cssText = "font-family:'Vazirmatn','Tahoma',sans-serif";
+      tag.appendChild(document.createTextNode('— '));
+      tag.appendChild(kurdSpan);
+      tag.appendChild(document.createTextNode(' (MyMemory)'));
       trans.appendChild(tag);
     } catch (e) {
       if (fallbackUrl) window.open(fallbackUrl, '_blank', 'noopener');
@@ -880,14 +917,6 @@
     poemExpanded = false;
     renderPoemBody();
     renderPoemActions();
-    // If the poem doesn't already have a manual English translation
-    // (a sibling .en file in the GitHub repo), auto-fetch a machine
-    // translation so the user sees English in the poem section without
-    // having to click anything. Cached, so re-renders are instant.
-    const isArabicSource = (p.dir || 'rtl') === 'rtl';
-    if (isArabicSource && !p.translation && (p.body || p.fullBody)) {
-      autoTranslateCurrent();
-    }
   }
 
   function renderPoemBody() {
@@ -950,8 +979,33 @@
     }
 
     // ---- Translation (English) ----
+    // Three cases:
+    //   1) Manual .en sibling exists in the repo → show it directly.
+    //   2) No manual translation, source is rtl → render an OPT-IN button
+    //      with a "may be inaccurate" disclaimer; user clicks to reveal.
+    //   3) Source is ltr (loading / error state) → hide the panel.
+    delete trans.dataset.autoTranslated;
+    trans.innerHTML = '';
     if (p.translation) {
-      trans.textContent = p.translation;
+      const body = document.createElement('div');
+      body.style.whiteSpace = 'pre-line';
+      body.textContent = p.translation;
+      trans.appendChild(body);
+      trans.style.display = '';
+    } else if (isArabicSource && (p.body || p.fullBody)) {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'display:flex;flex-direction:column;gap:6px;align-items:flex-start';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'poem-show-translation';
+      btn.textContent = t('showEnglish');
+      btn.style.cssText = 'background:transparent;border:1px solid var(--btn-border);border-radius:4px;padding:6px 12px;cursor:pointer;font:inherit;color:var(--fg)';
+      const note = document.createElement('div');
+      note.style.cssText = 'font-size:0.78em;opacity:0.65;line-height:1.4';
+      note.textContent = t('translationDisclaimer');
+      wrap.appendChild(btn);
+      wrap.appendChild(note);
+      trans.appendChild(wrap);
       trans.style.display = '';
     } else {
       trans.style.display = 'none';
@@ -963,8 +1017,12 @@
     poemExpanded = !poemExpanded;
     renderPoemBody();
     renderPoemActions();
-    // Re-fetch translation to match the now-visible body length.
-    if (!currentPoem.translation) autoTranslateCurrent();
+    // If the user already revealed a machine translation, refresh it so the
+    // English tracks the now-visible body length. Otherwise leave it hidden.
+    const trans = document.getElementById('poem-trans');
+    if (!currentPoem.translation && trans && trans.dataset.autoTranslated === '1') {
+      autoTranslateCurrent();
+    }
   }
 
   function escapeHtml(s) {
@@ -1469,6 +1527,10 @@
     if (e.target.closest('.poem-expand')) togglePoemExpand();
     const tr = e.target.closest('.poem-auto-translate');
     if (tr) autoTranslateCurrent(tr.dataset.fallback);
+  });
+  // Opt-in "Show machine translation" button inside #poem-trans
+  document.getElementById('poem-trans').addEventListener('click', (e) => {
+    if (e.target.closest('.poem-show-translation')) autoTranslateCurrent();
   });
 
   // Saved-poems toggle

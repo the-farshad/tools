@@ -70,6 +70,25 @@
   function gDowLong(idx)  { return script() === 'two' ? G_DOW_LONG_AR[idx]  : G_DOW_LONG[idx]; }
   function gDow(idx)      { return script() === 'two' ? G_DOW_AR[idx]       : G_DOW[idx]; }
 
+  // Combined "month + day" formatter that respects Kurdish word order.
+  //   Latin (one): "Apr 7"  /  "April 7"
+  //   کوردی (two): "٧ی نیسان" — day with the ezafe-suffix "ی", then month.
+  function fmtMonthDay(monthIdx, day, opts) {
+    const sc = script();
+    const useShort = opts && opts.short;
+    const month = useShort ? gMonthShort(monthIdx) : gMonth(monthIdx);
+    if (sc === 'two') return digits(day, 'two') + 'ی ' + month;
+    return month + ' ' + day;
+  }
+  // Same but with a year. Latin: "April 7, 2026". کوردی: "٧ی نیسان ٢٠٢٦".
+  function fmtMonthDayYear(monthIdx, day, year) {
+    const sc = script();
+    if (sc === 'two') {
+      return digits(day, 'two') + 'ی ' + gMonth(monthIdx) + ' ' + digits(year, 'two');
+    }
+    return gMonth(monthIdx) + ' ' + day + ', ' + year;
+  }
+
   // ---------- Important days (civic / national / memorial) ----------
   const EVENTS = [
     { m: 1,  d: 22, name: 'Republic of Kurdistan',                    sub: 'Founding in Mahabad (1946)',                name_ar: 'کۆماری کوردستان', sub_ar: 'دامەزراندن لە مەهاباد (١٩٤٦)', slug: 'mahabad' },
@@ -302,6 +321,9 @@
     newrozToday:    { en: 'Today is the Kurdish New Year.',           ar: 'ئەمڕۆ سەری ساڵی کوردییە.' },
     showAll:        { en: 'Show all',                                 ar: 'هەموو پیشان بدە' },
     showOnly:       { en: 'Show only',                                ar: 'تەنیا پیشان بدە' },
+    translating:    { en: 'Translating…',                             ar: 'وەرگێڕان…' },
+    translateFailed:{ en: 'Auto-translate failed; opened Google Translate.', ar: 'وەرگێڕانی خۆکار سەرنەکەوت؛ Google Translate کرایەوە.' },
+    autoTranslated: { en: 'machine-translated',                       ar: 'وەرگێڕانی خۆکار' },
   };
   function t(key) {
     const e = I18N[key];
@@ -706,10 +728,79 @@
       html += '<a href="' + currentPoem.viewUrl + '" target="_blank" rel="noopener">' + t('onGitHub') + ' &#x2197;</a>';
     }
     if (currentPoem.fullBody || currentPoem.body) {
-      html += '<a href="' + translateUrl + '" target="_blank" rel="noopener">' + t('translate') + ' &#x2197;</a>';
+      html += '<button type="button" class="poem-auto-translate" data-fallback="' + escapeHtml(translateUrl) + '">' + t('translate') + '</button>';
     }
     row.innerHTML = html;
     row.style.display = currentPoem.poet ? '' : 'none';
+  }
+
+  // ---- Inline auto-translation -------------------------------------------
+  // Free, no-API-key translation via MyMemory. Long poems are split into
+  // chunks under the API's per-request character limit. Results are cached
+  // per text so re-clicking is instant. On failure, opens Google Translate
+  // in a new tab as a fallback.
+  const translationCache = {};
+  async function translateChunk(s) {
+    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(s) +
+                '&langpair=ckb-IR%7Cen-US&de=tools.thefarshad.com';
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    const out = d && d.responseData && d.responseData.translatedText;
+    if (!out || /MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(out)) throw new Error(out || 'no translation');
+    return out;
+  }
+  async function fetchTranslation(text) {
+    if (translationCache[text]) return translationCache[text];
+    const LIMIT = 480; // MyMemory anonymous tier ≈ 500 chars/request
+    const chunks = [];
+    if (text.length <= LIMIT) {
+      chunks.push(text);
+    } else {
+      // Split at paragraph / line boundaries to avoid breaking mid-line.
+      const lines = text.split('\n');
+      let cur = '';
+      for (const ln of lines) {
+        if ((cur + '\n' + ln).length > LIMIT) {
+          if (cur) chunks.push(cur);
+          cur = ln;
+        } else {
+          cur = cur ? cur + '\n' + ln : ln;
+        }
+      }
+      if (cur) chunks.push(cur);
+    }
+    const parts = [];
+    for (const c of chunks) parts.push(await translateChunk(c)); // sequential to be polite
+    const out = parts.join('\n\n');
+    translationCache[text] = out;
+    return out;
+  }
+  async function autoTranslateCurrent(fallbackUrl) {
+    if (!currentPoem) return;
+    const trans = document.getElementById('poem-trans');
+    const text = currentPoem.fullBody || currentPoem.body || '';
+    if (!trans || !text) return;
+    trans.textContent = t('translating');
+    trans.setAttribute('dir', 'ltr');
+    trans.style.fontFamily = '';
+    trans.style.textAlign = 'left';
+    trans.style.display = '';
+    try {
+      const result = await fetchTranslation(text);
+      trans.innerHTML = '';
+      const body = document.createElement('div');
+      body.style.whiteSpace = 'pre-line';
+      body.textContent = result;
+      const tag = document.createElement('div');
+      tag.style.cssText = 'font-size:0.78em;opacity:0.6;margin-top:6px';
+      tag.textContent = '— ' + t('autoTranslated') + ' (MyMemory)';
+      trans.appendChild(body);
+      trans.appendChild(tag);
+    } catch (e) {
+      if (fallbackUrl) window.open(fallbackUrl, '_blank', 'noopener');
+      trans.textContent = t('translateFailed');
+    }
   }
 
   async function sharePoem() {
@@ -1337,6 +1428,8 @@
     if (e.target.closest('.poem-bookmark')) toggleBookmark();
     if (e.target.closest('.poem-share')) sharePoem();
     if (e.target.closest('.poem-expand')) togglePoemExpand();
+    const tr = e.target.closest('.poem-auto-translate');
+    if (tr) autoTranslateCurrent(tr.dataset.fallback);
   });
 
   // Saved-poems toggle

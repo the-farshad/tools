@@ -507,11 +507,14 @@
     // ---- single candle, centered horizontally, lower-third vertically ----
     let candle = null;
     function placeCandle() {
+      // On narrow viewports, dock the candle to the far right so it never
+      // overlaps the article text, and shrink it so it stays in view.
+      const isMobile = W() < 700;
       candle = {
-        x: W() / 2,
-        y: H() * 0.78,
-        height: 110,
-        width: 22,
+        x: isMobile ? W() - 50 : W() / 2,
+        y: H() * 0.80,
+        height: isMobile ? 70 : 110,
+        width:  isMobile ? 14 : 22,
         flame: 1,                 // 0 (out) … 1 (full burn)
         flicker: 0,
         wax: [],                  // dripping wax beads
@@ -815,23 +818,36 @@
       document.body.style.filter = 'sepia(0.06) brightness(0.96)';
     });
 
-    // ---- field of daffodils ----
+    // ---- a small cluster of daffodils ----
+    // Desktop: a thin row across the width (fewer than before to keep things
+    //          quiet — focus is the wind itself).
+    // Mobile: only a few, tucked into the right margin so they never overlap
+    //         the article text.
     const flowers = [];
     function plantFlowers(reset) {
       if (reset) flowers.length = 0;
-      const N = Math.max(18, Math.min(34, Math.floor(W() / 36)));
+      const isMobile = W() < 700;
+      const N = isMobile ? 4 : Math.max(8, Math.min(14, Math.floor(W() / 90)));
       for (let i = 0; i < N; i++) {
+        let x;
+        if (isMobile) {
+          // cluster on the right: x in [W-90, W-12]
+          x = W() - 12 - (i * 22) - Math.random() * 6;
+        } else {
+          // sparse, evenly spaced row, slight jitter
+          x = 30 + (i / N) * (W() - 60) + (Math.random() - 0.5) * 14;
+        }
         flowers.push({
-          x: 18 + (i / N) * (W() - 36) + (Math.random() - 0.5) * 18,
-          y: H() * 0.82 + Math.random() * H() * 0.10,
+          x: x,
+          y: H() * 0.82 + Math.random() * H() * 0.08,
           bloom: 0,
           targetBloom: 6.5 + Math.random() * 2.5,
           stemH: 26 + Math.random() * 14,
           gray: 0,
           tilt: 0,
           tiltTarget: 0,
-          rotation: (Math.random() - 0.5) * 0.06,  // a little natural lean
-          headTilt: 0.1 + Math.random() * 0.15,    // daffodil heads droop forward
+          rotation: (Math.random() - 0.5) * 0.06,
+          headTilt: 0.10 + Math.random() * 0.12,
         });
       }
     }
@@ -880,15 +896,8 @@
       ctx.quadraticCurveTo(2, -stemH * 0.5, 0, -stemH);
       ctx.stroke();
 
-      // ---- long arching leaf ----
-      ctx.beginPath();
-      ctx.moveTo(0, -stemH * 0.55);
-      ctx.bezierCurveTo(8, -stemH * 0.6, 11, -stemH * 0.78, 5, -stemH * 0.95);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(0, -stemH * 0.4);
-      ctx.bezierCurveTo(-7, -stemH * 0.45, -10, -stemH * 0.62, -4, -stemH * 0.78);
-      ctx.stroke();
+      // (Earlier versions drew two arching side-leaves that looked like hands;
+      // dropped on purpose for a cleaner, quieter graphic.)
 
       // ---- flower head: tilted forward like real daffodils ----
       ctx.save();
